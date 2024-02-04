@@ -17,6 +17,18 @@ router.post('/', async (req, res) => {
   }
 })
 
+
+// Deberá listar todos los carritos (No lo pide el desafío).
+router.get('/', async (req, res) => {
+  try {
+    const carts = await manager.getCarts();
+    res.send({ status: 'success', carts: carts });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+})
+
+
 // Deberá listar los productos que pertenezcan al carrito con el cid proporcionado
 router.get('/:cid', async (req, res) => {
   try {
@@ -27,6 +39,7 @@ router.get('/:cid', async (req, res) => {
     const products = cart.products.map(product => {
       return { product: product.id, quantity: product.quantity };
     })
+
 
     //const products = cart.products;
     res.send({ id, products: products });

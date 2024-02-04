@@ -1,0 +1,30 @@
+<main class='home'>
+
+  <h1>View Home Handlebars!</h1>
+
+  <h2>Product List</h2>
+
+
+  <ul id='products'>
+    {{#each products}}
+    <li class='product'>
+      <h4>Product {{this.id}}</h4>
+      <p>id: {{this.id}}</p>
+      <p>title: {{this.title}}</p>
+      <p>description: {{this.description}}</p>
+      <p>price: {{this.price}}</p>
+      <p>thumbnails: {{this.thumbnails}}</p>
+      <p>code: {{this.code}}</p>
+      <p>stock: {{this.stock}}</p>
+      <p>status: {{this.status}}</p>
+      <p>category: {{this.category}}</p>
+
+    </li>
+    {{/each}}
+  </ul>
+
+</main>
+
+{{!-- Para tener acceso a socket.io --}}
+<script src='/socket.io/socket.io.js'></script>
+<script src='/js/index.js'></script>
