@@ -1,0 +1,76 @@
+<main class='realtimeproducts'>
+  <h2>Product List Real Time Websocket</h2>
+
+  <ul id='products'>
+    {{#each products}}
+    <li class='product'>
+      <h4>Product {{this.id}}</h4>
+      <p>id: {{this.id}}</p>
+      <p>title: {{this.title}}</p>
+      <p>description: {{this.description}}</p>
+      <p>price: {{this.price}}</p>
+      <p>thumbnails: {{this.thumbnails}}</p>
+      <p>code: {{this.code}}</p>
+      <p>stock: {{this.stock}}</p>
+      <p>status: {{this.status}}</p>
+      <p>category: {{this.category}}</p>
+      <button class='btnDelete' id='btnDelete{{this.id}}' data-id='btnDelete'>Delete Product
+      </button>
+    </li>
+    {{/each}}
+  </ul>
+
+
+  {{!-- FORM --}}
+
+  <h2>Create a New Product 👇</h2>
+  <form action="/api/products" method='POST' id='formAddProduct' class='form'>
+    <div>
+      <label for="title">Title: </label>
+      <input type="text" name='title' id='title'>
+    </div>
+    <div>
+      <label for="description">Description: </label>
+      <input type="text" name='description' id='description'>
+    </div>
+    <div>
+      <label for="price">Price: </label>
+      <input type="number" name='price' id='price'>
+    </div>
+    <div>
+      <label for="thumbnails">Thumbnails: </label>
+      <input type="text" name='thumbnails' id='thumbnails'>
+    </div>
+    <div>
+      <label for="code">Code: </label>
+      <input type="text" name='code' id='code'>
+    </div>
+    <div>
+      <label for="stock">Stock: </label>
+      <input type="number" name='stock' id='stock'>
+    </div>
+    <div>
+      <label for="status">Status: </label>
+      <input type="text" name='status' id='status'>
+    </div>
+    <div>
+      <label for="category">Category: </label>
+      <input type="text" name='category' id='category'>
+    </div>
+    <button type='submit' id='btnCreateProduct'>
+      Create Product
+    </button>
+    <p class='errorMessage'>{{error}}</p>
+
+  </form>
+
+
+</main>
+
+
+
+
+
+{{!-- Para tener acceso a socket.io --}}
+<script src='/socket.io/socket.io.js'></script>
+<script src='/js/index.js'></script>
