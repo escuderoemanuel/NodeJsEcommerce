@@ -33,7 +33,7 @@ app.set('view engine', 'handlebars');
 
 // Routes
 app.use('/', homeRouter)
-app.use('/api/realtimeproducts', realTimeProducts)
+app.use('/realtimeproducts', realTimeProducts)
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 
