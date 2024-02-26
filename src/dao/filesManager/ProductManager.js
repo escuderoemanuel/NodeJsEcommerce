@@ -64,8 +64,11 @@ class ProductManager {
         // Add the new product to the products array.
         parsedData.push(product);
 
+
         // Save the updated data in the file.
         await fs.promises.writeFile(this.path, JSON.stringify(parsedData, null, 2), encoding);
+
+        //return parsedData;
         return product;
       }
     } catch (error) {

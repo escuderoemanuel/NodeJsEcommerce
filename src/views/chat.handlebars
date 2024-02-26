@@ -1,0 +1,27 @@
+<section class='chatView'>
+
+  <div class='headerChat'>
+    <h1>Chat View
+      <img class='iconChat' src='../images/chatIcon.png' alt="Chat Icon">
+    </h1>
+  </div>
+  <div class='userDiv'>
+    <img class='iconUser' src="../images/user.svg" alt="User Icon">
+    <p class='usernameFront' id='usernameFront'></p>
+  </div>
+
+  <div class='inputAndMessages'>
+    <input class='messageInput' id='messageInput' type="text" placeholder='Enter your message...'>
+    <p class='messagesLog' id='messagesLog'></p>
+  </div>
+
+  {{!-- Dependencies --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Include the Dark theme -->
+  <link rel="stylesheet" href="@sweetalert2/theme-dark/dark.css">
+  <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+  {{!-- Socket --}}
+  <script src='/socket.io/socket.io.js'></script>
+  <script src='/js/chat.js'></script>
+
+</section>

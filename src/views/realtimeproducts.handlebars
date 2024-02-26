@@ -4,22 +4,22 @@
   <ul id='products'>
     {{#each products}}
     <li class='product'>
-      <h4>Product {{this.id}}</h4>
-      <p>id: {{this.id}}</p>
+      <h4 class='productTitle'>{{this.title}}</h4>
+      <p>id: {{this._id}}</p>
       <p>title: {{this.title}}</p>
       <p>description: {{this.description}}</p>
       <p>price: {{this.price}}</p>
       <p>thumbnails: {{this.thumbnails}}</p>
       <p>code: {{this.code}}</p>
       <p>stock: {{this.stock}}</p>
-      <p>status: {{this.status}}</p>
       <p>category: {{this.category}}</p>
-      <button class='btnDelete' id='btnDelete{{this.id}}' data-id='btnDelete'>Delete Product
+      <p>status: {{this.status}}</p>
+      <button class='btnDelete' id="btnDelete{{this._id}}" data-id='btnDelete'>Delete Product
       </button>
+
     </li>
     {{/each}}
   </ul>
-
 
   {{!-- FORM --}}
 
@@ -50,12 +50,12 @@
       <input type="number" name='stock' id='stock'>
     </div>
     <div>
-      <label for="status">Status: </label>
-      <input type="text" name='status' id='status'>
-    </div>
-    <div>
       <label for="category">Category: </label>
       <input type="text" name='category' id='category'>
+    </div>
+    <div>
+      <label for="status">Status: </label>
+      <input type="text" name='status' id='status'>
     </div>
     <button type='submit' id='btnCreateProduct'>
       Create Product
@@ -64,13 +64,8 @@
 
   </form>
 
-
 </main>
-
-
-
-
 
 {{!-- Para tener acceso a socket.io --}}
 <script src='/socket.io/socket.io.js'></script>
-<script src='/js/index.js'></script>
+<script src='/js/products.js'></script>

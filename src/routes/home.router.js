@@ -1,11 +1,20 @@
 const { Router } = require('express');
 
+const Products = require('../dao/dbManager/ProductsDbManager')
+const manager = new Products();
 const router = Router();
 
-// Home Route
-router.get('/', (req, res) => {
-  const products = require('../files/products.json');
+
+// Ruta para la página de inicio
+router.get('/', async (req, res) => {
+  const products = await manager.getProducts();
+  // Renderiza la vista home.handlebars y pasa los datos de los productos
   res.render('home', { products });
+});
+
+// Ruta para el chat
+router.get('/chat', (req, res) => {
+  res.render('chat', {});
 })
 
 module.exports = router;

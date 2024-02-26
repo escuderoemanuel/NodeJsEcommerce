@@ -35,6 +35,20 @@ class CartManager {
     }
   }
 
+  //Este no lo pide el desafío 
+  async getCarts() {
+    try {
+      if (!fs.existsSync(this.path)) {
+        await fs.promises.writeFile(this.path, '[]', encoding);
+      }
+
+      const data = await fs.promises.readFile(this.path, encoding);
+      this.carts = await JSON.parse(data);
+      return this.carts
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
 
   // Deberá listar los productos que pertenezcan al carrito con el parámetro *'cid'* proporcionados.
   async getCartById(id) {

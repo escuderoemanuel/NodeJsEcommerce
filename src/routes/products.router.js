@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const ProductManager = require('../ProductManager');
+const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 
 // Manager
-const manager = new ProductManager(`${__dirname}/../files/products.json`);
+const manager = new ProductsDbManager();
 
 const router = Router();
 
@@ -18,16 +18,14 @@ router.get('/', async (req, res) => {
     res.send({ status: 'success', payload: products });
   } catch (error) {
     res.status(400).send({ error: error.message });
-
   }
 })
 
 // Deberá traer sólo el producto con el id proporcionado
 router.get('/:pid', async (req, res) => {
   try {
-    const pid = parseInt(req.params.pid);
+    const pid = req.params.pid;
     const product = await manager.getProductById(pid);
-
     res.send({ status: 'success', payload: product });
   } catch (error) {
     res.status(400).send({ error: error.message });
@@ -37,13 +35,9 @@ router.get('/:pid', async (req, res) => {
 // Deberá agregar un nuevo producto
 router.post('/', async (req, res) => {
   try {
-    const { title, description, price, thumbnails, code, stock, status, category } = req.body;
-
-    const newProduct = await manager.addProduct(title, description, price, thumbnails, code, stock, status, category);
-    //    await manager.addProduct(req.body);
+    await manager.addProduct(req.body);
 
     const products = await manager.getProducts();
-
     res.send({ status: 'success', products });
 
   } catch (error) {
@@ -55,7 +49,8 @@ router.post('/', async (req, res) => {
 // Deberá actualizar un producto existente con el id proporcionado.
 router.put('/:pid', async (req, res) => {
   try {
-    const id = parseInt(req.params.pid);
+    const id = req.params.pid;
+    console.log('PUT ID', id)
     const updatedFields = req.body;
 
     const updatedProduct = await manager.updateProduct(id, updatedFields);
@@ -69,14 +64,13 @@ router.put('/:pid', async (req, res) => {
 // Deberá eliminar un producto existente con el id proporcionado.
 router.delete('/:pid', async (req, res) => {
   try {
-    const id = parseInt(req.params.pid);
+    const id = req.params.pid;
     const productToDelete = await manager.getProductById(id);
     await manager.deleteProduct(id);
     const products = await manager.getProducts();
-
     res.send({ status: 'success', payload: { productToDelete, products } });
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).send({ status: 'error', message: error.message });
   }
 })
 

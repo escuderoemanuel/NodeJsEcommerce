@@ -1,20 +1,22 @@
 const express = require('express');
-const ProductManager = require('../ProductManager');
+const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 
-const manager = new ProductManager(`${__dirname}/../files/products.json`);
+// Manager
+const manager = new ProductsDbManager();
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const products = await manager.getProducts(req.query.limit)
+    const products = await manager.getProducts()
     res.render('realTimeProducts', {
       products,
       layout: 'main'
     })
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send({ error: error.message });
   }
 });
 
 module.exports = router;
+

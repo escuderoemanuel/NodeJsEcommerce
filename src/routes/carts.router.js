@@ -1,15 +1,17 @@
 const { Router } = require('express');
-const CartManager = require('../CartManager');
+const CartsDbManager = require('../dao/dbManager/CartsDbManager');
+const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 
-// Manager
-const manager = new CartManager(`${__dirname}/../files/carts.json`);
+// Managers
+const cartManager = new CartsDbManager();
+const productManager = new ProductsDbManager();
 
 const router = Router();
 
 // Deberá crear un nuevo carrito con id y products[].
 router.post('/', async (req, res) => {
   try {
-    const cart = await manager.addCart();
+    const cart = await cartManager.addCart();
 
     res.send({ status: 'success', payload: cart });
   } catch (error) {
@@ -21,28 +23,21 @@ router.post('/', async (req, res) => {
 // Deberá listar todos los carritos (No lo pide el desafío).
 router.get('/', async (req, res) => {
   try {
-    const carts = await manager.getCarts();
+    const carts = await cartManager.getCarts();
     res.send({ status: 'success', carts: carts });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 })
 
-
 // Deberá listar los productos que pertenezcan al carrito con el cid proporcionado
 router.get('/:cid', async (req, res) => {
   try {
-    const id = parseInt(req.params.cid);
-    const cart = await manager.getCartById(id);
-
-    // Reemplazar el nombre de la propiedad id de product por el nombre product
-    const products = cart.products.map(product => {
-      return { product: product.id, quantity: product.quantity };
-    })
-
+    const id = req.params.cid;
+    const cart = await cartManager.getCartById(id);
 
     //const products = cart.products;
-    res.send({ id, products: products });
+    res.send({ status: 'success', items: cart.items });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -51,14 +46,24 @@ router.get('/:cid', async (req, res) => {
 // Deberá agregar el producto al arreglo “products” del carrito seleccionado
 router.post('/:cid/product/:pid', async (req, res) => {
   try {
-    const cid = parseInt(req.params.cid);
-    const pid = parseInt(req.params.pid);
-    const cart = await manager.addProductToCart(cid, pid);
-    res.send({ status: 'success' });
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+
+    const cart = await cartManager.getCartById(cid);
+    const product = await productManager.getProductById(pid);
+    if (!cart) {
+      res.status(400).send('Cart does not exist')
+    }
+    if (!product) {
+      res.status(400).send('Product does not exist')
+
+    } else {
+      cartManager.addProductToCart(cid, pid);
+      res.send({ status: 'success' });
+    }
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
 })
-
 
 module.exports = router;

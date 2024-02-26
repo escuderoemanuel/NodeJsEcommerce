@@ -1,41 +1,53 @@
-// Import just server from io
+// Atlas DB Connection
+require('dotenv').config();
+const USER = process.env.USER;
+const PASSWORD = process.env.PASSWORD;
+
+// Mongoose Init & Connect
+const mongoose = require('mongoose');
+mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@mongodbcluster.piysuzj.mongodb.net/ecommerce`)
+  .then(() => {
+    console.log('Connected Succesfully')
+  })
+
+// Solamente traemos Server de io
 const { Server } = require('socket.io');
 
-// Express Params
+// Handlebars
+const handlebars = require('express-handlebars');
+
+// Express
 const express = require('express');
 const port = 8080;
 const serverMessage = `Server is running on port ${port}`;
 const app = express();
-
 
 // Import Routes
 const cartsRouter = require('./routes/carts.router.js');
 const productsRouter = require('./routes/products.router.js');
 const realTimeProducts = require('./routes/realtimeproducts.router.js');
 const homeRouter = require('./routes/home.router.js');
+const chatRouter = require('./routes/chat.router.js');
+const MessagesModel = require('./dao/models/messages.model.js');
 
 // Public Folder
-app.use(express.static(`${__dirname}/public`));
-
-// Json & Body Params
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.static(`${__dirname}/public`))
 
 // Json & Body Params
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Handlebars
-const handlebars = require('express-handlebars');
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
 // Routes
-app.use('/', homeRouter)
-app.use('/api/realtimeproducts', realTimeProducts)
-app.use('/api/carts', cartsRouter)
-app.use('/api/products', productsRouter)
+app.use('/api/carts', cartsRouter) // Ok!
+app.use('/api/products', productsRouter) // Ok!
+app.use('/api/chat', chatRouter) // Ok!
+app.use('/api/realtimeproducts', realTimeProducts) // Ok!
+app.use('/', homeRouter) // Ok!
 
 // Server
 const server = app.listen(port, () => {
@@ -45,28 +57,49 @@ const server = app.listen(port, () => {
 // Socket Setting
 const io = new Server(server);
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
 
-  // Initial log
-  console.log('User connected...');
+  console.log('User connected...')
 
-  // Listen for the 'delete-product' event
+  //! Products Events
   socket.on('delete-product', (data) => {
     const product = data.products;
-    // Send the products to update
-    io.emit('update-products', product);
+    io.emit('update-products', product)
   })
 
-  // Listen for the 'add-product' event
   socket.on('add-product', (data) => {
     const products = data.products;
-    // Send the products to update
-    io.emit('update-products', products);
+    io.emit('update-products', products)
   })
 
-  // Listen for the desconection event
+  //! Messages Events
+  // Recive Event: user authenticated
+  socket.on('authenticated', ({ user }) => {
+    // Send Event with the messages in the array: for this client-socket!
+    socket.emit('messages', { messages });
+    // Send Event: for all users except the one connecting!
+    socket.broadcast.emit('newUserConnected', { user });
+  })
+
+  //!Esto Funciona pero no guarda en Atlas
+  const messages = await MessagesModel.find().lean();
+  socket.emit('messages', { messages });
+
+  socket.on('userMessage', async (messageData) => {
+    const data = messageData;
+
+    await MessagesModel.create(messageData);
+    const messages = await MessagesModel.find().lean();
+    console.log('messages', messages)
+    console.log('messages', { messages })
+
+    io.emit('messages', { messages });
+  })
+
+  //! Connection Finished
   socket.on('disconnect', () => {
-    console.log(`User ${socket.id} disconnected...`);
+    console.log(`User ${socket.id} disconnected...`)
   })
-
 })
+
+
