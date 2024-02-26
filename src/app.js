@@ -73,15 +73,15 @@ io.on('connection', async (socket) => {
   })
 
   //! Messages Events
-  // Recive Event: user authenticated
+  // Recibe el evento: user authenticated
   socket.on('authenticated', ({ user }) => {
-    // Send Event with the messages in the array: for this client-socket!
+    // Envia el evento con los mensajes en el array, para este socket!
     socket.emit('messages', { messages });
-    // Send Event: for all users except the one connecting!
+    // Envia el evento de usuario conectado a todos los socket, menos este socket!
     socket.broadcast.emit('newUserConnected', { user });
   })
 
-  //!Esto Funciona pero no guarda en Atlas
+  // Esto muestra todos los mensajes guardados en la colección de Atlas
   const messages = await MessagesModel.find().lean();
   socket.emit('messages', { messages });
 

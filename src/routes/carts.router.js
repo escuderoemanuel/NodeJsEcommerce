@@ -19,7 +19,6 @@ router.post('/', async (req, res) => {
   }
 })
 
-
 // Deberá listar todos los carritos (No lo pide el desafío).
 router.get('/', async (req, res) => {
   try {

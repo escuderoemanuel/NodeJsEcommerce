@@ -1,4 +1,3 @@
-// fs will allow us to access operations for files
 const fs = require('fs');
 
 const encoding = 'utf-8';
@@ -12,12 +11,12 @@ class ProductManager {
   async getProducts() {
 
     try {
-      // Verify if the file exists.
+      // Verifica si el archivo existe
       if (!fs.existsSync(this.path)) {
         await fs.promises.writeFile(this.path, '[]', encoding)
       }
 
-      // Read the file, parse the data and save the data in the object.
+      // Lee el archivo, convierte los datos y los guarda como un objeto de datos
       const data = await fs.promises.readFile(this.path, encoding)
       this.products = await JSON.parse(data)
       return this.products;
@@ -34,20 +33,20 @@ class ProductManager {
         await fs.promises.writeFile(this.path, '[]', encoding)
       }
 
-      // Read the file, parse the data and save the data in the const parsedData.
+      // Lee el archivo, convierte los datos y los guarda como un objeto de datos
       const data = await fs.promises.readFile(this.path, encoding);
       const parsedData = await JSON.parse(data);
 
-      // Verify if all the fields are filled.
+      // Verifica si están todos los campos necesarios
       if (!title || !description || !price || !code || !stock || !category || !status) {
         throw new Error('All fields are required');
       }
 
-      // Verify if the product code already exists.
+      // Verifica si ya existe un producto con ese code
       if (parsedData.find(prod => prod.code === code)) {
         throw new Error('The product code already exists.');
       } else {
-        // If the product code does not exist, decleare the id variable, check the number of existing ids and add 1 to the last one and assign it to the new product
+        // Si no existe ese code, declara un id autoincremental
         const id = parsedData.length > 0 ? parsedData[parsedData.length - 1].id + 1 : 1;
         const product = {
           id,
@@ -61,14 +60,14 @@ class ProductManager {
           category,
         };
 
-        // Add the new product to the products array.
+        // Agrega el nuevo producto al array de productos
         parsedData.push(product);
 
 
-        // Save the updated data in the file.
+        // Guarda los datos actualizados en el archivo
         await fs.promises.writeFile(this.path, JSON.stringify(parsedData, null, 2), encoding);
 
-        //return parsedData;
+        // retorna los datos actualizados;
         return product;
       }
     } catch (error) {

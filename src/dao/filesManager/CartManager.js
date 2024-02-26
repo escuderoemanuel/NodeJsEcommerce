@@ -56,7 +56,7 @@ class CartManager {
       const data = await fs.promises.readFile(this.path, encoding);
       const parsedData = JSON.parse(data);
 
-      // Find the cart with the specified id.
+      // Busca el carrito con el id especificado
       const cart = parsedData.find(cart => cart.id === id);
       if (cart) {
         return cart;
@@ -73,35 +73,35 @@ class CartManager {
   async addProductToCart(cid, pid) {
     try {
 
-      // Read carts.json file.
+      // Lee el archivo carts.json
       const cartsData = await fs.promises.readFile(this.path, encoding);
       const cartsParsedData = await JSON.parse(cartsData);
 
-      // Find the cart with the specified id.
+      // Busca el carrito con el id especificado
       const cart = cartsParsedData.find(cart => cart.id === cid);
 
       //
       if (cart) {
 
-        // Read products.json file.
+        // Lee el archivo products.json
         const productsData = await fs.promises.readFile(`${__dirname}/files/products.json`, encoding);
         const productsParsedData = JSON.parse(productsData);
 
-        // Find the cart with the specified id in products.json file!
+        // Busca en si hay un producto con el id especificado
         const productInProducts = productsParsedData.find(product => product.id === pid);
 
         if (!productInProducts) {
           throw new Error(`Product with id '${pid}' does not exist in the product list!`)
         }
 
-        // Find in the cart, the product with the specified id.
+        // Busca si el producto ya existe en el carrito
         const productInCart = cart.products.find(product => product.id === pid);
 
-        // If the product already exist in the cart...
+        // Si ya exoste...
         if (productInCart) {
           productInCart.quantity++;
 
-          // If the product not exist in the cart ...
+          // Si el producto aún no está en el carrito...
         } else {
           cart.products.push({ id: pid, quantity: 1 });
         }
