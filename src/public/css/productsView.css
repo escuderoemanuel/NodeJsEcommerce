@@ -1,0 +1,74 @@
+/*? PRODUCT VIEW  */
+
+/* Title View */
+.viewTitle {
+  margin-bottom: 2rem;
+}
+
+/* Contenedor de las CARDS */
+.productsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container General */
+/* .productsContainer {} */
+
+/* Card */
+.product {
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  line-height: 16px;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid rgb(0, 106, 255);
+  margin: .5rem;
+  width: 350px;
+  min-height: 460px;
+  font-size: .8rem;
+  background-color: rgba(245, 245, 245);
+  overflow: hidden;
+}
+
+/* el title */
+.productTitle {
+  color: #222222;
+  text-transform: uppercase;
+  padding: .5rem 1rem;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* el div productDataContainer */
+.productDataContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-wrap: wrap;
+}
+
+.productDataContainer p {
+  color: #464646;
+
+}
+
+.product p span {
+  color: #222222;
+  font-weight: bolder;
+}
+
+.linkThumbnail {
+  color: #464646;
+  cursor: pointer;
+}
+
+.btnAddToCart {
+  margin-top: auto;
+}

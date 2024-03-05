@@ -1,14 +1,28 @@
 const mongoose = require('mongoose');
 
 const cartsSchema = new mongoose.Schema({
-  items: {
-    type: [{
-      product: String,
-      quantity: Number,
-    }],
+  products: {
+    type: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'products'
+        },
+        quantity: Number
+      }
+    ],
     default: []
   }
+})
 
+// Populate
+cartsSchema.pre('findOne', function (next) {
+  this.populate('products.product');
+  next();
+})
+cartsSchema.pre('find', function (next) {
+  this.populate('products.product');
+  next();
 })
 
 // collection 'carts' + schema

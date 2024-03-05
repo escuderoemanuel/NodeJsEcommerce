@@ -8,15 +8,13 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const products = await manager.getProducts()
-    res.render('realTimeProducts', {
-      products,
-      layout: 'main'
-    })
+    let paginateData = await manager.getProducts(req, res);
+    res.render('realtimeproducts',
+      paginateData
+    );
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
-});
+})
 
 module.exports = router;
-

@@ -1,0 +1,49 @@
+<section class='products'>
+
+  <h1 class='viewTitle'>View Products List Handlebars!</h1>
+
+  <ul id='products' class='productsContainer'>
+    {{#each products}}
+    <li class='product'>
+      <h4 class='productTitle'>{{this.title}}</h4>
+      <div class='productDataContainer'>
+        <p> <span>id:</span> {{this._id}}</p>
+        <p> <span>title:</span> {{this.title}}</p>
+        <p> <span>description:</span> {{this.description}}</p>
+        <p> <span>price:</span> {{this.price}}</p>
+        <p> <span>thumbnails:</span><br>
+          {{#each this.thumbnails}}
+          <a class='linkThumbnail' href='{{this}}' target='_blank'>{{this}}</a>
+          <br>
+          {{/each}}
+        </p>
+        <p> <span>code:</span> {{this.code}}</p>
+        <p> <span>stock:</span> {{this.stock}}</p>
+        <p> <span>category:</span> {{this.category}}</p>
+        <p> <span>status:</span> {{this.status}}</p>
+      </div>
+      <button class='btnAddToCart'>Add to Cart</button>
+    </li>
+    {{/each}}
+  </ul>
+
+  <div class='btnPagesContainer'>
+    {{#if paginateData.hasPrevPage}}
+    <button class='btnPage' onclick="window.location.href='{{paginateData.prevLink}}'">Prev</button>
+    {{else}}
+    <button class='btnPageDisabled' disabled>Prev</button>
+    {{/if}}
+
+    {{#if paginateData.hasNextPage}}
+    <button class='btnPage' onclick="window.location.href='{{paginateData.nextLink}}'">Next
+    </button>
+    {{else}}
+    <button class='btnPageDisabled' disabled>Next</button>
+    {{/if}}
+  </div>
+
+</section>
+
+{{!-- Para tener acceso a socket.io --}}
+<script src=' /socket.io/socket.io.js'></script>
+<script src='/js/products.socket.js'></script>

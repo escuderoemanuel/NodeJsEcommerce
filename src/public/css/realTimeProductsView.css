@@ -1,0 +1,141 @@
+/*? VIEW realtimeproducts */
+.realTimeProducts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.realTimeTitle {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* ul */
+.productList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* li */
+.realTimeProductsList {
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  line-height: 16px;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid rgb(0, 106, 255);
+  margin: .5rem;
+  width: 350px;
+  min-height: 460px;
+  font-size: .8rem;
+  background-color: rgba(245, 245, 245);
+  overflow: hidden;
+}
+
+/* Product Title */
+.realTimeProductTitle {
+  color: #222222;
+  text-transform: uppercase;
+  padding: .5rem 1rem;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.realTimeProductDataContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-wrap: wrap;
+}
+
+.realTimeProducts p {
+  color: #222222
+}
+
+.realTimeProducts p span {
+  color: #222222;
+  font-weight: bolder;
+}
+
+.btnDelete {
+  margin-top: auto;
+}
+
+/*? FORM */
+
+form {
+  margin-top: 2rem;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem 0 1rem;
+  border: 2px solid rgb(245, 245, 245);
+  border-radius: 8px;
+}
+
+form h2 {
+  margin-bottom: 2rem;
+}
+
+div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+label {
+  width: 100px;
+  margin-right: 50px;
+}
+
+input {
+  height: 35px;
+  width: 300px;
+  border-radius: 4px;
+  padding: .5rem;
+  background-color: rgb(245, 245, 245);
+  color: #222222;
+  border: none;
+  outline: none;
+}
+
+
+button {
+  border: none;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+  color: whitesmoke;
+  background-color: rgb(0, 106, 255);
+  transition: all ease 200ms;
+
+}
+
+button:hover {
+  background-color: rgb(0, 88, 211);
+}
+
+button:active {
+  background-color: rgb(0, 106, 255);
+  transform: scale(0.95);
+}
+
+
+.errorMessage {
+  font-size: .9em;
+  color: rgb(79, 152, 255);
+  color: gainsboro;
+  text-align: center;
+}

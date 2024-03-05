@@ -1,0 +1,44 @@
+/*? FOOTER */
+.footer {
+  font-size: 0.82em;
+  font-weight: light;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem 0rem 1rem;
+  margin-top: auto;
+}
+
+.footer:before {
+  content: '';
+  display: block;
+  width: 90%;
+  height: 1px;
+  background-color: whitesmoke;
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .5rem;
+}
+
+.footerContainer p {
+  font-weight: light;
+  margin-right: 15px;
+}
+
+.logoDev {
+  width: 26px;
+  height: auto;
+  transition: all ease 200ms;
+}
+
+.logoDev:hover {
+  transform: rotate(5deg) scale(1.05);
+}

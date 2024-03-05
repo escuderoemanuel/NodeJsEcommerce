@@ -5,30 +5,33 @@ const productList = document.getElementById('products');
 // form
 const formAddProduct = document.getElementById('formAddProduct');
 
-
 //! Recibo la lista actualizada de productos y la renderizo en el cliente.
-socket.on('update-products', data => {
-  productList.innerHTML = ''
-  data.forEach(product => {
-    const productItem = document.createElement('li')
+socket.on('update-products', products => {
+  const productList = document.getElementById('products');
+  productList.innerHTML = ''; // Limpiar la lista antes de agregar productos actualizados
+  products.forEach(product => {
+    const productItem = document.createElement('li');
     productItem.classList.add('product');
     productItem.innerHTML = `
       <h4 class='productTitle'>${product.title}</h4>
-      <p>id: ${product._id}</p>
-      <p>title: ${product.title}</p>
-      <p>description: ${product.description}</p>
-      <p>price: ${product.price}</p>
-      <p>thumbnails: ${product.thumbnails}</p>
-      <p>code: ${product.code}</p>
-      <p>stock: ${product.stock}</p>
-      <p>category: ${product.category}</p>
-      <p>status: ${product.status}</p>
-      <button class='btnDelete' id="btnDelete${product._id}"
-      data-id='btnDelete'>Delete Product</button>
-          `;
-    productList.appendChild(productItem)
-  })
-})
+      <div class='productDataContainer'>
+        <p> <span>id:</span> ${product._id}</p>
+        <p> <span>title:</span> ${product.title}</p>
+        <p> <span>description:</span> ${product.description}</p>
+        <p> <span>price:</span> ${product.price}</p>
+        <p> <span>thumbnails:</span><br>
+          ${product.thumbnails.map(thumbnail => `<a class='linkThumbnail' href='${thumbnail}' target='_blank'>${thumbnail}</a><br>`).join('')}
+        </p>
+        <p> <span>code:</span> ${product.code}</p>
+        <p> <span>stock:</span> ${product.stock}</p>
+        <p> <span>category:</span> ${product.category}</p>
+        <p> <span>status:</span> ${product.status}</p>
+      </div>
+      <button class='btnAddToCart'>Add to Cart</button>
+    `;
+    productList.appendChild(productItem);
+  });
+});
 
 
 //! SOCKET DELETE BTN
@@ -45,7 +48,8 @@ productList.addEventListener('click', async (e) => {
       socket.emit('delete-product', payload);
 
     } catch (error) {
-      console.log(error);
+      throw new Error(error.message)
+
     }
   }
 })
@@ -87,10 +91,9 @@ formAddProduct.addEventListener('submit', async (e) => {
     // Envía la lista actualizada al server.
     socket.emit('add-product', { newProduct, products });
   } catch (error) {
-    console.log(error)
-    const errorMessage = await response.json();
     // Mostrar el mensaje de error en el formulario
     document.querySelector('.errorMessage').textContent = errorMessage.error;
+    throw new Error(error.message)
   }
 })
 

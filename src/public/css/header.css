@@ -1,0 +1,27 @@
+/*? HEADER */
+
+.header {
+  font-weight: light;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0rem;
+}
+
+.header h1 {
+  margin-bottom: 1rem;
+}
+
+.header h2 {
+  margin: 1rem 0;
+}
+
+.header::after {
+  content: '';
+  display: block;
+  width: 90%;
+  height: 1px;
+  background-color: whitesmoke;
+}

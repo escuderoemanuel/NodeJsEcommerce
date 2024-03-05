@@ -7,7 +7,7 @@ const PASSWORD = process.env.PASSWORD;
 const mongoose = require('mongoose');
 mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@mongodbcluster.piysuzj.mongodb.net/ecommerce`)
   .then(() => {
-    console.log('Connected Succesfully')
+    console.log('DB Connected Succesfully')
   })
 
 // Solamente traemos Server de io
@@ -25,7 +25,7 @@ const app = express();
 // Import Routes
 const cartsRouter = require('./routes/carts.router.js');
 const productsRouter = require('./routes/products.router.js');
-const realTimeProducts = require('./routes/realtimeproducts.router.js');
+const realtimeproducts = require('./routes/realtimeproducts.router.js');
 const homeRouter = require('./routes/home.router.js');
 const chatRouter = require('./routes/chat.router.js');
 const MessagesModel = require('./dao/models/messages.model.js');
@@ -46,7 +46,7 @@ app.set('view engine', 'handlebars');
 app.use('/api/carts', cartsRouter) // Ok!
 app.use('/api/products', productsRouter) // Ok!
 app.use('/api/chat', chatRouter) // Ok!
-app.use('/api/realtimeproducts', realTimeProducts) // Ok!
+app.use('/api/realtimeproducts', realtimeproducts) // Ok!
 app.use('/', homeRouter) // Ok!
 
 // Server
@@ -59,29 +59,29 @@ const io = new Server(server);
 
 io.on('connection', async (socket) => {
 
-  console.log('User connected...')
+  console.log('Connected User Socket...')
 
   //! Products Events
   socket.on('delete-product', (data) => {
-    const product = data.products;
-    io.emit('update-products', product)
+    const products = data.products.paginateData.payload;
+    io.emit('update-products', products, data)
   })
 
   socket.on('add-product', (data) => {
-    const products = data.products;
+    const products = data.products.paginateData.payload;
     io.emit('update-products', products)
   })
 
   //! Messages Events
-  // Recibe el evento: user authenticated
+  // Recive Event: user authenticated
   socket.on('authenticated', ({ user }) => {
-    // Envia el evento con los mensajes en el array, para este socket!
+    // Send Event with the messages in the array: for this client-socket!
     socket.emit('messages', { messages });
-    // Envia el evento de usuario conectado a todos los socket, menos este socket!
+    // Send Event: for all users except the one connecting!
     socket.broadcast.emit('newUserConnected', { user });
   })
 
-  // Esto muestra todos los mensajes guardados en la colección de Atlas
+  //!Esto Funciona pero no guarda en Atlas
   const messages = await MessagesModel.find().lean();
   socket.emit('messages', { messages });
 
@@ -90,8 +90,6 @@ io.on('connection', async (socket) => {
 
     await MessagesModel.create(messageData);
     const messages = await MessagesModel.find().lean();
-    console.log('messages', messages)
-    console.log('messages', { messages })
 
     io.emit('messages', { messages });
   })

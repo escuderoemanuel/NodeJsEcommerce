@@ -1,0 +1,45 @@
+/*? BUTTONS PAGINATE  */
+.btnPagesContainer {
+  margin: 2rem 0;
+  min-width: 200px;
+  display: flex;
+  gap: 20px;
+}
+
+.btnPage {
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: #464646;
+  border: #43c09e 2px solid;
+  color: 'whitesmoke';
+  margin: auto;
+  padding: .5rem 1rem;
+  cursor: pointer;
+}
+
+.btnPage:hover {
+  background-color: #535353;
+}
+
+.btnPage:active {
+  background-color: #464646;
+}
+
+.btnPageDisabled {
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: #464646;
+  border: #464646 2px solid;
+  color: 'whitesmoke';
+  margin: auto;
+  padding: .5rem 1rem;
+  cursor: auto;
+}
+
+.btnPageDisabled:hover {
+  background-color: #464646;
+}
+
+.btnPageDisabled:active {
+  transform: none;
+}
