@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const MessagesModel = require('../dao/models/messages.model');
+const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
+
 
 // Manager
 const router = Router();
@@ -16,7 +18,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', privateAuthentication, async (req, res) => {
   try {
     const messages = await MessagesModel.find().lean();
     res.render('chat', {

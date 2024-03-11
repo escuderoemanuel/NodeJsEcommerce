@@ -5,6 +5,7 @@ const productList = document.getElementById('products');
 // form
 const formAddProduct = document.getElementById('formAddProduct');
 
+
 //! Recibo la lista actualizada de productos y la renderizo en el cliente.
 socket.on('update-products', products => {
   const productList = document.getElementById('products');
@@ -34,6 +35,8 @@ socket.on('update-products', products => {
 });
 
 
+
+
 //! SOCKET DELETE BTN
 productList.addEventListener('click', async (e) => {
   if (e.target.getAttribute('data-id') === 'btnDelete') {
@@ -48,8 +51,7 @@ productList.addEventListener('click', async (e) => {
       socket.emit('delete-product', payload);
 
     } catch (error) {
-      throw new Error(error.message)
-
+      console.log(error);
     }
   }
 })
@@ -91,9 +93,8 @@ formAddProduct.addEventListener('submit', async (e) => {
     // Envía la lista actualizada al server.
     socket.emit('add-product', { newProduct, products });
   } catch (error) {
-    // Mostrar el mensaje de error en el formulario
+    console.log(error)
     document.querySelector('.errorMessage').textContent = errorMessage.error;
-    throw new Error(error.message)
   }
 })
 

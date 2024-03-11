@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2')
 
 const productsSchema = new mongoose.Schema({
+
   title: {
     type: String,
     required: true,
@@ -40,5 +41,5 @@ const productsSchema = new mongoose.Schema({
 
 productsSchema.plugin(mongoosePaginate)
 // collection 'products' + schema
-const ProductsModel = mongoose.model('products', productsSchema);
-module.exports = ProductsModel;
+const productsModel = mongoose.model('products', productsSchema);
+module.exports = productsModel;

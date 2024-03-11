@@ -50,7 +50,7 @@ productList.addEventListener('click', async (e) => {
       socket.emit('delete-product', payload);
 
     } catch (error) {
-      throw new Error(error.message)
+      console.log(error);
     }
   }
 })
@@ -63,8 +63,7 @@ formAddProduct.addEventListener('submit', async (e) => {
   const formData = new FormData(formAddProduct)
   formData.forEach((value, key) => {
     newProduct[key] = key === 'thumbnails'
-      ? value.split(',').map(url => url.trim()) // Separar por comas y crear un array
-      : value.trim();
+      ? newProduct[key] = Array.from(formData.getAll('thumbnails')).map(thumbnail => thumbnail.name) : newProduct[key] = value.trim();
   });
 
   try {
@@ -93,7 +92,7 @@ formAddProduct.addEventListener('submit', async (e) => {
     // Envía la lista actualizada al server.
     socket.emit('add-product', { newProduct, products });
   } catch (error) {
-    // Mostrar el mensaje de error en el formulario
+    console.log(error)
     document.querySelector('.errorMessage').textContent = errorMessage.error;
   }
 })

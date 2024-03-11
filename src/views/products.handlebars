@@ -1,6 +1,26 @@
 <section class='products'>
+  <div class="profile">
+    <h3>Welcome 😊</h3>
+    <br>
+    <div class='userData'>
+      {{#if user.name}}
+      <p><span>Name:</span> {{user.name}}</p>
+      {{/if}}
+      <p><span>Email:</span> {{user.email}}</p>
+      {{#if user.age}}
+      <p><span>Age:</span> {{ user.age }}</p>
+      {{/if}}
+      <p><span>Role:</span> {{user.role}}</p>
+    </div>
+    <a href="/api/sessions/logout">
+      <button>Logout</button>
+    </a>
+    <br>
+  </div>
+
 
   <h1 class='viewTitle'>View Products List Handlebars!</h1>
+
 
   <ul id='products' class='productsContainer'>
     {{#each products}}
@@ -46,4 +66,4 @@
 
 {{!-- Para tener acceso a socket.io --}}
 <script src=' /socket.io/socket.io.js'></script>
-<script src='/js/products.socket.js'></script>
+<script src='/js/products.js'></script>

@@ -1,0 +1,21 @@
+<section class='loginView'>
+  <h1>Login</h1>
+  <form action="" id='loginForm' class='loginForm'>
+
+    <label for="email">Email: </label>
+    <input type="text" name='email'>
+    <br>
+    <label for="password">Password: </label>
+    <input type="password" name='password'>
+    <br>
+    <span class='errorMessage' id='passwordError'>{{error}}</span>
+
+    <button>Login</button>
+
+    <p>Don't have an account?
+      <a href="/register">CREATE ONE</a>
+    </p>
+    <br>
+</section>
+
+<script src="/js/login.js"></script>

@@ -1,0 +1,32 @@
+.registerView,
+.loginView {
+  text-align: center;
+}
+
+.registerForm,
+.loginForm {
+  align-items: center;
+}
+
+.registerForm label,
+.loginForm label {
+  width: 300px;
+  margin: 0;
+  text-align: left;
+}
+
+.registerForm input,
+.loginForm input {
+  width: 300px;
+}
+
+.registerView button,
+.loginView button {
+  width: 300px;
+  height: 35px;
+  text-transform: uppercase;
+}
+
+.errorMessage {
+  color: red;
+}
