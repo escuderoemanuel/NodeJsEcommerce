@@ -87,27 +87,8 @@ sessionRouter.get('/githubcallback', passport.authenticate('github', { failureRe
     age: req.user.age,
     role: req.user.role
   };
-  res.redirect('/api/products')
+  res.redirect('/products')
 });
 
 
 module.exports = sessionRouter;
-
-
-/* const { firstName, lastName, email, password, repeatPassword, age, role } = req.body;
-
-    if (!firstName || !lastName || !email || !password || !repeatPassword || !age) {
-      return res.status(400).send({ status: 'error', error: 'Incomplete data' });
-    }
-
-    if (password.length < 8) {
-      return res.status(400).send({ status: 'error', error: 'Password must be at least 8 characters' });
-    }
-
-    if (password !== repeatPassword) {
-      return res.status(400).send({ status: 'error', error: 'Passwords do not match' });
-    }
-
-    const hashedPassword = createHash(password);
-
-    const result = await userModel.create({ firstName, lastName, email, password: hashedPassword, age, role }); */

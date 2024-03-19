@@ -67,10 +67,10 @@ app.set('view engine', 'handlebars');
 
 // Routes
 app.use('/api/sessions', sessionRouter)
-app.use('/api/carts', cartsRouter)
-app.use('/api/products', productsRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/realtimeproducts', realtimeproducts)
+app.use('/carts', cartsRouter)
+app.use('/products', productsRouter)
 app.use('/', viewsRouter)
 
 // Server

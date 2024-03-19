@@ -1,4 +1,7 @@
+
 const { Router } = require('express');
+const cartsRouter = require('./carts.router.js');
+const productsRouter = require('./products.router.js');
 const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
 
 
@@ -27,6 +30,14 @@ viewsRouter.get('/*', publicAuthentication, (req, res) => {
   res.redirect('/login');
 })
 
+// Products
+viewsRouter.get('/products', privateAuthentication, (req, res) => {
+  res.render('products', {});
+})
 
+// Carts
+viewsRouter.get('/carts', privateAuthentication, (req, res) => {
+  res.render('carts', {});
+})
 
 module.exports = viewsRouter;
