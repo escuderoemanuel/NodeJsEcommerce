@@ -1,32 +1,82 @@
 .registerView,
-.loginView {
+.loginView,
+.passwordResetForm {
   text-align: center;
 }
 
 .registerForm,
-.loginForm {
+.loginForm,
+.passwordResetForm {
   align-items: center;
+  justify-content: left;
 }
 
 .registerForm label,
-.loginForm label {
+.loginForm label,
+.passwordResetForm label {
   width: 300px;
   margin: 0;
   text-align: left;
 }
 
 .registerForm input,
-.loginForm input {
+.loginForm input,
+.passwordResetForm input {
   width: 300px;
 }
 
 .registerView button,
-.loginView button {
+.loginView button,
+.passwordResetForm button {
   width: 300px;
   height: 35px;
   text-transform: uppercase;
 }
 
-.errorMessage {
-  color: red;
+
+.infoMessage {
+  color: greenyellow;
+  font-size: .9em;
+}
+
+.secondaryParagraphs {
+  font-size: .9em;
+  font-weight: 300;
+  color: #c2c2c2;
+}
+
+.secondaryParagraphs a {
+  font-size: .9em;
+  position: relative;
+  text-decoration: none;
+}
+
+.secondaryParagraphs a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #f5f5f5;
+}
+
+
+
+#githubBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #363636;
+}
+
+.githubLoginLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.githubIcon {
+  margin-left: .5rem;
+  width: 25px;
 }

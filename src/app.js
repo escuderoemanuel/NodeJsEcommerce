@@ -2,6 +2,7 @@
 require('dotenv').config();
 const MONGO_URL = process.env.MONGO_URL;
 
+
 // Mongoose Init & Connect
 const mongoose = require('mongoose');
 mongoose.connect(`${MONGO_URL}`)
@@ -22,6 +23,7 @@ const PORT = 8080;
 const serverMessage = `Server is running on port ${PORT}`;
 const app = express();
 
+
 // Session Settings
 const session = require('express-session');
 app.use(session({
@@ -31,16 +33,23 @@ app.use(session({
   store: MongoStore.create({ mongoUrl: `${MONGO_URL}`, ttl: 60 * 60 }),
 }))
 
-// Import Routes
+// Imports
+const passport = require('passport');
+const initializePassport = require('./config/passport.config.js');
+
+// Passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Router
+const MessagesModel = require('./dao/models/messages.model.js');
 const cartsRouter = require('./routes/carts.router.js');
 const productsRouter = require('./routes/products.router.js');
 const realtimeproducts = require('./routes/realtimeproducts.router.js');
-const homeRouter = require('./routes/home.router.js');
 const chatRouter = require('./routes/chat.router.js');
-const MessagesModel = require('./dao/models/messages.model.js');
 const sessionRouter = require('./routes/sessions.router.js');
 const viewsRouter = require('./routes/views.router.js');
-
 
 // Public Folder
 app.use(express.static(`${__dirname}/public`))
@@ -49,18 +58,19 @@ app.use(express.static(`${__dirname}/public`))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+
+
 // Handlebars
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
 // Routes
+app.use('/api/sessions', sessionRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/realtimeproducts', realtimeproducts)
-//app.use('/', homeRouter)
-app.use('/api/sessions', sessionRouter)
 app.use('/', viewsRouter)
 
 // Server
@@ -104,7 +114,6 @@ io.on('connection', async (socket) => {
 
     await MessagesModel.create(messageData);
     const messages = await MessagesModel.find().lean();
-
     io.emit('messages', { messages });
   })
 
@@ -113,3 +122,5 @@ io.on('connection', async (socket) => {
     console.log(`User ${socket.id} disconnected...`)
   })
 })
+
+

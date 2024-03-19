@@ -8,14 +8,25 @@
     <label for="password">Password: </label>
     <input type="password" name='password'>
     <br>
-    <span class='errorMessage' id='passwordError'>{{error}}</span>
+    <span class='infoMessage' id='infoMessage'>{{message}}</span>
 
     <button>Login</button>
-
-    <p>Don't have an account?
+    <button id='githubBtn'>
+      <a class='githubLoginLink' href="/api/sessions/github">Login with GitHub
+        <img class='githubIcon' src="https://i.ibb.co/mtkQ2ch/github.png" alt="Github Icon">
+      </a>
+    </button>
+    <br>
+    <p class='secondaryParagraphs'>Don't have an account?
       <a href="/register">CREATE ONE</a>
     </p>
     <br>
+    <p class='secondaryParagraphs'>Forgot your password?
+      <a href="/resetPassword">RESET PASSWORD HERE!</a>
+    </p>
+    <br>
+
+
 </section>
 
 <script src="/js/login.js"></script>

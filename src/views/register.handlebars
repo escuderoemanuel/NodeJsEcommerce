@@ -17,14 +17,15 @@
     <label for="password">Password: </label>
     <input type="password" name='password'>
     <br>
-    <label for="repeatPassword"> Repeat Password: </label>
-    <input type="password" name='repeatPassword'>
+    <label for="confirmPassword"> Repeat Password: </label>
+    <input type="password" name='confirmPassword'>
     <br>
-    <span class='errorMessage' id='passwordError'>{{error}}</span>
+    <span class='infoMessage' id='infoMessage'>{{message}}</span>
+
 
     <button>Register</button>
 
-    <p>Already have an account?
+    <p class='secondaryParagraphs'>Already have an account?
       <a href="/login">LOGIN</a>
     </p>
     <br>

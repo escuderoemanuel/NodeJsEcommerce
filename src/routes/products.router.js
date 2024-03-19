@@ -43,6 +43,7 @@ router.post('/', async (req, res) => {
     res.send({ status: 'success', products });
 
   } catch (error) {
+    console.log(error);
     res.status(400).send({ error: error.message });
   }
 });
