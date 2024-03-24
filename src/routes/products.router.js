@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
+const { verifyToken } = require('../utils');
 
 
 // Manager
@@ -9,15 +10,19 @@ const manager = new ProductsDbManager();
 const router = Router();
 
 // Deberá traer todos los productos de la base de datos, incluyendo opcionalmente limit, page, sort, filter (Example: http://localhost:8080/api/products?limit=2&page=1&sort=desc&filter=iphone)
-router.get('/', privateAuthentication, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
     let paginateData = await manager.getProducts(req, res);
-    const userData = req.session.user;
+    console.log('paginateData', paginateData)
+
+    const userData = req.tokenUser.serializableUser;
+    console.log('userData', userData)
 
     // Combinar los datos del usuario y los datos de paginación en un solo objeto porque handlebars no deja pasar más de 1
     const renderData = { ...paginateData, user: userData };
 
     res.render('products', renderData);
+    res.render('products', { user: userData });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -52,6 +57,7 @@ router.post('/', async (req, res) => {
 router.put('/:pid', async (req, res) => {
   try {
     const id = req.params.pid;
+    console.log('PUT ID', id)
     const updatedFields = req.body;
 
     const updatedProduct = await manager.updateProduct(id, updatedFields);

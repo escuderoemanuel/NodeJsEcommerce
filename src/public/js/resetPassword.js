@@ -40,6 +40,7 @@ passwordResetForm.addEventListener('submit', async (e) => {
       }
 
       if (response.status === 200) {
+        console.log('Password reset successful.');
         document.querySelector('.errorMessage').textContent = 'Password reset successful...';
 
         // Redirigir al usuario a la página de inicio de sesión después de un tiempo

@@ -84,6 +84,7 @@ class ProductsDbManager {
         nextLink: products.hasNextPage ? urlNextLink : null,
       };
 
+      // console.log('products', products)
       return { paginateData, products: paginateData.payload };
 
     } catch (error) {

@@ -8,10 +8,10 @@ loginForm.addEventListener('submit', (e) => {
   const payload = {};
 
   data.forEach((value, key) => (payload[key] = value));
-  // Limpiar el mensaje de error antes de hacer las validaciones nuevamente
+  // Clean errors before validations
   document.querySelector('.infoMessage').textContent = '';
 
-  // Validaciones adicionales
+  // Aditional Validations
   if (!payload.email || !payload.password) {
     document.querySelector('.infoMessage').textContent = 'All fields are required';
     return;
@@ -35,27 +35,8 @@ loginForm.addEventListener('submit', (e) => {
       } else {
         message.textContent = 'Error occurred while processing your request ELSE.';
       }
-      return res.json();
     })
   } catch (error) {
     document.querySelector('.infoMessage').textContent = 'Error occurred while processing your request.';
   }
-
-
 });
-
-
-/* 
-if (!response.ok) {
-      const errorMessage = await response.json(); // Aquí esperamos la respuesta JSON
-      message.textContent = errorMessage.error;
-      return;
-    }
-
-    if (response.status == 200) {
-      // Limpiar errores previos
-      loginForm.reset();
-      message.textContent = 'Logging in...';
-
-      window.location.replace('/api/products');
-    } */

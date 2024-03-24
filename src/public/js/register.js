@@ -1,14 +1,15 @@
-const loginForm = document.getElementById('registerForm')
+const registerForm = document.getElementById('registerForm')
 
-loginForm.addEventListener('submit', async (e) => {
+registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   // Obtengo los datos del formulario y los guardo en un objeto.
-  const data = new FormData(loginForm);
+  const data = new FormData(registerForm);
   const payload = {};
 
   data.forEach((value, key) => (payload[key] = value));
 
+  //! Verifications
   // Limpiar el mensaje de error antes de hacer las validaciones nuevamente
   document.querySelector('.infoMessage').textContent = '';
 
@@ -37,6 +38,7 @@ loginForm.addEventListener('submit', async (e) => {
     return;
   }
 
+  // FETCH
   try {
     const response = await fetch('/api/sessions/register', {
       method: 'POST',
@@ -44,23 +46,9 @@ loginForm.addEventListener('submit', async (e) => {
       headers: {
         'Content-Type': 'application/json',
       },
-    });
+    }).then(res => res.json())
 
-    if (!response.ok) {
-      const errorMessage = await response.json();
-      document.querySelector('.infoMessage').textContent = errorMessage.error;
-      return;
-    }
-
-    const responseData = await response.json();
-    if (responseData.status === 'success') {
-      document.querySelector('.infoMessage').textContent = 'Successfully registered user.';
-      loginForm.reset();
-      window.location.replace('/login');
-      return;
-    }
-
-    loginForm.reset();
+    registerForm.reset();
     window.location.replace('/login');
 
   } catch (error) {

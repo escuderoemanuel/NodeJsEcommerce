@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  cart: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'carts' //Id con referencia a Carts
+  },
   role: {
     type: String,
     default: 'user'
