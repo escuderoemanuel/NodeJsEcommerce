@@ -1,7 +1,7 @@
 
 const loginForm = document.getElementById('loginForm')
 
-loginForm.addEventListener('submit', (e) => {
+loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const data = new FormData(loginForm);
@@ -23,7 +23,7 @@ loginForm.addEventListener('submit', (e) => {
   }
 
   try {
-    fetch('/api/sessions/login', {
+    await fetch('/api/sessions/login', {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -33,7 +33,7 @@ loginForm.addEventListener('submit', (e) => {
       if (res.status === 200) {
         window.location.replace('/api/products');
       } else {
-        message.textContent = 'Error occurred while processing your request ELSE.';
+        document.querySelector('.infoMessage').textContent = 'Error occurred while processing your request ELSE.';
       }
     })
   } catch (error) {

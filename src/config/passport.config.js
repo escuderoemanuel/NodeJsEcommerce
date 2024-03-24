@@ -7,18 +7,18 @@ const CALLBACK_URL = process.env.CALLBACK_URL;
 const passport = require('passport');
 const local = require('passport-local');
 const github = require('passport-github2');
-const UserModel = require('../dao/models/user.model');
 const { createHash, isValidPassword } = require('../utils');
 
+const UsersDbManager = require('../dao/dbManager/UsersDbManager');
+const UserManager = new UsersDbManager();
 
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = github.Strategy;
 
-
 const initializePassport = () => {
 
-  //? JWT STRATEGY
-
+  //! JWT STRATEGY
+  // Register
   passport.use('register', new LocalStrategy({
     passReqToCallback: true,
     usernameField: 'email',
@@ -26,36 +26,42 @@ const initializePassport = () => {
   }, async (req, email, password, done) => {
 
     try {
-
       const { firstName, lastName, email, age } = req.body;
       if (!firstName || !lastName || !email || !age || !password) {
         return done(null, false, { message: 'All fields are required.' });
       }
 
-      const existingUser = await UserModel.findOne({ email });
+      const existingUser = await UserManager.getByEmail({ email });
       if (existingUser) {
         return done(null, false, { message: 'The user is already registered.' });
       }
 
       const newUser = { firstName, lastName, email, age, password: createHash(password) };
 
-      const result = await UserModel.create(newUser);
-      return done(null, result);
+      const result = await UserManager.createUser(newUser);
+      done(null, result);
 
     } catch (error) {
-      return done(error);
+      done(error);
     }
   }));
 
-
+  // Register
   passport.use('login', new LocalStrategy({
     usernameField: 'email',
     session: false
   },
     async (email, password, done) => {
-
       try {
-        const user = await UserModel.findOne({ email });
+        // Admin Logic
+        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+          return done(null, {
+            firstName: 'User',
+            email: 'adminCoder@coder.com',
+            role: 'admin' // Asigna el rol de 'admin' si coincide
+          })
+        }
+        const user = await UserManager.getByEmail({ email });
         if (!user) {
           return done(null, false, { message: 'User does not exist.' });
         }
@@ -63,18 +69,13 @@ const initializePassport = () => {
         if (!isValidPassword(user, password)) {
           return done(null, false, { message: 'Incorrect password.' });
         }
-
         return done(null, user);
-
       } catch (error) {
-        return done(error);
+        done(error);
       }
-
     }))
 
-
-  //? GITHUB STRATEGY
-
+  //! GITHUB STRATEGY
   passport.use('github', new GitHubStrategy({
     clientID: CLIENT_ID,
     callbackURL: CALLBACK_URL,
@@ -82,10 +83,8 @@ const initializePassport = () => {
     session: false
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
-
-      console.log('profile', profile)
-
-      const user = await UserModel.findOne({ email: profile._json.email })
+      // console.log('profile', profile)
+      const user = await UserManager.getByEmail({ email: profile._json.email })
       if (!user) {
         const newUser = {
           firstName: profile._json.name,
@@ -95,7 +94,7 @@ const initializePassport = () => {
           password: '',
           role: 'user',
         }
-        const result = await UserModel.create(newUser)
+        const result = await UserManager.createUser(newUser)
         return done(null, result)
       } else {
         return done(null, user)
@@ -112,7 +111,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await UserModel.findOne({ _id: id });
+    const user = await UserManager.getById({ _id: id });
     return done(null, user)
   } catch (error) {
     return done('ERROR:', error)

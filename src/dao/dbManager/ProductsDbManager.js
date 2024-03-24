@@ -88,11 +88,10 @@ class ProductsDbManager {
       return { paginateData, products: paginateData.payload };
 
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       throw new Error(error.message)
     }
   }
-
 
 
   //! GET BY ID
@@ -122,7 +121,6 @@ class ProductsDbManager {
       throw new Error(error.message)
     }
   }
-
 }
 
 module.exports = ProductsDbManager;

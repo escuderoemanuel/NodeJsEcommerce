@@ -3,9 +3,7 @@ const { publicAuthentication, privateAuthentication } = require('../middlewares/
 const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 
 const productsManager = new ProductsDbManager();
-
 const viewsRouter = Router();
-
 
 // Routes
 viewsRouter.get('/home', async (req, res) => {
@@ -17,8 +15,6 @@ viewsRouter.get('/realtimeproducts', privateAuthentication, async (req, res) => 
   const products = await productsManager.getProducts();
   res.render('realTimeProducts', { products });
 })
-
-
 
 viewsRouter.get('/register', publicAuthentication, (req, res) => {
   res.render('register', {});

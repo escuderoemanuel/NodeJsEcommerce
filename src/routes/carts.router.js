@@ -3,7 +3,6 @@ const CartsDbManager = require('../dao/dbManager/CartsDbManager');
 const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
 
-
 // Managers
 const cartManager = new CartsDbManager();
 const productManager = new ProductsDbManager();
@@ -20,7 +19,6 @@ router.post('/', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 })
-
 
 // Deberá listar todos los carritos (No lo pide el desafío).
 router.get('/', privateAuthentication, async (req, res) => {
@@ -50,7 +48,6 @@ router.get('/:cid', privateAuthentication, async (req, res) => {
   }
 })
 
-
 // Deberá agregar el producto al arreglo “products” del carrito seleccionado
 router.post('/:cid/product/:pid', async (req, res) => {
   try {
@@ -64,7 +61,6 @@ router.post('/:cid/product/:pid', async (req, res) => {
     }
     if (!product) {
       res.status(400).send('Product does not exist')
-
     } else {
       cartManager.addProductToCart(cid, pid);
       res.send({ status: 'success' });
@@ -87,7 +83,6 @@ router.delete('/:cid/product/:pid', async (req, res) => {
     }
     if (!product) {
       res.status(400).send('Product does not exist')
-
     } else {
       cartManager.deleteProductFromCart(cid, pid);
       res.send({ status: 'success' });
@@ -125,7 +120,6 @@ router.put('/:cid/products/:pid', async (req, res) => {
     }
     if (!product) {
       res.status(400).send('Product does not exist')
-
     } else {
       cartManager.updateProductQuantityFromCart(cid, pid, quantity);
       res.send({
@@ -156,6 +150,5 @@ router.delete('/:cid', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 })
-
 
 module.exports = router;

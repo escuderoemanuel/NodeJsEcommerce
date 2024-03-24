@@ -2,7 +2,6 @@ const { Router } = require('express');
 const MessagesModel = require('../dao/models/messages.model');
 const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
 
-
 // Manager
 const router = Router();
 
@@ -25,7 +24,6 @@ router.get('/', privateAuthentication, async (req, res) => {
       messages,
       layout: 'main'
     })
-
   } catch (error) {
     res.status(500).send({ error: error.message });
   }

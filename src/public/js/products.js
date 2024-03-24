@@ -5,7 +5,6 @@ const productList = document.getElementById('products');
 // form
 const formAddProduct = document.getElementById('formAddProduct');
 
-
 //! Recibo la lista actualizada de productos y la renderizo en el cliente.
 socket.on('update-products', products => {
   const productList = document.getElementById('products');
@@ -35,8 +34,6 @@ socket.on('update-products', products => {
 });
 
 
-
-
 //! SOCKET DELETE BTN
 productList.addEventListener('click', async (e) => {
   if (e.target.getAttribute('data-id') === 'btnDelete') {
@@ -57,7 +54,7 @@ productList.addEventListener('click', async (e) => {
 })
 
 //! Agrego un producto a la base de datos y lo envio a todos los clientes conectados.
-formAddProduct.addEventListener('submit', async (e) => {
+formAddProduct.addEventListener('DOMContentLoaded', 'submit', async (e) => {
   e.preventDefault()
 
   const newProduct = {};
@@ -99,4 +96,3 @@ formAddProduct.addEventListener('submit', async (e) => {
     document.querySelector('.errorMessage').textContent = errorMessage.error;
   }
 })
-

@@ -23,7 +23,6 @@ passwordResetForm.addEventListener('submit', async (e) => {
     payload[key] = value;
   });
 
-
   try {
     fetch('/api/sessions/resetPassword', {
       method: 'POST',
@@ -40,7 +39,7 @@ passwordResetForm.addEventListener('submit', async (e) => {
       }
 
       if (response.status === 200) {
-        console.log('Password reset successful.');
+        // console.log('Password reset successful.');
         document.querySelector('.errorMessage').textContent = 'Password reset successful...';
 
         // Redirigir al usuario a la página de inicio de sesión después de un tiempo
@@ -49,8 +48,6 @@ passwordResetForm.addEventListener('submit', async (e) => {
         }, 1500);
       }
     })
-
-
   } catch (error) {
     console.error('Password reset failed:', error);
     document.querySelector('.errorMessage').textContent = 'Error processing your request. Please try again later.';

@@ -46,7 +46,9 @@ registerForm.addEventListener('submit', async (e) => {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(res => res.json())
+    }).then(res => res.json()).then(
+      // console.log(res)
+    );
 
     registerForm.reset();
     window.location.replace('/login');
