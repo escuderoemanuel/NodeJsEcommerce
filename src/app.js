@@ -1,6 +1,4 @@
-// Atlas DB Connection
-require('dotenv').config();
-const MONGO_URL = process.env.MONGO_URL;
+const { MONGO_URL, PORT } = require('./config/environment.config.js');
 
 // Mongoose Init & Connect
 const mongoose = require('mongoose');
@@ -16,15 +14,13 @@ const { Server } = require('socket.io');
 // Handlebars
 const handlebars = require('express-handlebars');
 
-//
+// Cookie Parser
 const cookieParser = require('cookie-parser');
 
 // Express
 const express = require('express');
-const PORT = 8080;
 const serverMessage = `Server is running on port ${PORT}`;
 const app = express();
-
 
 // Session Settings
 const session = require('express-session');
@@ -100,6 +96,7 @@ io.on('connection', async (socket) => {
     socket.broadcast.emit('newUserConnected', { user });
   })
 
+  //! Guarda en ATLAS
   const messages = await MessagesModel.find().lean();
   socket.emit('messages', { messages });
 

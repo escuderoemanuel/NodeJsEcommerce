@@ -1,40 +1,25 @@
 const { Router } = require('express');
 const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
 const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
+const ViewsController = require('../controllers/views.controller');
 
 const productsManager = new ProductsDbManager();
 
 const viewsRouter = Router();
 
 // Routes
-viewsRouter.get('/home', async (req, res) => {
-  const products = await productsManager.getProducts();
-  res.render('home', { products: products });
-})
+viewsRouter.get('/home', ViewsController.getHome)
 
-viewsRouter.get('/realtimeproducts', privateAuthentication, async (req, res) => {
-  const products = await productsManager.getProducts();
-  res.render('realTimeProducts', { products });
-})
+viewsRouter.get('/realtimeproducts', privateAuthentication, ViewsController.getRealTimeProducts)
 
-viewsRouter.get('/register', publicAuthentication, (req, res) => {
-  res.render('register', {});
-})
+viewsRouter.get('/register', publicAuthentication, ViewsController.getRegister)
 
-viewsRouter.get('/login', publicAuthentication, (req, res) => {
-  res.render('login', {});
-})
+viewsRouter.get('/login', publicAuthentication, ViewsController.getLogin)
 
-viewsRouter.get('/resetPassword', publicAuthentication, (req, res) => {
-  res.render('resetPassword', {});
-})
+viewsRouter.get('/resetPassword', publicAuthentication, ViewsController.getResetPassword);
 
-viewsRouter.get('/profile', privateAuthentication, (req, res) => {
-  res.render('profile', { user: req.user });
-})
+viewsRouter.get('/profile', privateAuthentication, ViewsController.getProfile)
 
-viewsRouter.get('/*', publicAuthentication, (req, res) => {
-  res.redirect('/login');
-})
+viewsRouter.get('/*', publicAuthentication, ViewsController.getPublicRoute)
 
 module.exports = viewsRouter;
