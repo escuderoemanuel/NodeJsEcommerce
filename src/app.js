@@ -100,7 +100,6 @@ io.on('connection', async (socket) => {
     socket.broadcast.emit('newUserConnected', { user });
   })
 
-  //!Esto Funciona pero no guarda en Atlas
   const messages = await MessagesModel.find().lean();
   socket.emit('messages', { messages });
 

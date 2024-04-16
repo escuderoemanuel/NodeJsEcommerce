@@ -16,7 +16,6 @@ const isValidPassword = (user, password) => {
 // JWT
 const generateToken = (serializableUser) => {
   const accessToken = jwt.sign({ serializableUser }, PRIVATE_KEY, { expiresIn: '1d' });
-  // console.log('accessToken en generateToken', accessToken)
   return accessToken;
 }
 
@@ -24,7 +23,6 @@ const generateToken = (serializableUser) => {
 const verifyToken = (req, res, next) => {
 
   const accessToken = req.cookies.accessToken;
-  //  console.log('accessToken en verifyToken', accessToken)
 
   jwt.verify(accessToken, PRIVATE_KEY, (error, credentials) => {
     if (error) {
