@@ -5,6 +5,7 @@ const productList = document.getElementById('products');
 // form
 const formAddProduct = document.getElementById('formAddProduct');
 
+
 //! Recibo la lista actualizada de productos y la renderizo en el cliente.
 socket.on('update-products', products => {
   const productList = document.getElementById('products');
@@ -32,6 +33,8 @@ socket.on('update-products', products => {
     productList.appendChild(productItem);
   });
 });
+
+
 
 
 //! SOCKET DELETE BTN
@@ -96,3 +99,4 @@ formAddProduct.addEventListener('DOMContentLoaded', 'submit', async (e) => {
     document.querySelector('.errorMessage').textContent = errorMessage.error;
   }
 })
+

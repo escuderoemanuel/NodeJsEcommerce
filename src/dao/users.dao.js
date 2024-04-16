@@ -1,9 +1,9 @@
-const UserModel = require('../models/user.model');
+const UserModel = require('../dao/models/user.model');
 
-class UsersDbManager {
+class UsersDao {
+
   constructor() {
-    console.log('UserDbManager Intance')
-
+    console.log('UserDao Intance')
   }
 
   async getAll() {
@@ -37,4 +37,4 @@ class UsersDbManager {
   }
 }
 
-module.exports = UsersDbManager;
+module.exports = UsersDao;

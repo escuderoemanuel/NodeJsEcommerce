@@ -1,24 +1,19 @@
-// Atlas DB Connection
-require('dotenv').config();
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const CALLBACK_URL = process.env.CALLBACK_URL;
-
 const passport = require('passport');
 const local = require('passport-local');
 const github = require('passport-github2');
 const { createHash, isValidPassword } = require('../utils');
 
 const UsersDbManager = require('../dao/dbManager/UsersDbManager');
+const { GITHUB_CLIENT_ID, GITHUB_CALLBACK_URL, GITHUB_CLIENT_SECRET } = require('./environment.config');
 const UserManager = new UsersDbManager();
 
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = github.Strategy;
 
+
 const initializePassport = () => {
 
-  //! JWT STRATEGY
-  // Register
+  //? JWT STRATEGY
   passport.use('register', new LocalStrategy({
     passReqToCallback: true,
     usernameField: 'email',
@@ -26,6 +21,7 @@ const initializePassport = () => {
   }, async (req, email, password, done) => {
 
     try {
+
       const { firstName, lastName, email, age } = req.body;
       if (!firstName || !lastName || !email || !age || !password) {
         return done(null, false, { message: 'All fields are required.' });
@@ -46,14 +42,14 @@ const initializePassport = () => {
     }
   }));
 
-  // Register
+
   passport.use('login', new LocalStrategy({
     usernameField: 'email',
     session: false
   },
     async (email, password, done) => {
       try {
-        // Admin Logic
+        // ADMIN LOGIC
         if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
           return done(null, {
             firstName: 'User',
@@ -61,6 +57,7 @@ const initializePassport = () => {
             role: 'admin' // Asigna el rol de 'admin' si coincide
           })
         }
+
         const user = await UserManager.getByEmail({ email });
         if (!user) {
           return done(null, false, { message: 'User does not exist.' });
@@ -69,17 +66,21 @@ const initializePassport = () => {
         if (!isValidPassword(user, password)) {
           return done(null, false, { message: 'Incorrect password.' });
         }
+
         return done(null, user);
+
       } catch (error) {
         done(error);
       }
     }))
 
-  //! GITHUB STRATEGY
+
+  //? GITHUB STRATEGY
+
   passport.use('github', new GitHubStrategy({
-    clientID: CLIENT_ID,
-    callbackURL: CALLBACK_URL,
-    clientSecret: CLIENT_SECRET,
+    clientID: GITHUB_CLIENT_ID,
+    callbackURL: GITHUB_CALLBACK_URL,
+    clientSecret: GITHUB_CLIENT_SECRET,
     session: false
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {

@@ -34,6 +34,8 @@ socket.on('update-products', products => {
   });
 });
 
+
+
 //! SOCKET DELETE BTN
 productList.addEventListener('click', async (e) => {
   if (e.target.getAttribute('data-id') === 'btnDelete') {
@@ -96,3 +98,4 @@ formAddProduct.addEventListener('submit', async (e) => {
     document.querySelector('.errorMessage').textContent = errorMessage.error;
   }
 })
+

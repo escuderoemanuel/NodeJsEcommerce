@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const { JWT_PRIVATE_KEY } = require('./config/environment.config');
 
 // HASH PASSWORD
 const createHash = (password) => {
@@ -15,19 +15,21 @@ const isValidPassword = (user, password) => {
 
 // JWT
 const generateToken = (serializableUser) => {
-  const accessToken = jwt.sign({ serializableUser }, PRIVATE_KEY, { expiresIn: '1d' });
-  // console.log('accessToken en generateToken', accessToken)
+  const accessToken = jwt.sign({ serializableUser }, JWT_PRIVATE_KEY, { expiresIn: '1d' });
+  console.log('accessToken en generateToken', accessToken) //! GENERA BIEN
   return accessToken;
+
 }
 
 // JWT Middleware
 const verifyToken = (req, res, next) => {
-  const accessToken = req.cookies.accessToken;
-  //  console.log('accessToken en verifyToken', accessToken)
+  console.log('res', req.cookies)
+  const accessToken = req.cookies.accessToken; //! NO RECUPERA
+  console.log('accessToken en Utils verifyToken', accessToken)
 
-  jwt.verify(accessToken, PRIVATE_KEY, (error, credentials) => {
+  jwt.verify(accessToken, JWT_PRIVATE_KEY, (error, credentials) => {
     if (error) {
-      return res.status(403).send({ status: 'error', error: 'Forbidden' });
+      return res.status(403).send({ status: 'error', error: 'Utils JWT Verify Forbidden', message: error.message });
     }
     req.tokenUser = credentials;
     next();

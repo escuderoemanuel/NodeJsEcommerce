@@ -23,6 +23,7 @@ passwordResetForm.addEventListener('submit', async (e) => {
     payload[key] = value;
   });
 
+
   try {
     fetch('/api/sessions/resetPassword', {
       method: 'POST',
@@ -48,6 +49,8 @@ passwordResetForm.addEventListener('submit', async (e) => {
         }, 1500);
       }
     })
+
+
   } catch (error) {
     console.error('Password reset failed:', error);
     document.querySelector('.errorMessage').textContent = 'Error processing your request. Please try again later.';

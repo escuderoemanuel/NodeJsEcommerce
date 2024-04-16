@@ -1,21 +1,16 @@
-const ProductsModel = require('../models/products.model')
+const ProductsDao = require('../dao/products.dao');
 
-class ProductsDbManager {
+class ProductsService {
 
-  //! ADD
-  async addProduct(product) {
-    try {
-      await ProductsModel.create(product);
-    } catch (error) {
-      throw new Error(error.message)
-    }
+  constructor() {
+    this.productsDao = new ProductsDao();
   }
 
-  //! GET
-  async getProducts(req, res) {
+  /* async getAll(req, res) {
+
     try {
       // Obtengo los parámetros de consulta
-      let { limit, page, filter, sort } = req.query
+      let { limit, page, filter, sort } = req.query;
 
       //? Filtros de búsqueda
       // Filtro 'limit' string parseado a number
@@ -34,7 +29,7 @@ class ProductsDbManager {
         // $option: 'i' para que no distinga mayúsculas de minúsculas
         filter = {
           $or: [{ title: { $regex: req.query.filter, $options: 'i' } }, { category: { $regex: req.query.filter, $options: 'i' } }]
-        }
+        };
       }
 
       //? Paginación
@@ -47,11 +42,11 @@ class ProductsDbManager {
       // Si hay un sort, lo agrego a 'options', sino no
       // Utilizo un segundo parámetro de ordenamiento para el caso en el que haya más productos con el mismo precio!
       if (req.query.sort) {
-        options.sort = { price: sort, title: 1 }
+        options.sort = { price: sort, title: 1 };
       }
 
       // Ejecuto la consulta pasando filter (si hay), más options
-      let products = await ProductsModel.paginate(filter, options);
+      let products = await this.dao.getAll(filter, options);
 
       // Creo un objeto para almacenar los parámetros de consulta de la url, para armar los links 'prev' y 'next'
       let urlQueryParams = {};
@@ -59,16 +54,13 @@ class ProductsDbManager {
       if (req.query.sort) urlQueryParams.sort = req.query.sort;
       if (req.query.limit) urlQueryParams.limit = req.query.limit;
 
-
       // Obtiene la URL base dinámicamente desde el front
       const baseUrl = req.baseUrl;
 
       // Creo los links para la paginación
       // GPT Tip => URLSearchParams: permite crear un string con los parámetros de consulta de la url.
       const urlPrevLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.prevPage}`;
-
       const urlNextLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.nextPage}`;
-
 
       // Creo un objeto para almacenar los datos de paginación y los productos para enviarlos al front.
       let paginateData = {
@@ -84,45 +76,65 @@ class ProductsDbManager {
         nextLink: products.hasNextPage ? urlNextLink : null,
       };
 
-      // console.log('products', products)
       return { paginateData, products: paginateData.payload };
+      // return this.dao.getAll().lean()
 
     } catch (error) {
-      // console.log(error)
-      throw new Error(error.message)
+      // Handle errors
+      throw new Error('Service Error fetching products');
+    }
+  } */
+  async getAll(filter, options) {
+    try {
+      return await this.productsDao.getAll(filter, options);
+    } catch (error) {
+      throw new Error('Service Error fetching products');
     }
   }
 
-
-
-  //! GET BY ID
-  async getProductById(id) {
+  async getById(pid) {
     try {
-      const product = await ProductsModel.findOne({ _id: id }).lean();
+      // console.log('pid en Service', pid) //! OK
+      const product = await this.productsDao.getById(pid);
+      // console.log('product en Service', product) //! OK
       return product;
     } catch (error) {
-      throw new Error(error.message)
+      throw new Error('Service Error fetching product by ID');
     }
   }
 
-  //! UPDATE
-  async updateProduct(id, newProduct) {
+  async create(product) {
     try {
-      await ProductsModel.updateOne({ _id: id }, newProduct);
+      //return await this.productsDao.create(product);
+      const newProduct = await this.productsDao.create(product);
+      return newProduct;
     } catch (error) {
-      throw new Error(error.message)
+      throw new Error('Service Error creating product');
     }
   }
 
-  //! DELETE
-  async deleteProduct(id) {
+  async update(pid, product) {
     try {
-      await ProductsModel.deleteOne({ _id: id });
+      /* const productFound = await this.dao.getById(pid);
+      if (!productFound) {
+        throw new Error('Product not found')
+      };
+      return await this.dao.update(pid, product); */
+      return await this.productsDao.update(pid, product);
     } catch (error) {
-      throw new Error(error.message)
+      throw new Error('Error updating product');
+    }
+  }
+
+  async delete(pid) {
+    try {
+      await this.productsDao.delete(pid);
+      return ({ status: 'success', message: 'Product succesfully removed' })
+    } catch (error) {
+      throw new Error('Error deleting product');
     }
   }
 
 }
 
-module.exports = ProductsDbManager;
+module.exports = ProductsService;

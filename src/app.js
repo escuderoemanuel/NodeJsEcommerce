@@ -1,6 +1,4 @@
-// Atlas DB Connection
-require('dotenv').config();
-const MONGO_URL = process.env.MONGO_URL;
+const { MONGO_URL, PORT } = require('./config/environment.config.js');
 
 // Mongoose Init & Connect
 const mongoose = require('mongoose');
@@ -12,15 +10,21 @@ const MongoStore = require('connect-mongo');
 
 // Solamente traemos Server de io
 const { Server } = require('socket.io');
+
 // Handlebars
 const handlebars = require('express-handlebars');
+
 // Cookie Parser
 const cookieParser = require('cookie-parser');
+
 // Express
 const express = require('express');
-const PORT = 8080;
 const serverMessage = `Server is running on port ${PORT}`;
 const app = express();
+
+// Session Settings
+const session = require('express-session');
+
 // Imports
 const passport = require('passport');
 const initializePassport = require('./config/passport.config.js');
@@ -44,6 +48,7 @@ app.use(express.static(`${__dirname}/public`))
 // Json & Body Params
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
 
 // Handlebars
 app.use(cookieParser());
@@ -91,7 +96,7 @@ io.on('connection', async (socket) => {
     socket.broadcast.emit('newUserConnected', { user });
   })
 
-  //!Esto Funciona pero no guarda en Atlas
+  //! Guarda en ATLAS
   const messages = await MessagesModel.find().lean();
   socket.emit('messages', { messages });
 
