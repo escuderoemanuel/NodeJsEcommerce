@@ -6,23 +6,7 @@ const productsService = new ProductsService();
 class ProductsController {
 
 
-  /* static async getAll(req, res) {
-    try {
-      let paginateData = await productsService.getAll(req, res);
-      // console.log('paginateData', paginateData)
-
-      const userData = req.tokenUser.serializableUser;
-      console.log('userData', userData)
-
-      // Combinar los datos del usuario y los datos de paginación en un solo objeto porque handlebars no deja pasar más de 1
-      const renderData = { ...paginateData, user: userData };
-
-      res.render('products', renderData);
-      //res.render('products', { user: userData });
-    } catch (error) {
-      res.status(400).send({ error: error.message });
-    }
-  } */
+  
   static async getAll(req, res) {
     try {
       let { limit, page, filter, sort } = req.query;
@@ -78,9 +62,7 @@ class ProductsController {
   static async getById(req, res) {
     try {
       const pid = req.params.pid;
-      console.log('pid en controller', pid) //! OK
       const product = await productsService.getById(pid);
-      console.log('product', product) //! NO LLEGA AQUI
 
       res.send({ status: 'success', product });
     } catch (error) {
@@ -102,7 +84,6 @@ class ProductsController {
   static async update(req, res) {
     try {
       const pid = req.params.pid;
-      // console.log('PUT ID', id)
       const updatedFields = req.body;
       await productsService.update(pid, updatedFields);
       const updatedProduct = await productsService.getById(pid);

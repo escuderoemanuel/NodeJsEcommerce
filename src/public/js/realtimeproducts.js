@@ -93,7 +93,6 @@ formAddProduct.addEventListener('submit', async (e) => {
     socket.emit('add-product', { newProduct, products });
   } catch (error) {
     console.log(error)
-    /* const errorMessage = await response.json(); */
     // Mostrar el mensaje de error en el formulario
     document.querySelector('.errorMessage').textContent = errorMessage.error;
   }

@@ -84,7 +84,6 @@ const initializePassport = () => {
     session: false
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
-      // console.log('profile', profile)
       const user = await UserManager.getByEmail({ email: profile._json.email })
       if (!user) {
         const newUser = {

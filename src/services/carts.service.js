@@ -71,9 +71,7 @@ class CartService {
 
   async updateProductQuantity(cid, pid, quantity) {
     const cart = await this.getById(cid);
-    //console.log('cart en cartService', cart)
     const product = await this.productsService.getById(pid);
-    //console.log('product en cartService', product)
 
     if (!quantity || isNaN(quantity) || quantity < 0) {
       throw { message: 'Quantity is not valid', status: 400 }

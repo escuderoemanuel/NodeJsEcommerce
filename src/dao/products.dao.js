@@ -9,7 +9,6 @@ class ProductsDao {
         return await ProductsModel.paginate(filter, options);
       }
       const products = await ProductsModel.find().lean();
-      //console.log('products en DAO:', products)
       return products;
     } catch (error) {
       throw new Error('Dao Error fetching products from database');
@@ -19,7 +18,6 @@ class ProductsDao {
   async getById(pid) {
     try {
       const product = await ProductsModel.findOne({ _id: pid }).lean();
-      //console.log('product en DAO', product)
       return product;
     } catch (error) {
       throw new Error('Dao Error fetching product by ID from database');

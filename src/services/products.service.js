@@ -94,9 +94,7 @@ class ProductsService {
 
   async getById(pid) {
     try {
-      // console.log('pid en Service', pid) //! OK
       const product = await this.productsDao.getById(pid);
-      // console.log('product en Service', product) //! OK
       return product;
     } catch (error) {
       throw new Error('Service Error fetching product by ID');

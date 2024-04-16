@@ -16,16 +16,13 @@ const isValidPassword = (user, password) => {
 // JWT
 const generateToken = (serializableUser) => {
   const accessToken = jwt.sign({ serializableUser }, JWT_PRIVATE_KEY, { expiresIn: '1d' });
-  console.log('accessToken en generateToken', accessToken) //! GENERA BIEN
   return accessToken;
 
 }
 
 // JWT Middleware
 const verifyToken = (req, res, next) => {
-  console.log('res', req.cookies)
-  const accessToken = req.cookies.accessToken; //! NO RECUPERA
-  console.log('accessToken en Utils verifyToken', accessToken)
+  const accessToken = req.cookies.accessToken;
 
   jwt.verify(accessToken, JWT_PRIVATE_KEY, (error, credentials) => {
     if (error) {
