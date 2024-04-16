@@ -94,6 +94,7 @@ class ProductsDbManager {
   }
 
 
+
   //! GET BY ID
   async getProductById(id) {
     try {
@@ -121,6 +122,7 @@ class ProductsDbManager {
       throw new Error(error.message)
     }
   }
+
 }
 
 module.exports = ProductsDbManager;

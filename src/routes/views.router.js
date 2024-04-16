@@ -3,6 +3,7 @@ const { publicAuthentication, privateAuthentication } = require('../middlewares/
 const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 
 const productsManager = new ProductsDbManager();
+
 const viewsRouter = Router();
 
 // Routes

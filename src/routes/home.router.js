@@ -17,6 +17,7 @@ router.get('/', privateAuthentication, async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     // Devuelve el objeto paginateData
     res.send(JSON.stringify(paginateData, null, 2));
+
   } catch (error) {
     console.log('Error', error.message)
   }

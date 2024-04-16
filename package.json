@@ -1,6 +1,6 @@
 {
-  "name": "nodejsecommerce",
-  "version": "1.6.0",
+  "name": "nodejsecommerce-layeredarchitecture",
+  "version": "1.7.0",
   "description": "",
   "main": "src/app.js",
   "scripts": {

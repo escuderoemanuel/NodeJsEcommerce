@@ -22,6 +22,7 @@ const generateToken = (serializableUser) => {
 
 // JWT Middleware
 const verifyToken = (req, res, next) => {
+
   const accessToken = req.cookies.accessToken;
   //  console.log('accessToken en verifyToken', accessToken)
 

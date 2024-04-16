@@ -3,6 +3,7 @@ const UserModel = require('../models/user.model');
 class UsersDbManager {
   constructor() {
     console.log('UserDbManager Intance')
+
   }
 
   async getAll() {

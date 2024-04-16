@@ -5,6 +5,7 @@ const { publicAuthentication, privateAuthentication } = require('../middlewares/
 
 // Manager
 const manager = new ProductsDbManager();
+
 const router = express.Router();
 
 router.get('/', privateAuthentication, async (req, res) => {
