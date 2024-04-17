@@ -1,12 +1,9 @@
-//const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
-//const manager = new ProductsDbManager();
+
 const ProductsService = require('../services/products.service');
 const productsService = new ProductsService();
 
 class ProductsController {
 
-
-  
   static async getAll(req, res) {
     try {
       let { limit, page, filter, sort } = req.query;
@@ -63,7 +60,6 @@ class ProductsController {
     try {
       const pid = req.params.pid;
       const product = await productsService.getById(pid);
-
       res.send({ status: 'success', product });
     } catch (error) {
       res.status(400).send({ error: error.message });
@@ -73,7 +69,6 @@ class ProductsController {
   static async create(req, res) {
     try {
       await productsService.create(req.body);
-      //const products = await productsService.getAll(req, res);
       res.send({ status: 'success', message: 'Product created' });
     } catch (error) {
       console.log(error);
@@ -98,7 +93,6 @@ class ProductsController {
       const pid = req.params.pid;
       const productToDelete = await productsService.getById(pid);
       await productsService.delete(pid);
-      //const products = await productsService.getAll(req, res);
       res.send({ status: 'success', deletedProduct: { productToDelete } });
     } catch (error) {
       res.status(400).send({ status: 'error', message: error.message });

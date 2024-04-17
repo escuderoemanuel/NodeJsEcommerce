@@ -84,53 +84,25 @@ class ProductsService {
       throw new Error('Service Error fetching products');
     }
   } */
+
   async getAll(filter, options) {
-    try {
-      return await this.productsDao.getAll(filter, options);
-    } catch (error) {
-      throw new Error('Service Error fetching products');
-    }
+    return await this.productsDao.getAll(filter, options);
   }
 
   async getById(pid) {
-    try {
-      const product = await this.productsDao.getById(pid);
-      return product;
-    } catch (error) {
-      throw new Error('Service Error fetching product by ID');
-    }
+    return await this.productsDao.getById(pid);
   }
 
   async create(product) {
-    try {
-      //return await this.productsDao.create(product);
-      const newProduct = await this.productsDao.create(product);
-      return newProduct;
-    } catch (error) {
-      throw new Error('Service Error creating product');
-    }
+    return await this.productsDao.create(product);
   }
 
   async update(pid, product) {
-    try {
-      /* const productFound = await this.dao.getById(pid);
-      if (!productFound) {
-        throw new Error('Product not found')
-      };
-      return await this.dao.update(pid, product); */
-      return await this.productsDao.update(pid, product);
-    } catch (error) {
-      throw new Error('Error updating product');
-    }
+    return await this.productsDao.update(pid, product);
   }
 
   async delete(pid) {
-    try {
-      await this.productsDao.delete(pid);
-      return ({ status: 'success', message: 'Product succesfully removed' })
-    } catch (error) {
-      throw new Error('Error deleting product');
-    }
+    return await this.productsDao.delete(pid);
   }
 
 }

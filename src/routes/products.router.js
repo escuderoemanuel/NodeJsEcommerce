@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { verifyToken } = require('../utils');
 const ProductsController = require('../controllers/products.controller');
-//const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
+const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
 
 // Manager
 const router = Router();
