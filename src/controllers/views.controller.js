@@ -1,6 +1,5 @@
-const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
-const productsManager = new ProductsDbManager();
-
+const ProductsManager = require('../dao/managers/products.dao')
+const productsManager = new ProductsManager();
 
 class ViewsController {
 

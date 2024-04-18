@@ -55,6 +55,6 @@ registerForm.addEventListener('submit', async (e) => {
 
   } catch (error) {
     console.error('Error:', error.message);
-    document.querySelector('.infoMessage').textContent = 'Error occurred while processing your request.';
+    document.querySelector('.infoMessage').textContent = 'Register error occurred while processing your request.';
   }
 });
