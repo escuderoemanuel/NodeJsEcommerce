@@ -12,7 +12,6 @@ fetch('/api/current', {
   }
 }).then(res => {
   const p = document.getElementById('userResult')
-  /* User Data: ${res.payload.name}, ${res.payload.email} */
   p.innerHTML = `
   <div class="profile">
     <h3>Welcome 😊</h3>

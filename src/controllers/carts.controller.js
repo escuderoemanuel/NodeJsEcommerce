@@ -1,7 +1,6 @@
 const CartsService = require('../services/carts.service');
 const ProductsService = require('../services/products.service');
 const cartsService = new CartsService();
-// const productsService = new ProductsService();
 
 class CartsController {
 
@@ -41,9 +40,7 @@ class CartsController {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
-      //console.log('cid:', cid, 'pid:', pid) //! OK
       const cart = await cartsService.addProduct(cid, pid);
-      //console.log('cart', cart) //!OK
       res.send({ status: 'success', cart });
     } catch (error) {
       res.status(400).send({ error: error.message });

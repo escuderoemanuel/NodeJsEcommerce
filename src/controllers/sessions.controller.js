@@ -1,9 +1,6 @@
-const { Router } = require('express');
 const UserModel = require('../dao/models/user.model');
 const { createHash, isValidPassword } = require('../utils');
-const passport = require('passport');
 const { generateToken, verifyToken } = require('../utils');
-
 
 class SessionsController {
 
@@ -35,8 +32,6 @@ class SessionsController {
     const accessToken = generateToken(serializableUser);
     res.cookie('accessToken', accessToken);
     res.send({ status: 'success', message: 'Successfully logged in', payload: accessToken, serializableUser })
-    // console.log('SerializableUser', serializableUser)
-    // console.log('accessToken', accessToken)
   }
 
   static async getLoginError(req, res) {
@@ -45,8 +40,6 @@ class SessionsController {
 
   //? LOGOUT
   static async logout(req, res) {
-    // Remove storageUserEmail from localStorage
-    //localStorage.removeItem('storageUserEmail');
     res.clearCookie('accessToken');
     res.redirect('/login');
   }

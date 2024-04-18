@@ -106,8 +106,6 @@ io.on('connection', async (socket) => {
 
     await MessagesModel.create(messageData);
     const messages = await MessagesModel.find().lean();
-    // console.log('messages', messages)
-    // console.log('messages', { messages })
 
     io.emit('messages', { messages });
   })

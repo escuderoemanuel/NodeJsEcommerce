@@ -43,7 +43,6 @@ socket.on("messages", ({ messages }) => {
 
 // Socket New User Connected
 socket.on("newUserConnected", ({ user }) => {
-  console.log('USERRRRR', storageUserEmail)
   if (!user) return;
   // Alert New User Connected
   Swal.fire({

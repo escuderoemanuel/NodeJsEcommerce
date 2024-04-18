@@ -47,7 +47,6 @@ registerForm.addEventListener('submit', async (e) => {
         'Content-Type': 'application/json',
       },
     }).then(res => res.json()).then(
-      // console.log(res)
     );
 
     registerForm.reset();

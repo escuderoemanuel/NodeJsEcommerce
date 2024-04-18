@@ -1,5 +1,4 @@
 const CartsModel = require('../models/carts.model');
-//  const ProductsService = require('../services/products.service');
 
 class CartDao {
 
@@ -49,5 +48,4 @@ class CartDao {
   }
 }
 
-// Exportación para utilizar en el app.js
 module.exports = CartDao;
