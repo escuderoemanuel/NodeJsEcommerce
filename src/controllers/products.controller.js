@@ -1,6 +1,7 @@
 const ProductsService = require('../services/products.service');
 const ProductsModel = require('../dao/models/products.model');
 const productsService = new ProductsService();
+
 class ProductsController {
 
   static async getAll(req, res) {
@@ -74,18 +75,19 @@ class ProductsController {
         nextLink: products.hasNextPage ? urlNextLink : null,
       };
 
-      // console.log('products', products)
-      return { paginateData, products: paginateData.payload };
+      const userData = req.tokenUser.serializableUser;
+      const renderData = { paginateData, user: userData, products: paginateData.payload };
+      res.render('products', renderData);
 
     } catch (error) {
-      // console.log(error)
-      throw new Error(error.message)
+      res.status(400).send({ error: error.message });
     }
   }
 
 
   static async getById(req, res) {
     try {
+
       const pid = req.params.pid;
       const product = await productsService.getById(pid);
       res.send({ status: 'success', product });
@@ -126,7 +128,6 @@ class ProductsController {
       res.status(400).send({ status: 'error', message: error.message });
     }
   }
-
 }
 
 module.exports = ProductsController;
