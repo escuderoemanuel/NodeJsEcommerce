@@ -1,4 +1,4 @@
-const CartDao = require('../dao/carts.dao');
+const CartDao = require('../dao/managers/carts.dao');
 const ProductsService = require('./products.service');
 
 
@@ -6,6 +6,11 @@ class CartService {
   constructor() {
     this.dao = new CartDao();
     this.productsService = new ProductsService();
+  }
+
+  async create() {
+    const cart = { products: [] }
+    return await this.dao.create(cart);
   }
 
   async getAll() {
@@ -18,11 +23,6 @@ class CartService {
       throw new Error(`There's no card by id ${cid}`)
     };
     return cart;
-  }
-
-  async create() {
-    const cart = { products: [] }
-    return await this.dao.create(cart);
   }
 
   async update(cid, cart) {

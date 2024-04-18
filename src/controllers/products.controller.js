@@ -1,3 +1,4 @@
+
 const ProductsService = require('../services/products.service');
 const ProductsModel = require('../dao/models/products.model');
 const productsService = new ProductsService();
@@ -56,6 +57,7 @@ class ProductsController {
       const baseUrl = req.baseUrl;
 
       // Creo los links para la paginación
+      // GPT Tip => URLSearchParams: permite crear un string con los parámetros de consulta de la url.
       const urlPrevLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.prevPage}`;
 
       const urlNextLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.nextPage}`;
@@ -87,7 +89,6 @@ class ProductsController {
 
   static async getById(req, res) {
     try {
-
       const pid = req.params.pid;
       const product = await productsService.getById(pid);
       res.send({ status: 'success', product });

@@ -17,6 +17,7 @@ class SessionsController {
   }
 
   //? LOGIN
+
   static async loginUser(req, res) {
 
     const { _id, firstName, lastName, email, age, role, password, cart } = req.user;
@@ -33,7 +34,9 @@ class SessionsController {
 
     const accessToken = generateToken(serializableUser);
     res.cookie('accessToken', accessToken);
-    res.send({ status: 'success', message: 'Successfully logged in', payload: accessToken })
+    res.send({ status: 'success', message: 'Successfully logged in', payload: accessToken, serializableUser })
+    // console.log('SerializableUser', serializableUser)
+    // console.log('accessToken', accessToken)
   }
 
   static async getLoginError(req, res) {
@@ -42,6 +45,8 @@ class SessionsController {
 
   //? LOGOUT
   static async logout(req, res) {
+    // Remove storageUserEmail from localStorage
+    //localStorage.removeItem('storageUserEmail');
     res.clearCookie('accessToken');
     res.redirect('/login');
   }
@@ -88,7 +93,7 @@ class SessionsController {
       cart
     }
     const accessToken = generateToken(serializableUser);
-    res.cookie('accessToken', accessToken);
+    res.cookie('accessToken', accessToken, serializableUser);
     res.redirect('/api/products')
 
   }

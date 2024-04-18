@@ -3,12 +3,14 @@ const local = require('passport-local');
 const github = require('passport-github2');
 const { createHash, isValidPassword } = require('../utils');
 
+//const UsersServices = require('../dao/dbManager/UsersDbManager');
 const UsersService = require('../services/users.service');
 const { GITHUB_CLIENT_ID, GITHUB_CALLBACK_URL, GITHUB_CLIENT_SECRET } = require('./environment.config');
 const UserManager = new UsersService();
 
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = github.Strategy;
+
 
 const initializePassport = () => {
 
@@ -84,6 +86,7 @@ const initializePassport = () => {
     session: false
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
+      // console.log('profile', profile)
       const user = await UserManager.getByEmail({ email: profile._json.email })
       if (!user) {
         const newUser = {

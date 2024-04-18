@@ -15,25 +15,44 @@ const isValidPassword = (user, password) => {
 
 // JWT
 const generateToken = (serializableUser) => {
+  //console.log('serializableUser en generateToken', serializableUser) //! El serializableUser llega aqui correctamente con el siguiente formato
+  /* 
+  serializableUser(userData) en product controller: {
+  id: '661c9a1149c87e2230e74bd2',
+  firstName: 'Test',
+  lastName: 'Test',
+  email: 'test@gmail.com',
+  age: 23,
+  role: 'user',
+  password: '$2b$10$Sr6jY0VsjVV27Qx.Cw1BXOLPDhWQDfekneVA2/UPJPNIfihQ5/sf.'
+}
+   */
+
   const accessToken = jwt.sign({ serializableUser }, JWT_PRIVATE_KEY, { expiresIn: '1d' });
-  console.log('accessToken en generateToken', accessToken) //! GENERA BIEN
-  return accessToken;
+
+  //console.log('accessToken en generateToken', accessToken) //! Desde el navegador genera bien el token
+
+  return ('return accessToken', accessToken);
 
 }
 
 // JWT Middleware
 const verifyToken = (req, res, next) => {
-  console.log('res', req.cookies)
-  const accessToken = req.cookies.accessToken; //! NO RECUPERA
-  console.log('accessToken en Utils verifyToken', accessToken)
+  //console.log('Utils req.cookies.accessToken:', req.cookies.accessToken) //! EL NAVEGADOR LO RECUPERA, POSTMAN NO
+  const accessToken = req.cookies.accessToken;
+  //console.log('Utils accessToken en verifyToken', accessToken) //! Llega bien
 
-  jwt.verify(accessToken, JWT_PRIVATE_KEY, (error, credentials) => {
-    if (error) {
-      return res.status(403).send({ status: 'error', error: 'Utils JWT Verify Forbidden', message: error.message });
-    }
-    req.tokenUser = credentials;
-    next();
-  });
+  if (accessToken) {
+
+    jwt.verify(accessToken, JWT_PRIVATE_KEY, (error, credentials) => {
+      if (error) {
+        return res.status(403).send({ status: 'error', error: 'Utils JWT Verify Forbidden', message: error.message });
+      }
+      req.tokenUser = credentials;
+    });
+  }
+  next();
+
 }
 
 module.exports = {
