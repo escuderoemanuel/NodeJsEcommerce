@@ -1,16 +1,27 @@
 const { Router } = require('express');
 const { verifyToken } = require('../utils');
 const ProductsController = require('../controllers/products.controller');
-//const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
 
-// Manager
 const router = Router();
-//const productsController = new ProductsController();
 
 // Deberá traer todos los productos de la base de datos, incluyendo opcionalmente limit, page, sort, filter (Example: http://localhost:8080/api/products?limit=2&page=1&sort=desc&filter=iphone)
 
-router.get('/', verifyToken, ProductsController.getAll)
-//router.get('/', ProductsController.getAll)
+//! Debo mover esta lógica al controller
+router.get('/', verifyToken, async (req, res) => {
+  try {
+    let paginateData = await ProductsController.getAll(req, res);
+
+    const userData = req.tokenUser.serializableUser;
+
+    // Combinar los datos del usuario y los datos de paginación en un solo objeto porque handlebars no deja pasar más de 1
+    const renderData = { ...paginateData, user: userData };
+
+    res.render('products', renderData);
+    //res.render('products', { user: userData });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+})
 
 // Deberá traer sólo el producto con el id proporcionado
 router.get('/:pid', ProductsController.getById)
