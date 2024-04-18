@@ -1,9 +1,14 @@
-const UserModel = require('../dao/models/user.model');
+const UserModel = require('../models/user.model');
 
 class UsersDao {
 
   constructor() {
     console.log('UserDao Intance')
+  }
+
+  async create(user) {
+    let result = await UserModel.create(user);
+    return result;
   }
 
   async getAll() {
@@ -21,18 +26,14 @@ class UsersDao {
     return result;
   }
 
-  async createUser(user) {
-    let result = await UserModel.create(user);
-    return result;
-  }
 
-  async deleteUser(id) {
-    let result = await UserModel.deleteOne({ _id: id });
-    return result;
-  }
-
-  async updateUser(id, user) {
+  async update(id, user) {
     let result = await UserModel.updateOne({ _id: id }, user);
+    return result;
+  }
+
+  async delete(id) {
+    let result = await UserModel.deleteOne({ _id: id });
     return result;
   }
 }

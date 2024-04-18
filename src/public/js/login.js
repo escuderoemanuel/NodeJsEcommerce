@@ -33,7 +33,7 @@ loginForm.addEventListener('submit', async (e) => {
       if (res.status === 200) {
         window.location.replace('/api/products');
       } else {
-        document.querySelector('.infoMessage').textContent = 'Error occurred while processing your request ELSE.';
+        document.querySelector('.infoMessage').textContent = 'Error occurred while processing your request.';
       }
     })
   } catch (error) {

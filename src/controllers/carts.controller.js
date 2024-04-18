@@ -41,7 +41,9 @@ class CartsController {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
+      //console.log('cid:', cid, 'pid:', pid) //! OK
       const cart = await cartsService.addProduct(cid, pid);
+      //console.log('cart', cart) //!OK
       res.send({ status: 'success', cart });
     } catch (error) {
       res.status(400).send({ error: error.message });

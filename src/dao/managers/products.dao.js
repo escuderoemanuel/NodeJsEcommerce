@@ -1,7 +1,10 @@
-const ProductsModel = require('./models/products.model');
+const ProductsModel = require('../models/products.model');
 
 class ProductsDao {
 
+  async create(product) {
+    return await ProductsModel.create(product);
+  }
 
   async getAll() {
     return await ProductsModel.find().lean();
@@ -9,10 +12,6 @@ class ProductsDao {
 
   async getById(pid) {
     return await ProductsModel.findOne({ _id: pid }).lean();
-  }
-
-  async create(product) {
-    return await ProductsModel.create(product);
   }
 
   async update(pid, product) {

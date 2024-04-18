@@ -1,13 +1,9 @@
 
 const ProductsService = require('../services/products.service');
 const ProductsModel = require('../dao/models/products.model');
-//const { response } = require('express');
-
 const productsService = new ProductsService();
 
 class ProductsController {
-
-
 
   static async getAll(req, res) {
     try {
@@ -93,7 +89,6 @@ class ProductsController {
 
   static async getById(req, res) {
     try {
-
       const pid = req.params.pid;
       const product = await productsService.getById(pid);
       res.send({ status: 'success', product });
@@ -134,7 +129,6 @@ class ProductsController {
       res.status(400).send({ status: 'error', message: error.message });
     }
   }
-
 }
 
 module.exports = ProductsController;

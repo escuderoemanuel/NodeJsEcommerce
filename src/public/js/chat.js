@@ -8,6 +8,7 @@ const messagesLog = document.getElementById("messagesLog");
 
 //! Events & Socket Events
 
+
 ///SOCKET EMIT => Enviar Usuario a Atlas
 messageInput.addEventListener("keyup", (e) => {
   if (e.key === "Enter") {
@@ -42,6 +43,7 @@ socket.on("messages", ({ messages }) => {
 
 // Socket New User Connected
 socket.on("newUserConnected", ({ user }) => {
+  console.log('USERRRRR', storageUserEmail)
   if (!user) return;
   // Alert New User Connected
   Swal.fire({

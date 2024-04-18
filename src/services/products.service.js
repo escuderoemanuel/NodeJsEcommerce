@@ -1,9 +1,13 @@
-const ProductsDao = require('../dao/products.dao');
+const ProductsDao = require('../dao/managers/products.dao');
 
 class ProductsService {
 
   constructor() {
     this.productsDao = new ProductsDao();
+  }
+
+  async create(product) {
+    return await this.productsDao.create(product);
   }
 
   async getAll() {
@@ -12,10 +16,6 @@ class ProductsService {
 
   async getById(pid) {
     return await this.productsDao.getById(pid);
-  }
-
-  async create(product) {
-    return await this.productsDao.create(product);
   }
 
   async update(pid, product) {

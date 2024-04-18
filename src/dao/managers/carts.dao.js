@@ -1,4 +1,4 @@
-const CartsModel = require('../dao/models/carts.model');
+const CartsModel = require('../models/carts.model');
 //  const ProductsService = require('../services/products.service');
 
 class CartDao {

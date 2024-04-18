@@ -3,9 +3,10 @@ const local = require('passport-local');
 const github = require('passport-github2');
 const { createHash, isValidPassword } = require('../utils');
 
-const UsersDbManager = require('../dao/dbManager/UsersDbManager');
+//const UsersServices = require('../dao/dbManager/UsersDbManager');
+const UsersService = require('../services/users.service');
 const { GITHUB_CLIENT_ID, GITHUB_CALLBACK_URL, GITHUB_CLIENT_SECRET } = require('./environment.config');
-const UserManager = new UsersDbManager();
+const UserManager = new UsersService();
 
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = github.Strategy;
@@ -34,7 +35,7 @@ const initializePassport = () => {
 
       const newUser = { firstName, lastName, email, age, password: createHash(password) };
 
-      const result = await UserManager.createUser(newUser);
+      const result = await UserManager.create(newUser);
       done(null, result);
 
     } catch (error) {
@@ -59,6 +60,7 @@ const initializePassport = () => {
         }
 
         const user = await UserManager.getByEmail({ email });
+
         if (!user) {
           return done(null, false, { message: 'User does not exist.' });
         }
@@ -84,6 +86,7 @@ const initializePassport = () => {
     session: false
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
+      // console.log('profile', profile)
       const user = await UserManager.getByEmail({ email: profile._json.email })
       if (!user) {
         const newUser = {
@@ -94,7 +97,7 @@ const initializePassport = () => {
           password: '',
           role: 'user',
         }
-        const result = await UserManager.createUser(newUser)
+        const result = await UserManager.create(newUser)
         return done(null, result)
       } else {
         return done(null, user)

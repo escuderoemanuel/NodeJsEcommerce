@@ -11,12 +11,12 @@ passwordResetForm.addEventListener('submit', async (e) => {
 
   if (password !== passwordConfirm) {
     // Mostrar error si las contraseñas no coinciden
-    document.querySelector('.errorMessage').textContent = 'Passwords do not match.';
+    document.querySelector('.infoMessage').textContent = 'Passwords do not match.';
     return;
   }
 
   // Limpiar cualquier error previo
-  document.querySelector('.errorMessage').textContent = '';
+  document.querySelector('.infoMessage').textContent = '';
 
   // Construir el payload
   data.forEach((value, key) => {
@@ -35,12 +35,14 @@ passwordResetForm.addEventListener('submit', async (e) => {
 
       if (!response.ok) {
         const errorMessage = response.json(); // Aquí esperamos la respuesta JSON
-        document.querySelector('.errorMessage').textContent = errorMessage.error;
+        console.log('errorMessage', errorMessage)
+        document.querySelector('.infoMessage').textContent = errorMessage.error;
         return;
       }
 
       if (response.status === 200) {
-        document.querySelector('.errorMessage').textContent = 'Password reset successful...';
+        // console.log('Password reset successful.');
+        document.querySelector('.infoMessage').textContent = 'Password reset successful...';
 
         // Redirigir al usuario a la página de inicio de sesión después de un tiempo
         setTimeout(() => {
@@ -52,7 +54,7 @@ passwordResetForm.addEventListener('submit', async (e) => {
 
   } catch (error) {
     console.error('Password reset failed:', error);
-    document.querySelector('.errorMessage').textContent = 'Error processing your request. Please try again later.';
+    document.querySelector('.infoMessage').textContent = 'Error processing your request. Please try again later.';
   } finally {
     // Restablecer el formulario, independientemente del resultado
     passwordResetForm.reset();
