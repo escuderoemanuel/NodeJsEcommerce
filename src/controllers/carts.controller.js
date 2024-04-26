@@ -1,6 +1,5 @@
-const CartsService = require('../services/carts.service');
-const ProductsService = require('../services/products.service');
-const cartsService = new CartsService();
+const { cartsService, productsService } = require('../repositories');
+
 
 class CartsController {
 
@@ -24,12 +23,14 @@ class CartsController {
 
   static async getById(req, res) {
     try {
+      const user = req.user;
       const cid = req.params.cid;
       const cart = await cartsService.getById(cid);
       if (!cart) {
         res.status(400).send('Cart does not exist')
       } else {
-        res.send(cart);
+        // res.send(cart);
+        res.render('userCart', { ...cart, user });
       }
     } catch (error) {
       res.status(400).send({ error: error.message });
@@ -43,6 +44,8 @@ class CartsController {
       const cart = await cartsService.addProduct(cid, pid);
       res.send({ status: 'success', cart });
     } catch (error) {
+      console.log(error)
+
       res.status(400).send({ error: error.message });
     }
   }
@@ -51,8 +54,8 @@ class CartsController {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
-      await cartsService.deleteProductFromCartById(cid, pid);
-      res.send({ status: 'success', message: 'Product successfully removed' });
+      const result = await cartsService.deleteProductFromCartById(cid, pid);
+      res.send({ status: 'success', message: 'Product successfully removed', result });
     } catch (error) {
       res.status(400).send({ error: error.message });
     }
@@ -84,6 +87,32 @@ class CartsController {
       })
     } catch (error) {
       res.status(400).send({ error: error.message });
+    }
+  }
+
+
+  static async getProducts(req, res) {
+    try {
+      const { docs, ...rest } = await productsService.getAll(req.query);
+      const cart = await cartsService.getById(req.user.cart)
+      res.render('userCart', { products: docs, user: req.user, cart, ...rest })
+    } catch (error) {
+      res.status(error.status || 500).send({ status: 'error', error: error.message })
+    }
+  }
+
+
+  static async purchase(req, res) {
+    console.log('Entrando a cart controller purchase')
+    const { cid } = req.params;
+    console.log('Entrando a cart controller purchase cid', cid)
+    try {
+      const remainderItems = await cartsService.purchase(cid, req.user.email)
+
+      res.send({ status: 'success', payload: remainderItems })
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status || 500).send({ status: 'error', error: error.message })
     }
   }
 }

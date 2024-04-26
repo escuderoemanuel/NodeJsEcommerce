@@ -44,3 +44,29 @@
 .navBar a:hover {
   text-shadow: 0px 0px 5px white;
 }
+
+/*? PROFILE  */
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile a {
+  text-decoration: none;
+}
+
+.userData {
+  align-items: flex-start;
+}
+
+.profile span {
+  font-weight: bold;
+}
+
+.btnLogout {
+  padding: .5rem 1rem;
+  display: flex;
+  font-weight: bold;
+}

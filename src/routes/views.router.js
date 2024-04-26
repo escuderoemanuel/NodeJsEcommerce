@@ -1,25 +1,26 @@
 const { Router } = require('express');
-const { publicAuthentication, privateAuthentication } = require('../middlewares/middlewares');
-const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 const ViewsController = require('../controllers/views.controller');
-
-const productsManager = new ProductsDbManager();
-
+const { verifyToken } = require('../middlewares/verifyToken.middleware');
+const getRole = require('../middlewares/getRole.middleware');
 const viewsRouter = Router();
 
 // Routes
-viewsRouter.get('/home', ViewsController.getHome)
+viewsRouter.get('/home', verifyToken, ViewsController.getHome)
 
-viewsRouter.get('/realtimeproducts', privateAuthentication, ViewsController.getRealTimeProducts)
+viewsRouter.get('/realtimeproducts', verifyToken, /* getRole('admin'), */ ViewsController.getRealTimeProducts)
 
-viewsRouter.get('/register', publicAuthentication, ViewsController.getRegister)
+viewsRouter.get('/register', ViewsController.getRegister)
 
-viewsRouter.get('/login', publicAuthentication, ViewsController.getLogin)
+viewsRouter.get('/login', ViewsController.getLogin)
 
-viewsRouter.get('/resetPassword', publicAuthentication, ViewsController.getResetPassword);
+viewsRouter.get('/resetPassword', ViewsController.getResetPassword);
 
-viewsRouter.get('/profile', privateAuthentication, ViewsController.getProfile)
+viewsRouter.get('/profile', verifyToken, ViewsController.getProfile)
 
-viewsRouter.get('/*', publicAuthentication, ViewsController.getPublicRoute)
+viewsRouter.get('/current', verifyToken, ViewsController.getCurrent);
+
+viewsRouter.get('/chat', verifyToken, ViewsController.getChat);
+
+viewsRouter.get('/*', ViewsController.getPublicRoute)
 
 module.exports = viewsRouter;

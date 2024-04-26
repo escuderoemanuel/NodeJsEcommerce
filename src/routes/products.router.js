@@ -1,6 +1,7 @@
 const { Router } = require('express');
-const { verifyToken } = require('../utils');
+const { verifyToken } = require('../middlewares/verifyToken.middleware');
 const ProductsController = require('../controllers/products.controller');
+const getRole = require('../middlewares/getRole.middleware');
 
 const router = Router();
 
@@ -8,15 +9,15 @@ const router = Router();
 router.get('/', verifyToken, ProductsController.getAll)
 
 // Deberá traer sólo el producto con el id proporcionado
-router.get('/:pid', ProductsController.getById)
+router.get('/:pid', verifyToken, ProductsController.getById)
 
 // Deberá agregar un nuevo producto
-router.post('/', ProductsController.create);
+router.post('/', verifyToken, getRole('admin'), ProductsController.create);
 
 // Deberá actualizar un producto existente con el id proporcionado.
-router.put('/:pid', ProductsController.update)
+router.put('/:pid', verifyToken, getRole('admin'), ProductsController.update)
 
 // Deberá eliminar un producto existente con el id proporcionado.
-router.delete('/:pid', ProductsController.delete)
+router.delete('/:pid', verifyToken, getRole('admin'), ProductsController.delete)
 
 module.exports = router;

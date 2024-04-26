@@ -1,4 +1,4 @@
-const UsersDao = require('../dao/managers/users.dao')
+const UsersDao = require('../dao/daoManagers/users.dao')
 
 class UsersService {
   constructor() {
@@ -23,6 +23,12 @@ class UsersService {
   async getByEmail(email) {
     const user = await this.usersDao.getByEmail(email)
     return user
+  }
+
+  async getByProperty(property, value) {
+    const item = await this.dao.getByProperty(property, value);
+    if (!item) throw { message: `There's no Item by ${property} = ${value}`, status: 400 }
+    return item;
   }
 
 

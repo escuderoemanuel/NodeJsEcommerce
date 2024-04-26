@@ -44,16 +44,16 @@ productList.addEventListener('click', async (e) => {
       const response = await fetch(`/api/products/${productId}`, {
         method: 'DELETE',
       })
-      // Este es el objeto del producto que estoy eliminando
-      const { payload } = await response.json();
-      // Aqui paso el producto al server
-      socket.emit('delete-product', payload);
-
+      if (response.status === 200) {
+        socket.emit('delete-product', response);
+      } else {
+        console.error('Failed to delete product');
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
-})
+});
 
 //! Agrego un producto a la base de datos y lo envio a todos los clientes conectados.
 formAddProduct.addEventListener('submit', async (e) => {

@@ -3,7 +3,6 @@ const UserModel = require('../models/user.model');
 class UsersDao {
 
   constructor() {
-    console.log('UserDao Intance')
   }
 
   async create(user) {
@@ -21,8 +20,15 @@ class UsersDao {
     return result;
   }
 
+  async getByProperty(property, value) {
+    let options = {}
+    options[property] = value;
+    let result = await UserModel.findOne(options).lean();
+    return result;
+  }
+
   async getByEmail(email) {
-    let result = await UserModel.findOne(email).lean();
+    let result = await UserModel.findOne({ email }).lean();
     return result;
   }
 

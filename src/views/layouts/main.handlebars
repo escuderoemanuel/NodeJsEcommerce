@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
   <link rel="stylesheet" href="/css/chatView.css">
-  <link rel="stylesheet" href="/css/cartsView.css">
+  <link rel="stylesheet" href="/css/userCartsView.css">
   <link rel="stylesheet" href="/css/productsView.css">
   <link rel="stylesheet" href="/css/btnPaginate.css">
   <link rel="stylesheet" href="/css/realTimeProductsView.css">
@@ -36,8 +36,29 @@
     <nav class='navBar'>
       <a href="/api/products">Products</a>
       <a href="/api/chat">Chat</a>
-      <a href="#">Cart</a>
+      <a href="/realtimeproducts">Real Time Products</a>
+      <a href="/api/carts/{{user.cart}}">Cart</a>
+      <a href="/current">Current</a>
     </nav>
+    <br>
+    {{#if user}}
+    <section class="profile">
+      <section class='userData'>
+        <p><span>Name:</span> {{user.firstName}} {{user.lastName}}</p>
+        <p><span>Email:</span> {{user.email}}</p>
+        {{#if user.age}}
+        <p><span>Age:</span> {{ user.age }}</p>
+        {{else}}
+        <p><span>Age:</span> N/A</p>
+        {{/if}}
+        <p><span>Role:</span> {{user.role}}</p>
+        <p><span>Cart:</span> {{user.cart}}</p>
+      </section>
+      <a href="/api/sessions/logout">
+        <button class='btnLogout'>Logout</button>
+      </a>
+    </section>
+    {{/if}}
   </header>
   <main class='main'>
     {{{body}}}

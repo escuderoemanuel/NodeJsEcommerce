@@ -1,11 +1,12 @@
 {
-  "name": "nodejsecommerce-layeredarchitecture",
-  "version": "1.7.0",
+  "name": "nodejsecommerce-v1.8-factorydaodto",
+  "version": "1.8.0",
   "description": "",
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js -p MONGO",
+    "memo": "nodemon src/app.js -p MEMORY"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,10 @@
   "dependencies": {
     "@sweetalert2/theme-dark": "^5.0.16",
     "bcrypt": "^5.1.1",
+    "commander": "^12.0.0",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
@@ -32,10 +35,12 @@
     "mongoose": "^8.1.3",
     "mongoose-paginate-v2": "^1.8.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.13",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "passport-local": "^1.0.0",
     "socket.io": "^4.7.4",
-    "sweetalert2": "^11.10.5"
+    "sweetalert2": "^11.6.13",
+    "uuid": "^9.0.1"
   }
 }

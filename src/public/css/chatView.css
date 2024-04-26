@@ -1,5 +1,6 @@
 /*? CHAT VIEW */
 .chatView {
+  width: 700px;
   background-color: rgba(255, 255, 255, .1);
   padding: 1rem;
   border-radius: 8px;
@@ -9,21 +10,19 @@
   align-items: center;
 }
 
-.headerChat h1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
 /* Header Chat */
 .headerChat {
   display: flex;
-  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.userNameFront {
+  margin: 0 .5rem;
 }
 
 .iconChat {
-  width: 50px;
+  width: 40px;
   height: auto;
 }
 
@@ -32,7 +31,7 @@
   align-items: center;
   background-color: #222222;
   border-radius: 5px;
-  align-self: flex-end;
+  align-self: center;
   margin-bottom: 1rem;
 }
 
@@ -44,8 +43,10 @@
 }
 
 .inputAndMessages {
+  width: 80%;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 }
 
 .messageInput {
@@ -55,14 +56,17 @@
 }
 
 .messagesLog {
+  width: 100%;
+  padding: 0% 2%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
   color: #222222;
 }
 
 .messageContainer {
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
   border-radius: 8px;
   padding: .5rem 1rem;
   display: flex;
@@ -70,15 +74,6 @@
   width: fit-content;
   align-items: flex-end;
   justify-content: end;
-}
-
-/* Estilos para cada hijo */
-.messageContainer:nth-child(odd) {
-  background-color: #f2cb5e;
-}
-
-.messageContainer:nth-child(even) {
-  background-color: #43c09e;
 }
 
 .messageInfo {
@@ -98,4 +93,16 @@
   margin: 2rem 0;
   line-height: 1.5;
 
+}
+
+/* Estilo para los mensajes enviados */
+.sentMessage {
+  background-color: #f2cb5e;
+  align-self: flex-end;
+}
+
+/* Estilo para los mensajes recibidos */
+.receivedMessage {
+  background-color: #43c09e;
+  align-self: flex-start;
 }

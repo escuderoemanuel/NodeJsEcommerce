@@ -1,7 +1,5 @@
-
-const ProductsService = require('../services/products.service');
+const { productsService } = require('../repositories');
 const ProductsModel = require('../dao/models/products.model');
-const productsService = new ProductsService();
 
 class ProductsController {
 
@@ -44,6 +42,7 @@ class ProductsController {
       }
 
       // Ejecuto la consulta pasando filter (si hay), más options
+      //let products = await ProductsModel.paginate(filter, options);
       let products = await ProductsModel.paginate(filter, options);
 
       // Creo un objeto para almacenar los parámetros de consulta de la url, para armar los links 'prev' y 'next'
@@ -57,6 +56,7 @@ class ProductsController {
       const baseUrl = req.baseUrl;
 
       // Creo los links para la paginación
+      // GPT Tip => URLSearchParams: permite crear un string con los parámetros de consulta de la url.
       const urlPrevLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.prevPage}`;
 
       const urlNextLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.nextPage}`;
@@ -76,8 +76,8 @@ class ProductsController {
         nextLink: products.hasNextPage ? urlNextLink : null,
       };
 
-      const userData = req.tokenUser.serializableUser;
-      const renderData = { paginateData, user: userData, products: paginateData.payload };
+      const user = req.user;
+      const renderData = { paginateData, user: user, products: paginateData.payload };
       res.render('products', renderData);
 
     } catch (error) {
@@ -101,7 +101,6 @@ class ProductsController {
       await productsService.create(req.body);
       res.send({ status: 'success', message: 'Product created' });
     } catch (error) {
-      console.log(error);
       res.status(400).send({ error: error.message });
     }
   }
@@ -121,7 +120,9 @@ class ProductsController {
   static async delete(req, res) {
     try {
       const pid = req.params.pid;
+
       const productToDelete = await productsService.getById(pid);
+
       await productsService.delete(pid);
       res.send({ status: 'success', deletedProduct: { productToDelete } });
     } catch (error) {

@@ -1,13 +1,12 @@
 const socket = io();
-let user;
 
 //! Elements
-const usernameFront = document.getElementById('usernameFront')
+const userNameFront = document.getElementById('userNameFront')
 const messageInput = document.getElementById("messageInput");
 const messagesLog = document.getElementById("messagesLog");
+let userName = userNameFront.innerHTML;
 
 //! Events & Socket Events
-
 
 ///SOCKET EMIT => Enviar Usuario a Atlas
 messageInput.addEventListener("keyup", (e) => {
@@ -15,7 +14,7 @@ messageInput.addEventListener("keyup", (e) => {
     if (messageInput.value.trim().length > 0) {
       // Send Event: user data
       socket.emit("userMessage", {
-        user: user,
+        user: userName,
         message: e.target.value,
         date: new Date().toLocaleString(),
 
@@ -26,28 +25,30 @@ messageInput.addEventListener("keyup", (e) => {
 })
 
 // SOCKET ON => Recive Event: new messages
+
 socket.on("messages", ({ messages }) => {
-  if (!user) return;
+  if (!userName) return;
   messagesLog.innerHTML = '';
   messages.forEach(message => {
+    const messageClass = message.user === userName ? 'sentMessage' : 'receivedMessage';
     messagesLog.innerHTML += `
-    <p class='messageContainer'>
-    <span class='messageInfo'>${message.date} ${message.user}</span>
-    
-    <span class='userMessage'>${message.message}</span>
-    </p>
+      <p class='messageContainer ${messageClass}'>
+        <span class='messageInfo'>${message.date} ${message.user}</span>
+        <span class='userMessage'>${message.message}</span>
+      </p>
     `;
-  })
+  });
   messagesLog.scrollTop = messagesLog.scrollHeight;
-})
+});
+
 
 // Socket New User Connected
-socket.on("newUserConnected", ({ user }) => {
-  if (!user) return;
+socket.on("newUserConnected", ({ userName }) => {
+  if (!userName) return;
   // Alert New User Connected
   Swal.fire({
     color: "#eee",
-    text: `🔔 ${user} has joined the chat!`,
+    text: `🔔 ${userName} has joined the chat!`,
     toast: true,
     position: 'top-right',
     timer: 2000,
@@ -59,20 +60,19 @@ socket.on("newUserConnected", ({ user }) => {
 
 // Login
 Swal.fire({
-  color: "#eee",
-  background: "#222",
+  color: "#fff",
+  background: "#43c09e",
   radius: 2,
-  title: "👋 Hey, welcome! 😉",
-  text: "Enter your email 👇",
-  input: "email",
-  confirmButtonColor: "#43c09e",
-  allowOutsideClick: false
+  title: "👋 Hey, welcome to our chat! 😉",
+  timer: 2000,
+  showConfirmButton: false,
+
 }).then((result) => {
   user = result.value;
-  usernameFront.innerHTML = `${user}`;
-  socket.emit("newUser", user);
+  userName = `${userName}`;
+  socket.emit("newUser", userName);
   // Send Event Auth
-  socket.emit("authenticated", { user });
+  socket.emit("authenticated", { userName });
 });
 
 

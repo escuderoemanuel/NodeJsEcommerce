@@ -1,11 +1,12 @@
 const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
+const { productsService } = require('../repositories');
 const manager = new ProductsDbManager();
 
 
 class HomeViewController {
   static async getHome(req, res) {
     try {
-      let result = await manager.getProducts(req, res);
+      let result = await productsService.getAll(req, res)
       let paginateData = result.paginateData
       // Esto es para darle mejor formato al json en el navegador (personalmente prefiero la extensión de navegador 'JSON Viewer Pro')
       res.setHeader('Content-Type', 'application/json');

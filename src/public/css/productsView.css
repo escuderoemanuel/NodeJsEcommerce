@@ -14,7 +14,6 @@
 }
 
 /* Container General */
-/* .productsContainer {} */
 
 /* Card */
 .product {
@@ -71,19 +70,4 @@
 
 .btnAddToCart {
   margin-top: auto;
-}
-
-/*? PROFILE  */
-.profile {
-  flex-direction: column;
-}
-
-.userData {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.profile span {
-  font-weight: bold;
 }

@@ -1,18 +1,11 @@
-const { MONGO_URL, PORT } = require('./config/environment.config.js');
+const mongoose = require('mongoose')
+const { PORT, MONGO_URL } = require('./config/environment.config');
+const cors = require('cors');
 
-// Mongoose Init & Connect
-const mongoose = require('mongoose');
-mongoose.connect(`${MONGO_URL}`)
-  .then(() => {
-    console.log('DB Connected Succesfully')
-  })
-const MongoStore = require('connect-mongo');
+const handlebars = require('express-handlebars');
 
 // Solamente traemos Server de io
 const { Server } = require('socket.io');
-
-// Handlebars
-const handlebars = require('express-handlebars');
 
 // Cookie Parser
 const cookieParser = require('cookie-parser');
@@ -21,9 +14,6 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const serverMessage = `Server is running on port ${PORT}`;
 const app = express();
-
-// Session Settings
-const session = require('express-session');
 
 
 // Imports
@@ -38,10 +28,10 @@ app.use(passport.initialize());
 const MessagesModel = require('./dao/models/messages.model.js');
 const cartsRouter = require('./routes/carts.router.js');
 const productsRouter = require('./routes/products.router.js');
-const realtimeproducts = require('./routes/realtimeproducts.router.js');
 const chatRouter = require('./routes/chat.router.js');
 const sessionRouter = require('./routes/sessions.router.js');
 const viewsRouter = require('./routes/views.router.js');
+const { productsService } = require('./repositories/index.js');
 
 // Public Folder
 app.use(express.static(`${__dirname}/public`))
@@ -49,6 +39,8 @@ app.use(express.static(`${__dirname}/public`))
 // Json & Body Params
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors());
+
 
 
 // Handlebars
@@ -62,7 +54,6 @@ app.use('/api/sessions', sessionRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/chat', chatRouter)
-app.use('/api/realtimeproducts', realtimeproducts)
 app.use('/', viewsRouter)
 
 // Server
@@ -74,27 +65,28 @@ const server = app.listen(PORT, () => {
 const io = new Server(server);
 
 io.on('connection', async (socket) => {
-
-  console.log('Connected User Socket...')
+  const sockerId = socket.id;
+  console.log(`Socket Connected..`)
 
   //! Products Events
-  socket.on('delete-product', (data) => {
-    const products = data.products.paginateData.payload;
+  socket.on('delete-product', async (data) => {
+    await productsService.delete(data.productId);
+    const products = await productsService.getAll();
     io.emit('update-products', products)
   })
 
-  socket.on('add-product', (data) => {
-    const products = data.products.paginateData.payload;
+  socket.on('add-product', async (data) => {
+    const products = await productsService.getAll();
     io.emit('update-products', products)
   })
 
   //! Messages Events
   // Recive Event: user authenticated
-  socket.on('authenticated', ({ user }) => {
+  socket.on('authenticated', ({ userName }) => {
     // Send Event with the messages in the array: for this client-socket!
     socket.emit('messages', { messages });
     // Send Event: for all users except the one connecting!
-    socket.broadcast.emit('newUserConnected', { user });
+    socket.broadcast.emit('newUserConnected', { userName });
   })
 
   //! Guarda en ATLAS
@@ -112,7 +104,7 @@ io.on('connection', async (socket) => {
 
   //! Connection Finished
   socket.on('disconnect', () => {
-    console.log(`User ${socket.id} disconnected...`)
+    console.log(`Socket Disconnected...`)
   })
 })
 

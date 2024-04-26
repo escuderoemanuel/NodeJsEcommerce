@@ -1,11 +1,16 @@
 const UserModel = require('../dao/models/user.model');
 const { createHash, isValidPassword } = require('../utils');
-const { generateToken, verifyToken } = require('../utils');
+const jwt = require('jsonwebtoken');
+const { JWT_PRIVATE_KEY } = require('../config/environment.config');
+
+const MailingsService = require('../services/mailings.service');
+const mailingsService = new MailingsService();
 
 class SessionsController {
-
   //? REGISTER
   static async registerUser(req, res) {
+
+    await mailingsService.sendRegisterEmail(req.user.email);
     res.send({ status: 'success', message: 'Successfully registered user.' });
   }
 
@@ -14,32 +19,36 @@ class SessionsController {
   }
 
   //? LOGIN
-
   static async loginUser(req, res) {
+    try {
+      const { _id, firstName, lastName, email, age, role, password, cart } = req.user;
 
-    const { _id, firstName, lastName, email, age, role, password, cart } = req.user;
-    const serializableUser = {
-      id: _id,
-      firstName,
-      lastName,
-      email,
-      age,
-      role,
-      password,
-      cart
+      const serializableUser = {
+        id: _id,
+        firstName,
+        lastName,
+        email,
+        age,
+        role,
+        password,
+        cart
+      }
+
+      const accessToken = jwt.sign(serializableUser, JWT_PRIVATE_KEY, { expiresIn: '1d' });
+      res.cookie('accessToken', accessToken, serializableUser);
+      res.send({ status: 'success', message: 'User logged successfuly' })
+    } catch (error) {
+      res.status(500).send({ error: 'Internal server error' });
     }
-
-    const accessToken = generateToken(serializableUser);
-    res.cookie('accessToken', accessToken);
-    res.send({ status: 'success', message: 'Successfully logged in', payload: accessToken, serializableUser })
   }
-
   static async getLoginError(req, res) {
     res.status(401).send({ status: 'error', error: 'Login failed' });
   }
 
   //? LOGOUT
   static async logout(req, res) {
+    // Remove storageUserEmail from localStorage
+    //localStorage.removeItem('storageUserEmail');
     res.clearCookie('accessToken');
     res.redirect('/login');
   }
@@ -69,34 +78,29 @@ class SessionsController {
 
   //? GITHUB ACCOUNT
   static async githubLogin(req, res) {
-
   }
 
   static async githubCallback(req, res) {
-    const { _id, firstName, lastName, email, age, role, password, cart } = req.user;
+    try {
+      const { _id, firstName, lastName, email, age, role, password, cart } = req.user;
 
-    const serializableUser = {
-      id: _id,
-      firstName,
-      lastName,
-      email,
-      age,
-      role,
-      password,
-      cart
+      const serializableUser = {
+        id: _id,
+        firstName,
+        lastName,
+        email,
+        age,
+        role,
+        password,
+        cart
+      }
+      const accessToken = jwt.sign(serializableUser, JWT_PRIVATE_KEY, { expiresIn: '1d' });
+      res.cookie('accessToken', accessToken, serializableUser);
+      res.redirect('/api/products')
+    } catch (error) {
+      res.status(error.status || 500).send({ status: 'error', message: error.message })
     }
-    const accessToken = generateToken(serializableUser);
-    res.cookie('accessToken', accessToken, serializableUser);
-    res.redirect('/api/products')
-
   }
-
-  //? CURRENT SESSION
-  static async currentSession(req, res) {
-    const user = req.tokenUser;
-    res.send({ payload: user });
-  }
-
 }
 
 module.exports = SessionsController;

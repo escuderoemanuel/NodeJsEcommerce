@@ -1,8 +1,5 @@
 const { Router } = require('express');
-const UserModel = require('../dao/models/user.model');
-const { createHash, isValidPassword } = require('../utils');
 const passport = require('passport');
-const { generateToken, verifyToken } = require('../utils');
 const sessionRouter = Router();
 const SessionsController = require('../controllers/sessions.controller')
 
@@ -35,7 +32,6 @@ sessionRouter.get('/github', passport.authenticate('github', { scope: ['user:ema
 
 sessionRouter.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login', session: false }), SessionsController.githubCallback);
 
-//? CURRENT
-sessionRouter.get('/current', verifyToken, SessionsController.currentSession)
+
 
 module.exports = sessionRouter;

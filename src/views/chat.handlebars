@@ -1,18 +1,17 @@
 <section class='chatView'>
 
   <div class='headerChat'>
-    <h1>Chat View
-      <img class='iconChat' src='../images/chatIcon.png' alt="Chat Icon">
-    </h1>
   </div>
+  {{!-- Chat Header --}}
   <div class='userDiv'>
     <img class='iconUser' src="../images/user.svg" alt="User Icon">
-    <p class='usernameFront' id='usernameFront'></p>
+    <p class='userNameFront' id='userNameFront'>{{user.email}}</p>
+    <img class='iconChat' src='../images/chatIcon.png' alt="Chat Icon">
   </div>
-
+  {{!-- Chat Messages --}}
   <div class='inputAndMessages'>
-    <input class='messageInput' id='messageInput' type="text" placeholder='Enter your message...'>
     <p class='messagesLog' id='messagesLog'></p>
+    <input class='messageInput' id='messageInput' type="text" placeholder='Enter your message...'>
   </div>
 
   {{!-- Dependencies --}}

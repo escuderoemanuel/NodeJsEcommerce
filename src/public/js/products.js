@@ -1,9 +1,44 @@
 const socket = io();
 
-// ul (cardContainer)
 const productList = document.getElementById('products');
-// form
-const formAddProduct = document.getElementById('formAddProduct');
+/* ADD */
+const btnAddToCart = document.getElementById('btnAddToCart');
+
+const addProductToCart = (cid, pid) => {
+  fetch(`/api/carts/${cid}/product/${pid}`, {
+    method: "POST"
+  }).then(res => {
+    if (res.status == 200) {
+      window.location.reload();
+    }
+  })
+}
+
+const addToCart = (cid, pid) => {
+  fetch(`/api/carts/${cid}/product/${pid}`, {
+    method: "POST"
+  }).then(res => {
+    if (res.status == 200) {
+      window.location.reload();
+    }
+  });
+};
+
+// Agrega un listener de eventos al contenedor de productos
+productList.addEventListener('click', async (e) => {
+  // Verifica si el clic fue en un botón 'Add to Cart'
+  if (e.target.classList.contains('btnAddToCart')) {
+    // Extrae el ID del producto del ID del botón
+    const pid = e.target.id.split('-')[1];
+
+    // Obtiene el valor del carrito directamente del elemento p
+    const cartElement = document.querySelector('.cartValue');
+    const cid = cartElement.textContent;
+    // Llama a la función addToCart con el cid y el productId
+    addToCart(cid, pid);
+  }
+});
+
 
 
 //! Recibo la lista actualizada de productos y la renderizo en el cliente.

@@ -1,27 +1,6 @@
 <section class='products'>
-  <div class="profile">
-    <h3>Welcome 😊</h3>
-    <br>
-    <div class='userData'>
-      {{#if user}}
-      <p><span>Name:</span> {{user.firstName}} {{user.lastName}}</p>
-      {{/if}}
-      <p><span>Email:</span> {{user.email}}</p>
-      {{#if user.age}}
-      <p><span>Age:</span> {{ user.age }}</p>
-      {{/if}}
-      <p><span>Role:</span> {{user.role}}</p>
-    </div>
-    <a href="/api/sessions/logout">
-      <button>Logout</button>
-    </a>
-    <br>
-  </div>
 
-
-  <h1 class='viewTitle'>View Products List Handlebars!</h1>
-
-
+  {{!-- <p class="cartValue"><span>{{user.cart}}</p> --}}
   <ul id='products' class='productsContainer'>
     {{#each products}}
     <li class='product'>
@@ -42,7 +21,13 @@
         <p> <span>category:</span> {{this.category}}</p>
         <p> <span>status:</span> {{this.status}}</p>
       </div>
-      <button class='btnAddToCart'>Add to Cart</button>
+
+      <button class='btnAddToCart' id='btnAddToCart-{{this._id}}' data-id='btnAddToCart' cid='cid-{{user.cart}}'
+        onclick='addToCart("{{../user.cart}}", "{{this._id}}")'>
+        Add to Cart
+      </button>
+
+
     </li>
     {{/each}}
   </ul>

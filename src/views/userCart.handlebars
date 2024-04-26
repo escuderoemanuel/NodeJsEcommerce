@@ -1,0 +1,42 @@
+<section class='carts'>
+
+  <table class='cartTable'>
+    <thead>
+      <tr>
+        <th class='col'>Product Title</th>
+        <th class='col'>Product ID</th>
+        <th class='col'>Quantity</th>
+        <th class='col'>Stock</th>
+        <th class='col'>Price</th>
+        <th class='col'>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#if products}}
+      {{#each products}}
+      <tr class='cart'>
+        <td class='col'>{{this.product.title}}</td>
+        <td class='col'>{{this.product._id}}</td>
+        <td class='col'>{{this.quantity}}</td>
+        <td class='col'>{{this.product.stock}}</td>
+        <td class='col'>${{this.product.price}}</td>
+        <td class='btnDeleteProductById' onclick="deleteFromCart('{{../this._id}}','{{this.product._id}}')">
+          🗑️
+        </td>
+      </tr>
+      {{/each}}
+      {{else}}
+      <tr class='cart'>
+        <td colspan='6' class='col'>There are no products in the cart!</td>
+      </tr>
+      {{/if}}
+
+    </tbody>
+  </table>
+  <button id='btnPurchaseCart' onclick="purchaseCart('{{this._id}}')">Purchase Cart</button>
+</section>
+
+
+
+<script src=' /socket.io/socket.io.js'></script>
+<script src='/js/carts.js'></script>

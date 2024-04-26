@@ -6,12 +6,15 @@ class ProductsDao {
     return await ProductsModel.create(product);
   }
 
-  async getAll() {
+  async getAll(options, paginateData) {
+    if (options && paginateData) {
+      return await ProductsModel.paginate(options, paginateData);
+    }
     return await ProductsModel.find().lean();
   }
 
-  async getById(pid) {
-    return await ProductsModel.findOne({ _id: pid }).lean();
+  async getById(id) {
+    return await ProductsModel.findOne({ _id: id }).lean();
   }
 
   async update(pid, product) {

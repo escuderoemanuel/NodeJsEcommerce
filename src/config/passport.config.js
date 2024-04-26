@@ -1,15 +1,13 @@
+const { GITHUB_CLIENT_ID, GITHUB_CALLBACK_URL, GITHUB_CLIENT_SECRET } = require('../config/environment.config');
 const passport = require('passport');
 const local = require('passport-local');
 const github = require('passport-github2');
 const { createHash, isValidPassword } = require('../utils');
-
-const UsersService = require('../services/users.service');
-const { GITHUB_CLIENT_ID, GITHUB_CALLBACK_URL, GITHUB_CLIENT_SECRET } = require('./environment.config');
-const UserManager = new UsersService();
+const { cartsService, usersService } = require('../repositories');
+const UserModel = require('../dao/models/user.model');
 
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = github.Strategy;
-
 
 const initializePassport = () => {
 
@@ -20,23 +18,23 @@ const initializePassport = () => {
     session: false
   }, async (req, email, password, done) => {
 
-    try {
+    let existingUser;
+    existingUser = await usersService.getByEmail(email);
 
-      const { firstName, lastName, email, age } = req.body;
-      if (!firstName || !lastName || !email || !age || !password) {
+    try {
+      const { firstName, lastName, email, password, age } = req.body;
+      if (!firstName || !lastName || !email || !password || !age) {
         return done(null, false, { message: 'All fields are required.' });
       }
 
-      const existingUser = await UserManager.getByEmail({ email });
       if (existingUser) {
         return done(null, false, { message: 'The user is already registered.' });
       }
 
-      const newUser = { firstName, lastName, email, age, password: createHash(password) };
-
-      const result = await UserManager.create(newUser);
-      done(null, result);
-
+      const cart = await cartsService.create();
+      const newUserData = { firstName, lastName, email, age, password: createHash(password), cart: cart._id };
+      let result = await usersService.create(newUserData);
+      return done(null, result);
     } catch (error) {
       done(error);
     }
@@ -58,8 +56,7 @@ const initializePassport = () => {
           })
         }
 
-        const user = await UserManager.getByEmail({ email });
-
+        const user = await usersService.getByEmail(email);
         if (!user) {
           return done(null, false, { message: 'User does not exist.' });
         }
@@ -77,7 +74,6 @@ const initializePassport = () => {
 
 
   //? GITHUB STRATEGY
-
   passport.use('github', new GitHubStrategy({
     clientID: GITHUB_CLIENT_ID,
     callbackURL: GITHUB_CALLBACK_URL,
@@ -85,23 +81,26 @@ const initializePassport = () => {
     session: false
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
-      const user = await UserManager.getByEmail({ email: profile._json.email })
+      const user = await UserModel.findOne({ email: profile._json.email })
+      const firstName = profile._json.name.split(' ')[0];
+      const lastName = profile._json.name.split(' ')[1];
       if (!user) {
-        const newUser = {
-          firstName: profile._json.name,
-          lastName: '',
-          age: 18,
+        const cart = await cartsService.create();
+        const newUserData = {
+          firstName: firstName,
+          lastName: lastName,
           email: profile._json.email,
-          password: '',
+          password: '****',
           role: 'user',
+          cart: cart._id
         }
-        const result = await UserManager.create(newUser)
+        const result = await UserModel.create(newUserData)
         return done(null, result)
       } else {
         return done(null, user)
       }
     } catch (error) {
-      return done('ERROR:', error)
+      done(error)
     }
   }))
 }
@@ -112,10 +111,10 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await UserManager.getById({ _id: id });
-    return done(null, user)
+    const user = await UserModel.findOne({ _id: id });
+    done(null, user)
   } catch (error) {
-    return done('ERROR:', error)
+    done(error)
   }
 })
 
