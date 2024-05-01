@@ -1,5 +1,8 @@
 const { productsService } = require('../repositories');
 const ProductsModel = require('../dao/models/products.model');
+const CustomErrors = require('../utils/errors/CustomErrors');
+const { getCreateProductErrorInfo } = require('../utils/errors/ErrorInfo');
+const TypesOfErrors = require('../utils/errors/TypesOfErrors');
 
 class ProductsController {
 
@@ -42,7 +45,6 @@ class ProductsController {
       }
 
       // Ejecuto la consulta pasando filter (si hay), más options
-      //let products = await ProductsModel.paginate(filter, options);
       let products = await ProductsModel.paginate(filter, options);
 
       // Creo un objeto para almacenar los parámetros de consulta de la url, para armar los links 'prev' y 'next'
@@ -56,7 +58,6 @@ class ProductsController {
       const baseUrl = req.baseUrl;
 
       // Creo los links para la paginación
-      // GPT Tip => URLSearchParams: permite crear un string con los parámetros de consulta de la url.
       const urlPrevLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.prevPage}`;
 
       const urlNextLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.nextPage}`;
@@ -98,12 +99,21 @@ class ProductsController {
 
   static async create(req, res) {
     try {
+      const { title, description, code, price, stock, category, status } = req.body;
+      if (!title || !description || !code || !price || !stock || !category || !status)
+      throw new CustomErrors({
+        name: 'Product creation error',
+        cause: getCreateProductErrorInfo(req.body),
+        message: 'Error creating product',
+        code: TypesOfErrors.INVALID_PRODUCT_DATA
+      })
       await productsService.create(req.body);
       res.send({ status: 'success', message: 'Product created' });
     } catch (error) {
       res.status(400).send({ error: error.message });
     }
   }
+
 
   static async update(req, res) {
     try {

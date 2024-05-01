@@ -1,17 +1,36 @@
 const UserModel = require('../dao/models/user.model');
-const { createHash, isValidPassword } = require('../utils');
+const { createHash, isValidPassword } = require('../utils/utils');
 const jwt = require('jsonwebtoken');
 const { JWT_PRIVATE_KEY } = require('../config/environment.config');
+const CustomErrors = require('../utils/errors/CustomErrors');
+
 
 const MailingsService = require('../services/mailings.service');
+const { getUserRegisterErrorInfo } = require('../utils/errors/ErrorInfo');
+const TypesOfErrors = require('../utils/errors/TypesOfErrors');
 const mailingsService = new MailingsService();
 
 class SessionsController {
   //? REGISTER
   static async registerUser(req, res) {
 
-    await mailingsService.sendRegisterEmail(req.user.email);
-    res.send({ status: 'success', message: 'Successfully registered user.' });
+    try {
+      const { firstName, lastName, age, email, password } = req.body;
+      if (!firstName || !lastName || !age || !email || !password) {
+        throw new CustomErrors({
+          name: 'User creation error',
+          cause: getUserRegisterErrorInfo({ firstName, lastName, age, email, password }),
+          message: 'Error creating user',
+          code: TypesOfErrors.REGISTRATION_ERROR
+        })
+      }
+
+      await mailingsService.sendRegisterEmail(req.user.email);
+      res.send({ status: 'success', message: 'Successfully registered user.' });
+    } catch (error) {
+
+    }
+
   }
 
   static async getRegisterError(req, res) {

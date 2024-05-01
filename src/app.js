@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { PORT, MONGO_URL } = require('./config/environment.config');
+const { PORT } = require('./config/environment.config');
 const cors = require('cors');
 
 const handlebars = require('express-handlebars');
@@ -32,6 +32,10 @@ const chatRouter = require('./routes/chat.router.js');
 const sessionRouter = require('./routes/sessions.router.js');
 const viewsRouter = require('./routes/views.router.js');
 const { productsService } = require('./repositories/index.js');
+const mockingProducts = require('./routes/mockingProducts.js');
+const errorHandler = require('./middlewares/errorHandler.middleware.js');
+const { getTestToken } = require('./controllers/testToken.controller.js');
+
 
 // Public Folder
 app.use(express.static(`${__dirname}/public`))
@@ -54,6 +58,8 @@ app.use('/api/sessions', sessionRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/chat', chatRouter)
+app.use('/api/mockingProducts', mockingProducts)
+app.get('/api/testToken', getTestToken);
 app.use('/', viewsRouter)
 
 // Server
@@ -109,3 +115,4 @@ io.on('connection', async (socket) => {
 })
 
 
+app.use(errorHandler)

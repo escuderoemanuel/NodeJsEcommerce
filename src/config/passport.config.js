@@ -2,7 +2,7 @@ const { GITHUB_CLIENT_ID, GITHUB_CALLBACK_URL, GITHUB_CLIENT_SECRET } = require(
 const passport = require('passport');
 const local = require('passport-local');
 const github = require('passport-github2');
-const { createHash, isValidPassword } = require('../utils');
+const { createHash, isValidPassword } = require('../utils/utils');
 const { cartsService, usersService } = require('../repositories');
 const UserModel = require('../dao/models/user.model');
 

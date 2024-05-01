@@ -1,6 +1,6 @@
 {
-  "name": "nodejsecommerce-v1.8-factorydaodto",
-  "version": "1.8.0",
+  "name": "nodejsecommerce-v1.9-fakeranderrors",
+  "version": "1.9.0",
   "description": "",
   "main": "src/app.js",
   "scripts": {
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/escuderoemanuel/NodeJsEcommerce#readme",
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@sweetalert2/theme-dark": "^5.0.16",
     "bcrypt": "^5.1.1",
     "commander": "^12.0.0",
@@ -27,7 +28,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",

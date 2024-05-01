@@ -1,5 +1,7 @@
 const { cartsService, productsService } = require('../repositories');
-
+const { getAddProductToCartErrorInfo } = require('../utils/errors/ErrorInfo');
+const TypesOfErrors = require('../utils/errors/TypesOfErrors');
+const CustomErrors = require('../utils/errors/CustomErrors');
 
 class CartsController {
 
@@ -36,17 +38,24 @@ class CartsController {
       res.status(400).send({ error: error.message });
     }
   }
-
-  static async addProductToCart(req, res) {
+  static async addProductToCart(req, res, next) {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
+
+      if (!cid || !pid) {
+        throw new CustomErrors({
+          name: 'Product added error',
+          cause: getAddProductToCartErrorInfo(cid, pid),
+          message: 'Error adding product to the cart',
+          code: TypesOfErrors.INVALID_PRODUCT_DATA
+        })
+      }
+
       const cart = await cartsService.addProduct(cid, pid);
       res.send({ status: 'success', cart });
     } catch (error) {
-      console.log(error)
-
-      res.status(400).send({ error: error.message });
+      next(error)
     }
   }
 
@@ -103,15 +112,12 @@ class CartsController {
 
 
   static async purchase(req, res) {
-    console.log('Entrando a cart controller purchase')
     const { cid } = req.params;
-    console.log('Entrando a cart controller purchase cid', cid)
     try {
       const remainderItems = await cartsService.purchase(cid, req.user.email)
 
       res.send({ status: 'success', payload: remainderItems })
     } catch (error) {
-      console.log(error)
       return res.status(error.status || 500).send({ status: 'error', error: error.message })
     }
   }
