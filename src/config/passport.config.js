@@ -81,7 +81,8 @@ const initializePassport = () => {
     session: false
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
-      const user = await UserModel.findOne({ email: profile._json.email })
+      // const user = await UserModel.findOne({ email: profile._json.email })
+      const user = await usersService.getByEmail(profile._json.email)
       const firstName = profile._json.name.split(' ')[0];
       const lastName = profile._json.name.split(' ')[1];
       if (!user) {
@@ -94,7 +95,7 @@ const initializePassport = () => {
           role: 'user',
           cart: cart._id
         }
-        const result = await UserModel.create(newUserData)
+        const result = await usersService.create(newUserData)
         return done(null, result)
       } else {
         return done(null, user)

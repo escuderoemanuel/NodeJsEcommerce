@@ -1,13 +1,12 @@
-const UserModel = require('../dao/models/user.model');
 const { createHash, isValidPassword } = require('../utils/utils');
 const jwt = require('jsonwebtoken');
 const { JWT_PRIVATE_KEY } = require('../config/environment.config');
 const CustomErrors = require('../utils/errors/CustomErrors');
 
-
 const MailingsService = require('../services/mailings.service');
 const { getUserRegisterErrorInfo } = require('../utils/errors/ErrorInfo');
 const TypesOfErrors = require('../utils/errors/TypesOfErrors');
+const { usersService } = require('../repositories');
 const mailingsService = new MailingsService();
 
 class SessionsController {
@@ -66,8 +65,6 @@ class SessionsController {
 
   //? LOGOUT
   static async logout(req, res) {
-    // Remove storageUserEmail from localStorage
-    //localStorage.removeItem('storageUserEmail');
     res.clearCookie('accessToken');
     res.redirect('/login');
   }
@@ -79,13 +76,13 @@ class SessionsController {
       if (!email || !password || !passwordConfirm) {
         return res.status(400).send({ error: 'Missing data' });
       }
-      const user = await UserModel.findOne({ email });
+      const user = await usersService.getByEmail(email);
       if (!user) {
         return res.status(404).send({ error: 'User not found' });
       }
       // Aquí podría enviar un correo electrónico para resetear la contraseña
       const hashedPassword = createHash(password);
-      const result = await UserModel.updateOne(
+      const result = await usersService.update(
         { _id: user._id }, {
         $set: { password: hashedPassword }
       });

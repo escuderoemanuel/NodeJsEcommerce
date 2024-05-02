@@ -9,7 +9,7 @@ let CartsDao;
 switch (PERSISTENCE) {
   case 'MONGO':
     mongoose.connect(MONGO_URL).then(() => {
-      console.log('Connected to MongoDB')
+      console.log(`Connected to ${PERSISTENCE}`)
     })
     ProductsDao = require('./daoManagers/products.dao')
     UsersDao = require('./daoManagers/users.dao')
@@ -18,7 +18,7 @@ switch (PERSISTENCE) {
     break;
 
   case 'MEMORY':
-    console.log('Connetected to MEMORY')
+    console.log(`Connected to ${PERSISTENCE}`)
     ProductsDao = require('../dao/memory/products.memory')
     UsersDao = require('../dao/memory/users.memory')
     TicketsDao = require('../dao/memory/tickets.memory')

@@ -9,7 +9,7 @@ registerForm.addEventListener('submit', async (e) => {
 
   data.forEach((value, key) => (payload[key] = value));
 
-  //! Verifications
+  //? Verifications
   // Limpiar el mensaje de error antes de hacer las validaciones nuevamente
   document.querySelector('.infoMessage').textContent = '';
 

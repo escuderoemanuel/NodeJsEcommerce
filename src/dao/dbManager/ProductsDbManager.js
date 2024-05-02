@@ -2,7 +2,7 @@ const ProductsModel = require('../models/products.model')
 
 class ProductsDbManager {
 
-  //! ADD
+  //? ADD
   async addProduct(product) {
     try {
       await ProductsModel.create(product);
@@ -11,7 +11,7 @@ class ProductsDbManager {
     }
   }
 
-  //! GET
+  //? GET
   async getProducts(req, res) {
     try {
       // Obtengo los parámetros de consulta
@@ -93,7 +93,7 @@ class ProductsDbManager {
 
 
 
-  //! GET BY ID
+  //? GET BY ID
   async getProductById(id) {
     try {
       const product = await ProductsModel.findOne({ _id: id }).lean();
@@ -103,7 +103,7 @@ class ProductsDbManager {
     }
   }
 
-  //! UPDATE
+  //? UPDATE
   async updateProduct(id, newProduct) {
     try {
       await ProductsModel.updateOne({ _id: id }, newProduct);
@@ -112,7 +112,7 @@ class ProductsDbManager {
     }
   }
 
-  //! DELETE
+  //? DELETE
   async deleteProduct(id) {
     try {
       await ProductsModel.deleteOne({ _id: id });

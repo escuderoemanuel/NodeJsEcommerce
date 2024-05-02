@@ -1,4 +1,3 @@
-const mongoose = require('mongoose')
 const { PORT } = require('./config/environment.config');
 const cors = require('cors');
 
@@ -46,7 +45,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 
 
-
 // Handlebars
 app.use(cookieParser());
 app.engine('handlebars', handlebars.engine());
@@ -74,7 +72,7 @@ io.on('connection', async (socket) => {
   const sockerId = socket.id;
   console.log(`Socket Connected..`)
 
-  //! Products Events
+  //? Products Events
   socket.on('delete-product', async (data) => {
     await productsService.delete(data.productId);
     const products = await productsService.getAll();
@@ -86,7 +84,7 @@ io.on('connection', async (socket) => {
     io.emit('update-products', products)
   })
 
-  //! Messages Events
+  //? Messages Events
   // Recive Event: user authenticated
   socket.on('authenticated', ({ userName }) => {
     // Send Event with the messages in the array: for this client-socket!
@@ -95,7 +93,7 @@ io.on('connection', async (socket) => {
     socket.broadcast.emit('newUserConnected', { userName });
   })
 
-  //! Guarda en ATLAS
+  //? Guarda en ATLAS
   const messages = await MessagesModel.find().lean();
   socket.emit('messages', { messages });
 
@@ -108,7 +106,7 @@ io.on('connection', async (socket) => {
     io.emit('messages', { messages });
   })
 
-  //! Connection Finished
+  //? Connection Finished
   socket.on('disconnect', () => {
     console.log(`Socket Disconnected...`)
   })

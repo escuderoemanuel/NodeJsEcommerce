@@ -12,6 +12,10 @@ class BaseMemoryDAO {
     return this.data.find(d => d._id == id)
   }
 
+  async getByEmail(email) {
+    return this.data.find(d => d.email == email)
+  }
+
   async getByProperty(property, value) {
     const result = this.data.find(d => value == d[property]);
     return result;

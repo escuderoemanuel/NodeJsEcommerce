@@ -6,7 +6,7 @@ const productList = document.getElementById('realtimeproducts');
 const formAddProduct = document.getElementById('formAddProduct');
 
 
-//! Recibo la lista actualizada de productos y la renderizo en el cliente.
+//? Recibo la lista actualizada de productos y la renderizo en el cliente.
 socket.on('update-products', products => {
   const productList = document.getElementById('realtimeproducts');
   productList.innerHTML = ''; // Limpiar la lista antes de agregar productos actualizados
@@ -36,7 +36,7 @@ socket.on('update-products', products => {
 
 
 
-//! SOCKET DELETE BTN
+//? SOCKET DELETE BTN
 productList.addEventListener('click', async (e) => {
   if (e.target.getAttribute('data-id') === 'btnDelete') {
     const productId = e.target.getAttribute('id').slice(9);
@@ -55,7 +55,7 @@ productList.addEventListener('click', async (e) => {
   }
 });
 
-//! Agrego un producto a la base de datos y lo envio a todos los clientes conectados.
+//? Agrego un producto a la base de datos y lo envio a todos los clientes conectados.
 formAddProduct.addEventListener('submit', async (e) => {
   e.preventDefault()
 

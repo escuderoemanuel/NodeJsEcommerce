@@ -1,12 +1,12 @@
 const socket = io();
 
-//! Elements
+//? Elements
 const userNameFront = document.getElementById('userNameFront')
 const messageInput = document.getElementById("messageInput");
 const messagesLog = document.getElementById("messagesLog");
 let userName = userNameFront.innerHTML;
 
-//! Events & Socket Events
+//? Events & Socket Events
 
 ///SOCKET EMIT => Enviar Usuario a Atlas
 messageInput.addEventListener("keyup", (e) => {

@@ -2,7 +2,7 @@ const CartsModel = require('../models/carts.model');
 
 class CartManager {
 
-  //! ADD CART
+  //? ADD CART
   async addCart() {
     try {
       const cart = { products: [] }
@@ -12,7 +12,7 @@ class CartManager {
     }
   }
 
-  //! GET ALL CARTS
+  //? GET ALL CARTS
   async getCarts() {
     try {
       const carts = await CartsModel.find().lean();
@@ -22,7 +22,7 @@ class CartManager {
     }
   }
 
-  //! GET CART BY ID
+  //? GET CART BY ID
   async getCartById(id) {
     try {
       const cart = await CartsModel.findOne({ _id: id }).lean()
@@ -32,7 +32,7 @@ class CartManager {
     }
   }
 
-  //! ADD ITEM TO CART
+  //? ADD ITEM TO CART
   async addProductToCart(cid, pid) {
     try {
       // Busca el cart que necesito
@@ -54,7 +54,7 @@ class CartManager {
     }
   };
 
-  //! DELETE PRODUCT FROM CART
+  //? DELETE PRODUCT FROM CART
   async deleteProductFromCart(cid, pid) {
     try {
       const cart = await this.getCartById(cid);
@@ -69,7 +69,7 @@ class CartManager {
     return;
   }
 
-  //! UPDATE PRODUCTS FROM CART
+  //? UPDATE PRODUCTS FROM CART
   async updateProductsFromCart(cid, products) {
     try {
       const cart = await this.getCartById(cid);
@@ -81,7 +81,7 @@ class CartManager {
     return;
   }
 
-  //! UPDATE PRODUCT QUANTITY FROM CART
+  //? UPDATE PRODUCT QUANTITY FROM CART
   async updateProductQuantityFromCart(cid, pid, quantity) {
     try {
       const cart = await this.getCartById(cid);
@@ -101,7 +101,7 @@ class CartManager {
     return;
   }
 
-  //! DELETE: api/carts/:cid deberá eliminar todos los productos del carrito
+  //? DELETE: api/carts/:cid deberá eliminar todos los productos del carrito
   async deleteAllProductsFromCart(cid) {
     try {
       const cart = await this.getCartById(cid);

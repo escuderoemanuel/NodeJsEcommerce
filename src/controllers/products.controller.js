@@ -45,6 +45,7 @@ class ProductsController {
       }
 
       // Ejecuto la consulta pasando filter (si hay), más options
+      //let products = await ProductsModel.paginate(filter, options);
       let products = await ProductsModel.paginate(filter, options);
 
       // Creo un objeto para almacenar los parámetros de consulta de la url, para armar los links 'prev' y 'next'
@@ -58,6 +59,7 @@ class ProductsController {
       const baseUrl = req.baseUrl;
 
       // Creo los links para la paginación
+      // GPT Tip => URLSearchParams: permite crear un string con los parámetros de consulta de la url.
       const urlPrevLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.prevPage}`;
 
       const urlNextLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.nextPage}`;

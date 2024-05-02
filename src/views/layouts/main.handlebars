@@ -33,6 +33,8 @@
 <body>
   <header class='header'>
     <h1>My Backend App 🥴</h1>
+    {{#if user}}
+
     <nav class='navBar'>
       <a href="/api/products">Products</a>
       <a href="/api/chat">Chat</a>
@@ -41,7 +43,6 @@
       <a href="/current">Current</a>
     </nav>
     <br>
-    {{#if user}}
     <section class="profile">
       <section class='userData'>
         <p><span>Name:</span> {{user.firstName}} {{user.lastName}}</p>

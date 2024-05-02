@@ -5,7 +5,7 @@ dotenv.config()
 const { Command } = require('commander');
 const program = new Command();
 program
-  .option('-p,--PERSISTENCE <PERSISTENCE>', 'Selected Persistence', 'MEMORY')
+  .option('-p,--PERSISTENCE <PERSISTENCE>', 'Selected Persistence', 'MONGO')
 
 const options = program.opts();
 program.parse(process.argv);

@@ -1,4 +1,7 @@
+const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 const { productsService } = require('../repositories');
+const manager = new ProductsDbManager();
+
 
 class HomeViewController {
   static async getHome(req, res) {
