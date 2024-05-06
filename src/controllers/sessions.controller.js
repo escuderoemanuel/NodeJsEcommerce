@@ -20,7 +20,7 @@ class SessionsController {
           name: 'User creation error',
           cause: getUserRegisterErrorInfo({ firstName, lastName, age, email, password }),
           message: 'Error creating user',
-          code: TypesOfErrors.REGISTRATION_ERROR
+          code: TypesOfErrors.AUTHENTICATION_ERROR
         })
       }
 

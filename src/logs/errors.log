@@ -1,0 +1,4 @@
+{"level":"fatal","message":"Level 0. This is a fatal log"}
+{"level":"error","message":"Level 1. Unhandled error"}
+{"level":"warning","message":"Level 2. This is a warning log"}
+{"level":"info","message":"Level 3. This is a info log"}

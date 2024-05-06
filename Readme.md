@@ -1,15 +1,22 @@
-# Mocking y manejo de errores
-
-✅ Se aplicará un módulo de mocking y un manejador de errores a tu servidor actual
+# Implementación de logger
 
 
-## Se debe entregar
+✅ Basado en nuestro proyecto principal, implementar un logger
 
-✅ Generar un módulo de Mocking para el servidor, con el fin de que, al inicializarse pueda generar y entregar 100 productos con el mismo formato que entregaría una petición de Mongo. Ésto solo debe ocurrir en un endpoint determinado (‘/mockingproducts’)
+## Aspectos a incluir
 
-✅ Además, generar un customizador de errores y crear un diccionario para tus errores más comunes:
-  ✅ Al crear un producto
-  ✅ Agregarlo al carrito
+✅ Primero, definir un sistema de niveles que tenga la siguiente prioridad (de menor a mayor):
+  ✅ debug, http, info, warning, error, fatal
+
+✅ Después implementar un logger para desarrollo y un logger para producción:
+  ✅ el logger de desarrollo deberá loggear a partir del nivel 'debug', sólo en consola
+  ✅ el logger del entorno productivo debería loggear sólo a partir de nivel 'info'.
+  
+✅ Además, el logger deberá enviar en un transporte de archivos a partir del nivel de error en un nombre “errors.log”
+
+✅ Agregar logs de valor alto en los puntos importantes de tu servidor (errores, advertencias, etc) y modificar los console.log() habituales que tenemos para que muestren todo a partir de winston.
+
+✅ Crear un endpoint /loggerTest que permita probar todos los logs
 
 ## Formato
 
@@ -18,10 +25,4 @@ Además, archivo .env para poder correr el proyecto.
 
 ## Sugerencias
 
-✅ Céntrate solo en los errores más comunes 
-
-# ¡¡ ERRORS !!
-
-- Memory Register: Reparado ✅
-- Memory Login: Reparado ✅
-- Memory Vistas: Pendiente ❓
+✅ La ruta loggerTest es muy importante para que tu entrega pueda ser calificada de manera rápida y eficiente. ¡No olvides colocarla!

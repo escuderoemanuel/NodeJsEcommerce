@@ -1,24 +1,16 @@
 {
-  "name": "nodejsecommerce-v1.9-fakeranderrors",
-  "version": "1.9.0",
+  "name": "nodejsecommerce-v2.0-logger",
+  "version": "2.0.0",
   "description": "",
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app.js -p MONGO",
-    "memo": "nodemon src/app.js -p MEMORY"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/escuderoemanuel/NodeJsEcommerce.git"
+    "dev": "set NODE_ENV=development& nodemon src/app.js -p MONGO",
+    "prod": "set NODE_ENV=production& nodemon src/app.js -p MONGO"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/escuderoemanuel/NodeJsEcommerce/issues"
-  },
-  "homepage": "https://github.com/escuderoemanuel/NodeJsEcommerce#readme",
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
     "@sweetalert2/theme-dark": "^5.0.16",
@@ -42,6 +34,7 @@
     "passport-local": "^1.0.0",
     "socket.io": "^4.7.4",
     "sweetalert2": "^11.6.13",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0"
   }
 }

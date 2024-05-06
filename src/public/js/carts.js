@@ -25,6 +25,8 @@ const deleteFromCart = (cid, pid) => {
       }
     })
   } catch (error) {
+    req.logger.fatal('Error deleting Product from Cart ', error.cause, error.message) //!
+
     console.log(error)
   }
 }

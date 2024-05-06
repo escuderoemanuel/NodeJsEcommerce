@@ -4,17 +4,29 @@ const manager = new ProductsDbManager();
 
 
 class HomeViewController {
-  static async getHome(req, res) {
+  static async getHome(req, res, next) {
     try {
       let result = await productsService.getAll(req, res)
       let paginateData = result.paginateData
+
+      if (!result) {
+        // CUSTOM ERROR
+        throw new CustomErrors({
+          name: 'Error getting list of products',
+          cause: 'Error getting list of products',
+          message: 'Error getting list of products',
+          code: TypesOfErrors.INVALID_PARAM_ERROR
+        })
+      }
+
       // Esto es para darle mejor formato al json en el navegador (personalmente prefiero la extensión de navegador 'JSON Viewer Pro')
       res.setHeader('Content-Type', 'application/json');
       // Devuelve el objeto paginateData
       res.send(JSON.stringify(paginateData, null, 2));
 
     } catch (error) {
-      console.log('Error', error.message)
+      next(error)
+      //! console.log('Error', error.message)
     }
   }
 
