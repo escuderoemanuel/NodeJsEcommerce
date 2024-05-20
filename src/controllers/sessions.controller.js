@@ -71,24 +71,49 @@ class SessionsController {
 
   //? RESET PASSWORD
   static async resetPassword(req, res) {
-    const { email, password, passwordConfirm } = req.body;
     try {
-      if (!email || !password || !passwordConfirm) {
-        return res.status(400).send({ error: 'Missing data' });
-      }
+      const { email } = req.body
       const user = await usersService.getByEmail(email);
+      const passwordResetToken = jwt.sign(user, JWT_PRIVATE_KEY, { expiresIn: '1h' })
       if (!user) {
         return res.status(404).send({ error: 'User not found' });
       }
-      // Aquí podría enviar un correo electrónico para resetear la contraseña
-      const hashedPassword = createHash(password);
-      const result = await usersService.update(
-        { _id: user._id }, {
-        $set: { password: hashedPassword }
-      });
-      res.send({ status: 'success', message: 'Password reset', details: result });
+      await mailingsService.sendPasswordResetEmail(user, email, passwordResetToken);
+      res.send({ status: 'success', message: 'Password reset email sent', closeWindow: true });
+
     } catch (error) {
-      res.status(500).send({ error: 'Internal server error' });
+      res.status(500).send({ error: 'Internal server error on reset password' });
+    }
+  }
+
+  //? VERIFY PASSWORD RESET TOKEN
+  static async verifyPasswordResetToken(req, res) {
+    const { passwordResetToken } = req.params;
+    try {
+      jwt.verify(passwordResetToken, JWT_PRIVATE_KEY, (error) => {
+        if (error) {
+          return res.redirect('/resetPassword')
+        }
+        res.redirect('/changePassword')
+      })
+    } catch (error) {
+      res.status(500).send({ error: 'Internal server error on verify password reset token' });
+    }
+  }
+
+  //? CHANGE PASSWORD
+  static async changePassword(req, res) {
+    try {
+      const { email, password } = req.body;
+      let user = await usersService.getByEmail(email)
+      if (isValidPassword(user, password)) {
+        return res.status(400).send({ status: 'error', error: 'The new password cannot be the same as the previous one' })
+      }
+      user.password = password;
+      await usersService.update(user._id.toString(), { $set: { password: createHash(password) } })
+      res.send({ status: 'success', message: 'Password changed' })
+    } catch (error) {
+      res.status(500).send({ error: 'Internal server error on change password' });
     }
   }
 

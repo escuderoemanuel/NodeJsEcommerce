@@ -26,6 +26,8 @@ sessionRouter.get('/logout', SessionsController.logout);
 
 //? Reset Password
 sessionRouter.post('/resetPassword', SessionsController.resetPassword);
+sessionRouter.get('/changePassword/:passwordResetToken', SessionsController.verifyPasswordResetToken)
+sessionRouter.post('/changePassword', SessionsController.changePassword)
 
 //? GITHUB
 sessionRouter.get('/github', passport.authenticate('github', { scope: ['user:email'], session: false }), SessionsController.githubLogin)

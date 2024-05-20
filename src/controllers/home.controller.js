@@ -26,7 +26,6 @@ class HomeViewController {
 
     } catch (error) {
       next(error)
-      //! console.log('Error', error.message)
     }
   }
 

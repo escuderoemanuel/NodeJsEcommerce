@@ -13,7 +13,8 @@
 
 .registerForm label,
 .loginForm label,
-.passwordResetForm label {
+.passwordResetForm label,
+.passwordChangeForm label {
   width: 300px;
   margin: 0;
   text-align: left;
@@ -21,13 +22,15 @@
 
 .registerForm input,
 .loginForm input,
-.passwordResetForm input {
+.passwordResetForm input,
+.passwordChangeForm input {
   width: 300px;
 }
 
 .registerView button,
 .loginView button,
-.passwordResetForm button {
+.passwordResetForm button,
+.passwordChangeForm button {
   width: 300px;
   height: 35px;
   text-transform: uppercase;

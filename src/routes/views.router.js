@@ -15,6 +15,8 @@ viewsRouter.get('/login', ViewsController.getLogin)
 
 viewsRouter.get('/resetPassword', ViewsController.getResetPassword);
 
+viewsRouter.get('/changePassword', ViewsController.getChangePassword);
+
 viewsRouter.get('/profile', verifyToken, ViewsController.getProfile)
 
 viewsRouter.get('/current', verifyToken, ViewsController.getCurrent);

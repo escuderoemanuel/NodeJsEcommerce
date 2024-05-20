@@ -1,8 +1,8 @@
 {
-  "name": "nodejsecommerce-v2.0-logger",
-  "version": "2.0.0",
+  "name": "nodejsecommerce-v1.1.1-passwordresetandchangerole",
+  "version": "1.1.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "set NODE_ENV=development& nodemon src/app.js -p MONGO",

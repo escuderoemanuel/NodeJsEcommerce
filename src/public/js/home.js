@@ -5,7 +5,7 @@ fetch('/api/current', {
   }
 }).then(res => {
   if (res.status === 403 || res.status === 401) {
-    window.location.href = '/login' // window.replace('/login')
+    window.location.href = '/login' // Opción a: window.replace('/login')
     localStorage.removeItem('accessToken')
   } else {
     return res.json()

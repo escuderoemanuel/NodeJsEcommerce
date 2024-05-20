@@ -6,7 +6,6 @@ class ViewsController {
 
   static async getHome(req, res) {
     res.redirect('/api/products');
-
   }
 
   static async getRealTimeProducts(req, res) {
@@ -24,7 +23,19 @@ class ViewsController {
   }
 
   static async getResetPassword(req, res) {
-    res.render('resetPassword', {});
+    try {
+      res.render('resetPassword', { user: {} })
+    } catch (error) {
+      res.status(error.status || 500).send({ status: 'error', error: error.message })
+    }
+  }
+
+  static async getChangePassword(req, res) {
+    try {
+      res.render('changePassword', { user: {} })
+    } catch (error) {
+      res.status(error.status || 500).send({ status: 'error', error: error.message })
+    }
   }
 
   static async getProfile(req, res) {

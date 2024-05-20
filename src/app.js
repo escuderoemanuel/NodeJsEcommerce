@@ -32,6 +32,7 @@ app.use(getLogger)
 // Imports
 const passport = require('passport');
 const initializePassport = require('./config/passport.config.js');
+const usersRouter = require('./routes/users.router');
 
 // Passport
 initializePassport();
@@ -57,6 +58,7 @@ app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/mockingProducts', mockingProducts)
+app.use('/api/users', usersRouter)
 app.get('/api/testToken', getTestToken);
 app.use('/api/loggerTest', loggerTestRouter)
 app.use('/', viewsRouter)

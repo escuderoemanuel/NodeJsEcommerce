@@ -98,7 +98,6 @@ class ProductsController {
 
     } catch (error) {
       next(error)
-      //! res.status(400).send({ error: error.message });
     }
   }
 
@@ -125,11 +124,14 @@ class ProductsController {
           code: TypesOfErrors.INVALID_PARAM_ERROR
         })
 
+      if (req.user.role === 'premium') {
+        req.body.owner = req.user.email;
+      }
+
       await productsService.create(req.body);
       res.send({ status: 'success', message: 'Product created' });
     } catch (error) {
       next(error)
-      //! res.status(400).send({ error: error.message });
     }
   }
 
@@ -155,7 +157,6 @@ class ProductsController {
       res.send({ status: 'success', updatedProduct });
     } catch (error) {
       next(error)
-      //! res.status(400).send({ error: error.message });
     }
   }
 
@@ -164,9 +165,9 @@ class ProductsController {
 
       const pid = req.params.pid;
       const productToDelete = await productsService.getById(pid);
-      const productDeleted = await productsService.delete(pid);
 
-      if (!pid || !productToDelete || !productDeleted) {
+
+      if (!pid || !productToDelete) {
         // CUSTOM ERROR
         throw new CustomErrors({
           name: 'Product delete error',
@@ -176,10 +177,19 @@ class ProductsController {
         })
       }
 
+      if (req.user.role === 'premium' && productToDelete.owner !== req.user.email) {
+        throw new CustomErrors({
+          name: 'Product delete error',
+          cause: 'Product deleting error',
+          message: 'Only owners can delete products they have created',
+          code: TypesOfErrors.INVALID_PARAM_ERROR
+        })
+      }
+
+      const productDeleted = await productsService.delete(pid);
       res.send({ status: 'success', deletedProduct: { productToDelete } });
     } catch (error) {
       next(error)
-      //! res.status(400).send({ status: 'error', message: error.message });
     }
   }
 }

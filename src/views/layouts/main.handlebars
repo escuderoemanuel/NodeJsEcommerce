@@ -33,7 +33,7 @@
 <body>
   <header class='header'>
     <h1>My Backend App 🥴</h1>
-    {{#if user}}
+    {{#if user.email}}
 
     <nav class='navBar'>
       <a href="/api/products">Products</a>
@@ -47,6 +47,7 @@
       <section class='userData'>
         <p><span>Name:</span> {{user.firstName}} {{user.lastName}}</p>
         <p><span>Email:</span> {{user.email}}</p>
+        <p><span>UID:</span> {{user.id}}</p>
         {{#if user.age}}
         <p><span>Age:</span> {{ user.age }}</p>
         {{else}}

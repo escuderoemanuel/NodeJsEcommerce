@@ -15,7 +15,7 @@ router.get('/', verifyToken, CartsController.getAll)
 router.get('/:cid', verifyToken, CartsController.getById)
 
 // Deberá agregar el producto al arreglo “products” del carrito seleccionado
-router.post('/:cid/product/:pid', verifyToken, getRole('user'), CartsController.addProductToCart)
+router.post('/:cid/product/:pid', verifyToken, getRole(['user', 'premium']), CartsController.addProductToCart)
 
 // Deberá eliminar del carrito el producto seleccionado
 router.delete('/:cid/product/:pid', CartsController.deleteProductById)

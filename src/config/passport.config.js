@@ -81,7 +81,6 @@ const initializePassport = () => {
     session: false
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
-      // const user = await UserModel.findOne({ email: profile._json.email })
       const user = await usersService.getByEmail(profile._json.email)
       const firstName = profile._json.name.split(' ')[0];
       const lastName = profile._json.name.split(' ')[1];

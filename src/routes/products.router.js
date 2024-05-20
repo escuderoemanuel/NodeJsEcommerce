@@ -12,12 +12,12 @@ router.get('/', verifyToken, ProductsController.getAll)
 router.get('/:pid', verifyToken, ProductsController.getById)
 
 // Deberá agregar un nuevo producto
-router.post('/', verifyToken, getRole('admin'), ProductsController.create);
+router.post('/', verifyToken, getRole(['admin', 'premium']), ProductsController.create);
 
 // Deberá actualizar un producto existente con el id proporcionado.
-router.put('/:pid', verifyToken, getRole('admin'), ProductsController.update)
+router.put('/:pid', verifyToken, getRole(['admin', 'premium']), ProductsController.update)
 
 // Deberá eliminar un producto existente con el id proporcionado.
-router.delete('/:pid', verifyToken, getRole('admin'), ProductsController.delete)
+router.delete('/:pid', verifyToken, getRole(['admin', 'premium']), ProductsController.delete)
 
 module.exports = router;

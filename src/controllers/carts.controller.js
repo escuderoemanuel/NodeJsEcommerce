@@ -31,7 +31,6 @@ class CartsController {
       if (!cart) {
         res.status(400).send('Cart does not exist')
       } else {
-        // res.send(cart);
         res.render('userCart', { ...cart, user });
       }
     } catch (error) {
@@ -49,6 +48,16 @@ class CartsController {
           cause: getAddProductToCartErrorInfo(cid, pid),
           message: 'Error adding product to the cart',
           code: TypesOfErrors.INVALID_PRODUCT_DATA
+        })
+      }
+
+      const product = await productsService.getById(pid);
+      if (req.user.role === 'premium' && product.owner === req.user.email) {
+        throw new CustomErrors({
+          name: 'Product added error',
+          cause: 'Product adding error',
+          message: 'You cannot add your own products',
+          code: TypesOfErrors.INVALID_PARAM_ERROR
         })
       }
 

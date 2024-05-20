@@ -1,10 +1,10 @@
 
-const passwordResetForm = document.getElementById('passwordResetForm');
+const passwordChangeForm = document.getElementById('passwordChangeForm');
 
-passwordResetForm.addEventListener('submit', async (e) => {
+passwordChangeForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const data = new FormData(passwordResetForm);
+  const data = new FormData(passwordChangeForm);
   const payload = {};
 
   data.forEach((value, key) => {
@@ -14,10 +14,8 @@ passwordResetForm.addEventListener('submit', async (e) => {
   // Limpiar cualquier error previo
   document.querySelector('.infoMessage').textContent = '';
 
-
-
   try {
-    fetch('/api/sessions/resetPassword', {
+    fetch('/api/sessions/changePassword', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -25,17 +23,23 @@ passwordResetForm.addEventListener('submit', async (e) => {
       body: JSON.stringify(payload)
     }).then((response) => {
 
+      if (response.status === 400) {
+        document.querySelector('.infoMessage').textContent = 'The new password cannot be the same as the previous one';
+        return;
+      }
+
       if (!response.ok) {
         const errorMessage = response.json(); // Aquí esperamos la respuesta JSON
         document.querySelector('.infoMessage').textContent = errorMessage.error;
         return;
       }
+
       if (response.status === 200) {
-        document.querySelector('.infoMessage').textContent = 'Password reset email sent';
+        document.querySelector('.infoMessage').textContent = 'Password changed succesfully';
 
         // Redirigir al usuario a la página de inicio de sesión después de un tiempo
         setTimeout(() => {
-          window.close();
+          window.location.href = '/login';
         }, 1500);
       }
     })
