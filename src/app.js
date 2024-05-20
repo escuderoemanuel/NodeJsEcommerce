@@ -9,20 +9,6 @@ const { Server } = require('socket.io');
 // Cookie Parser
 const cookieParser = require('cookie-parser');
 
-// Express
-const express = require('express');
-const serverMessage = `Server is running on port ${PORT}`;
-const app = express();
-
-
-// Imports
-const passport = require('passport');
-const initializePassport = require('./config/passport.config.js');
-
-// Passport
-initializePassport();
-app.use(passport.initialize());
-
 // Router
 const MessagesModel = require('./dao/models/messages.model.js');
 const cartsRouter = require('./routes/carts.router.js');
@@ -32,9 +18,24 @@ const sessionRouter = require('./routes/sessions.router.js');
 const viewsRouter = require('./routes/views.router.js');
 const { productsService } = require('./repositories/index.js');
 const mockingProducts = require('./routes/mockingProducts.js');
+const { loggerTestRouter } = require('./routes/logger.router');
 const errorHandler = require('./middlewares/errorHandler.middleware.js');
 const { getTestToken } = require('./controllers/testToken.controller.js');
+const getLogger = require('./middlewares/getLogger.middleware');
 
+// Express
+const express = require('express');
+const serverMessage = `Server is running on port ${PORT}`;
+const app = express();
+app.use(getLogger)
+
+// Imports
+const passport = require('passport');
+const initializePassport = require('./config/passport.config.js');
+
+// Passport
+initializePassport();
+app.use(passport.initialize());
 
 // Public Folder
 app.use(express.static(`${__dirname}/public`))
@@ -43,7 +44,6 @@ app.use(express.static(`${__dirname}/public`))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors());
-
 
 // Handlebars
 app.use(cookieParser());
@@ -58,10 +58,12 @@ app.use('/api/products', productsRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/mockingProducts', mockingProducts)
 app.get('/api/testToken', getTestToken);
+app.use('/api/loggerTest', loggerTestRouter)
 app.use('/', viewsRouter)
 
 // Server
 const server = app.listen(PORT, () => {
+
   console.log(serverMessage)
 })
 

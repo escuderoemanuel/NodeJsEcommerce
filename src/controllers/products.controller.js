@@ -6,7 +6,7 @@ const TypesOfErrors = require('../utils/errors/TypesOfErrors');
 
 class ProductsController {
 
-  static async getAll(req, res) {
+  static async getAll(req, res, next) {
     try {
       // Obtengo los parámetros de consulta
       let { limit, page, filter, sort } = req.query
@@ -45,8 +45,8 @@ class ProductsController {
       }
 
       // Ejecuto la consulta pasando filter (si hay), más options
-      //let products = await ProductsModel.paginate(filter, options);
       let products = await ProductsModel.paginate(filter, options);
+      // let products = await productsService.paginate(filter, options);
 
       // Creo un objeto para almacenar los parámetros de consulta de la url, para armar los links 'prev' y 'next'
       let urlQueryParams = {};
@@ -79,12 +79,26 @@ class ProductsController {
         nextLink: products.hasNextPage ? urlNextLink : null,
       };
 
+
+
       const user = req.user;
       const renderData = { paginateData, user: user, products: paginateData.payload };
+
+      if (!user || !renderData) {
+        // CUSTOM ERROR
+        throw new CustomErrors({
+          name: 'Error getting product list',
+          cause: 'Error getting product list',
+          message: 'Error getting product list',
+          code: TypesOfErrors.INVALID_PARAM_ERROR
+        })
+      }
+
       res.render('products', renderData);
 
     } catch (error) {
-      res.status(400).send({ error: error.message });
+      next(error)
+      //! res.status(400).send({ error: error.message });
     }
   }
 
@@ -99,46 +113,73 @@ class ProductsController {
     }
   }
 
-  static async create(req, res) {
+  static async create(req, res, next) {
     try {
       const { title, description, code, price, stock, category, status } = req.body;
       if (!title || !description || !code || !price || !stock || !category || !status)
-      throw new CustomErrors({
-        name: 'Product creation error',
-        cause: getCreateProductErrorInfo(req.body),
-        message: 'Error creating product',
-        code: TypesOfErrors.INVALID_PRODUCT_DATA
-      })
+        // CUSTOM ERROR
+        throw new CustomErrors({
+          name: 'Product creation error',
+          cause: 'Product creation error',
+          message: 'Error creating product',
+          code: TypesOfErrors.INVALID_PARAM_ERROR
+        })
+
       await productsService.create(req.body);
       res.send({ status: 'success', message: 'Product created' });
     } catch (error) {
-      res.status(400).send({ error: error.message });
+      next(error)
+      //! res.status(400).send({ error: error.message });
     }
   }
 
 
-  static async update(req, res) {
+  static async update(req, res, next) {
     try {
       const pid = req.params.pid;
       const updatedFields = req.body;
+
+      if (!pid || !updatedFields) {
+        // CUSTOM ERROR
+        throw new CustomErrors({
+          name: 'Product update error',
+          cause: 'Product updating error',
+          message: 'Error updating product',
+          code: TypesOfErrors.INVALID_PARAM_ERROR
+        })
+      }
+
       await productsService.update(pid, updatedFields);
+
       const updatedProduct = await productsService.getById(pid);
       res.send({ status: 'success', updatedProduct });
     } catch (error) {
-      res.status(400).send({ error: error.message });
+      next(error)
+      //! res.status(400).send({ error: error.message });
     }
   }
 
-  static async delete(req, res) {
+  static async delete(req, res, next) {
     try {
+
       const pid = req.params.pid;
-
       const productToDelete = await productsService.getById(pid);
+      const productDeleted = await productsService.delete(pid);
 
-      await productsService.delete(pid);
+      if (!pid || !productToDelete || !productDeleted) {
+        // CUSTOM ERROR
+        throw new CustomErrors({
+          name: 'Product delete error',
+          cause: 'Product deleting error',
+          message: 'Error deleting product',
+          code: TypesOfErrors.INVALID_PARAM_ERROR
+        })
+      }
+
       res.send({ status: 'success', deletedProduct: { productToDelete } });
     } catch (error) {
-      res.status(400).send({ status: 'error', message: error.message });
+      next(error)
+      //! res.status(400).send({ status: 'error', message: error.message });
     }
   }
 }

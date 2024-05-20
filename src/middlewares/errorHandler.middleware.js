@@ -3,13 +3,31 @@ const TypesOfErrors = require('../utils/errors/TypesOfErrors')
 const errorHandler = (error, req, res, next) => {
 
   switch (error.code) {
-    case TypesOfErrors.UNKNOWN:
-      res.status(400).send({ status: 'error', error: error.name, message: error.message })
-      break
+
+    case TypesOfErrors.INVALID_TYPE_ERROR:
+      req.logger.warning({ cause: error.cause, message: error.message })
+      res.status(400).send({
+        status: 'error',
+        error: error.message
+      })
+      break;
+
+    case TypesOfErrors.INVALID_PARAM_ERROR:
+      req.logger.warning({ cause: error.cause, message: error.message })
+      res.status(400).send({
+        status: 'error',
+        error: error.message
+      })
+      break;
+
     default:
-      res.status(500).send({ status: 'error', error: 'Custom Error. Unknown error' })
+      req.logger.fatal('Fatal error unhandled')
+      res.status(500).send({
+        status: 'error',
+        error: 'Custom Fatal Error. Unknown error'
+      })
+      break;
   }
-  next()
 }
 
 module.exports = errorHandler

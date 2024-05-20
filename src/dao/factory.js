@@ -24,6 +24,9 @@ switch (PERSISTENCE) {
     TicketsDao = require('../dao/memory/tickets.memory')
     CartsDao = require('../dao/memory/carts.memory')
     break;
+
+  default:
+    throw new Error('Invalid persistence type');
 };
 
 module.exports = {
