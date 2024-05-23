@@ -1,6 +1,6 @@
 {
-  "name": "nodejsecommerce-v1.1.1-passwordresetandchangerole",
-  "version": "1.1.1",
+  "name": "nodejsecommerce-v1.1.2-apidocumentationwithswagger",
+  "version": "1.1.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -35,6 +35,8 @@
     "socket.io": "^4.7.4",
     "sweetalert2": "^11.6.13",
     "uuid": "^9.0.1",
-    "winston": "^3.13.0"
+    "winston": "^3.13.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }

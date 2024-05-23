@@ -1,0 +1,289 @@
+paths:
+
+  #? Endpoint (all carts)
+  /api/carts/:
+
+    # Get Method
+    get:
+      summary: Get all existing carts, whether or not they have added products.
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: All carts were correctly obtained from the database
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '500':
+          description: Internal server error
+
+    # Post Method
+    post:
+      summary: Create an empty cart manually, but when a user registers, an empty cart is automatically created and assigned to that user.
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: Cart was created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: Bad request, cart was not created
+        '500':
+          description: Internal server error
+
+  #? Endpoint (cart by id)
+  /api/carts/{cid}:
+
+    # Get Method
+    get:
+      summary: Get an existing cart in the database by its ID
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: The ID of the cart to retrieve
+          schema:
+            type: string
+            example: "65da5fda78236ace5660e1f4"
+      responses:
+        '200':
+          description: Cart was correctly obtained from the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          description: Cart was not found in the database
+        '500':
+          description: Internal server error
+
+    # Delete Method
+    delete:
+      summary: Empty an existing cart by ID
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: The ID of the cart to empty
+          schema:
+            type: string
+            example: "65da607ddbdfa6410480db58"
+      responses:
+        '200':
+          description: Cart was correctly emptied
+        '404':
+          description: Cart was not found in the database
+        '500':
+          description: Internal server error
+
+  #? Endpoint (cart by id for purchase)
+  /api/carts/{cid}/purchase:
+
+    # Get Method
+    get:
+      summary: Search the cart by ID, generate a purchase ticket with the products in the cart and finally empty the cart
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: The ID of the cart to purchase
+          schema:
+            type: string
+            example: "662afebb1f56dbe952ddc07c"
+      responses:
+        '200':
+          description: Cart was correctly purchased
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Purchase'
+        '404':
+          description: Cart was not found in the database
+        '500':
+          description: Internal server error
+
+  #? Endpoint (cart by id + product by id)
+  /api/carts/{cid}/product/{pid}:
+
+    # Post method
+    post:
+      summary: Add an existing product to an existing cart
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: The ID of the cart
+          schema:
+            type: string
+            example: "662aff491f56dbe952ddc08d"
+        - name: pid
+          in: path
+          required: true
+          description: The ID of the product
+          schema:
+            type: string
+            example: "65e4d53c269a53c1a65032a9"
+      responses:
+        '200':
+          description: Product was correctly added to the cart
+        '404':
+          description: Cart or product was not found in the database
+        '500':
+          description: Internal server error
+
+    # Put method
+    put:
+      summary: Update the quantity of an existing product within an existing cart
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: The ID of the cart
+          schema:
+            type: string
+            example: "662aff491f56dbe952ddc08d"
+        - name: pid
+          in: path
+          required: true
+          description: The ID of the product
+          schema:
+            type: string
+            example: "65e4d53c269a53c1a65032a9"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                  description: The quantity of the product to update
+                  example: 3
+              required:
+                - quantity
+      responses:
+        '200':
+          description: The product quantity was correctly updated
+        '404':
+          description: Cart or product was not found in the database
+        '500':
+          description: Internal server error
+
+    # Delete method
+    delete:
+      summary: Remove an existing product from an existing cart
+      security:
+        - bearerAuth: []
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: The ID of the cart
+          schema:
+            type: string
+            example: "65da5fda78236ace5660e1f4"
+        - name: pid
+          in: path
+          required: true
+          description: The ID of the product
+          schema:
+            type: string
+            example: "65e4eb66e7bb5b1ee582b3c0"
+      responses:
+        '200':
+          description: Product was correctly removed from the cart
+        '404':
+          description: Cart or product was not found in the database
+        '500':
+          description: Internal server error
+
+#? Components
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  #? Schemas
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The auto-generated ID of the cart
+        products:
+          type: array
+          description: The products in the cart
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+                description: The ID of the product
+              quantity:
+                type: number
+                description: The quantity of the product
+      example:
+        _id: "662afebb1f56dbe952ddc07c"
+        products:
+          - product: "662b0590187d9ed63736375a"
+            quantity: 1
+          - product: "65ffd0289713b7d3858134f7"
+            quantity: 2
+
+    #? Purchase schema
+    Purchase:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The code of the purchase
+        purchase_datetime:
+          type: string
+          description: The datetime of the purchase
+        amount:
+          type: number
+          description: The total amount of the purchase
+        purchaser:
+          type: string
+          description: The email of the purchaser
+      example:
+        code: "7ca0c948-79de-433d-82ef-a6e66f1385c6"
+        purchase_datetime: "22/5/2024, 17:52:07"
+        amount: 1000
+        purchaser: "purchaser@gmail.com"

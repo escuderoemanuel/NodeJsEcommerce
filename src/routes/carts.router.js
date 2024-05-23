@@ -14,6 +14,9 @@ router.get('/', verifyToken, CartsController.getAll)
 // Deberá listar los productos que pertenezcan al carrito con el cid proporcionado, dando acceso a los datos del cart y de las propiedades de los productos que contenga.
 router.get('/:cid', verifyToken, CartsController.getById)
 
+// DELETE: api/carts/:cid deberá eliminar todos los productos del carrito
+router.delete('/:cid', verifyToken, CartsController.emptyCartById)
+
 // Deberá agregar el producto al arreglo “products” del carrito seleccionado
 router.post('/:cid/product/:pid', verifyToken, getRole(['user', 'premium']), CartsController.addProductToCart)
 
@@ -21,10 +24,7 @@ router.post('/:cid/product/:pid', verifyToken, getRole(['user', 'premium']), Car
 router.delete('/:cid/product/:pid', CartsController.deleteProductById)
 
 // Deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
-router.put('/:cid/products/:pid', verifyToken, CartsController.updateProductQuantityById)
-
-// DELETE: api/carts/:cid deberá eliminar todos los productos del carrito
-router.delete('/:cid', verifyToken, CartsController.emptyCartById)
+router.put('/:cid/product/:pid', verifyToken, CartsController.updateProductQuantityById)
 
 // Crear un ticket
 router.get('/:cid/purchase', verifyToken, CartsController.purchase)

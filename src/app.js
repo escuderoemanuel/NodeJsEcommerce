@@ -1,6 +1,9 @@
 const { PORT } = require('./config/environment.config');
 const cors = require('cors');
 
+const swaggerUiExpress = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
+
 const handlebars = require('express-handlebars');
 
 // Solamente traemos Server de io
@@ -40,6 +43,22 @@ app.use(passport.initialize());
 
 // Public Folder
 app.use(express.static(`${__dirname}/public`))
+
+// SWAGGER
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'NodeJsEcommerce',
+      version: '1.1.2',
+      description: 'NodeJsEcommerce API',
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+const specs = swaggerJsDoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
 
 // Json & Body Params
 app.use(express.json())

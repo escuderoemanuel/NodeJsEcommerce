@@ -9,63 +9,49 @@ class ProductsController {
   static async getAll(req, res, next) {
     try {
       // Obtengo los parámetros de consulta
-      let { limit, page, filter, sort } = req.query
+      let { limit, page, filter, sort } = req.query;
 
-      //? Filtros de búsqueda
-      // Filtro 'limit' string parseado a number
+      // Filtros de búsqueda
       limit = parseInt(req.query.limit);
-      // Filtro 'page' parseado a number
       page = parseInt(req.query.page);
-      // Filtro 'sort' string (asc o desc)
-      if (req.query.sort === 'asc') {
-        sort = 1;
-      } else if (req.query.sort === 'desc') {
-        sort = -1;
-      }
-      // Filtro 'filter' string (title o category)
+      sort = req.query.sort === 'asc' ? 1 : req.query.sort === 'desc' ? -1 : null;
       filter = {};
       if (req.query.filter) {
-        // $option: 'i' para que no distinga mayúsculas de minúsculas
         filter = {
-          $or: [{ title: { $regex: req.query.filter, $options: 'i' } }, { category: { $regex: req.query.filter, $options: 'i' } }]
-        }
+          $or: [
+            { title: { $regex: req.query.filter, $options: 'i' } },
+            { category: { $regex: req.query.filter, $options: 'i' } }
+          ]
+        };
       }
 
-      //? Paginación
+      // Paginación
       let options = {
         limit: limit || 10,
         page: page || 1,
         lean: true,
       };
-
-      // Si hay un sort, lo agrego a 'options', sino no
-      // Utilizo un segundo parámetro de ordenamiento para el caso en el que haya más productos con el mismo precio!
-      if (req.query.sort) {
-        options.sort = { price: sort, title: 1 }
+      if (sort !== null) {
+        options.sort = { price: sort, title: 1 };
       }
 
-      // Ejecuto la consulta pasando filter (si hay), más options
+      // Ejecutar consulta
       let products = await ProductsModel.paginate(filter, options);
-      // let products = await productsService.paginate(filter, options);
 
-      // Creo un objeto para almacenar los parámetros de consulta de la url, para armar los links 'prev' y 'next'
+      // Parámetros de consulta de la URL
       let urlQueryParams = {};
       if (req.query.filter) urlQueryParams.filter = req.query.filter;
       if (req.query.sort) urlQueryParams.sort = req.query.sort;
       if (req.query.limit) urlQueryParams.limit = req.query.limit;
 
-
-      // Obtiene la URL base dinámicamente desde el front
+      // URL base
       const baseUrl = req.baseUrl;
 
-      // Creo los links para la paginación
-      // GPT Tip => URLSearchParams: permite crear un string con los parámetros de consulta de la url.
+      // Links de paginación
       const urlPrevLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.prevPage}`;
-
       const urlNextLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.nextPage}`;
 
-
-      // Creo un objeto para almacenar los datos de paginación y los productos para enviarlos al front.
+      // Datos de paginación
       let paginateData = {
         status: 'success',
         payload: products.docs,
@@ -79,28 +65,32 @@ class ProductsController {
         nextLink: products.hasNextPage ? urlNextLink : null,
       };
 
-
-
       const user = req.user;
       const renderData = { paginateData, user: user, products: paginateData.payload };
 
       if (!user || !renderData) {
-        // CUSTOM ERROR
         throw new CustomErrors({
           name: 'Error getting product list',
           cause: 'Error getting product list',
           message: 'Error getting product list',
           code: TypesOfErrors.INVALID_PARAM_ERROR
-        })
+        });
       }
 
-      res.render('products', renderData);
+      // Verificar el encabezado 'Accept'para que si la consulta es desde el FRONT, haga un res.render pero sino, haga un res.json
+      const acceptHeader = req.headers['accept'] || '';
+      if (acceptHeader.includes('text/html')) {
+        res.render('products', renderData);
+      } else {
+        // Si la solicitud es para JSON (por ejemplo, desde Postman)
+        let products = await ProductsModel.find();
+        res.send({ status: 'success', payload: products });
+      }
 
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
-
 
   static async getById(req, res) {
     try {

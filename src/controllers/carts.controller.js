@@ -31,7 +31,13 @@ class CartsController {
       if (!cart) {
         res.status(400).send('Cart does not exist')
       } else {
-        res.render('userCart', { ...cart, user });
+        // Verificar el encabezado 'Accept'para que si la consulta es desde el FRONT, haga un res.render pero sino, haga un res.json
+        const acceptHeader = req.headers['accept'] || '';
+        if (acceptHeader.includes('text/html')) {
+          res.render('userCart', { ...cart, user });
+        } else {
+          res.send({ status: 'success', payload: cart });
+        }
       }
     } catch (error) {
       res.status(400).send({ error: error.message });
