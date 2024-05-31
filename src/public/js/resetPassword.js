@@ -14,8 +14,6 @@ passwordResetForm.addEventListener('submit', async (e) => {
   // Limpiar cualquier error previo
   document.querySelector('.infoMessage').textContent = '';
 
-
-
   try {
     fetch('/api/sessions/resetPassword', {
       method: 'POST',
@@ -23,24 +21,18 @@ passwordResetForm.addEventListener('submit', async (e) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
-    }).then((response) => {
-
+    }).then(response => {
       if (!response.ok) {
-        const errorMessage = response.json(); // Aquí esperamos la respuesta JSON
-        document.querySelector('.infoMessage').textContent = errorMessage.error;
-        return;
+        return response.json().then(errorMessage => {
+          document.querySelector('.infoMessage').textContent = errorMessage.error;
+        });
       }
-      if (response.status === 200) {
-        document.querySelector('.infoMessage').textContent = 'Password reset email sent';
 
-        // Redirigir al usuario a la página de inicio de sesión después de un tiempo
-        setTimeout(() => {
-          window.close();
-        }, 1500);
-      }
+      document.querySelector('.infoMessage').textContent = 'Password reset email sent';
+      setTimeout(() => {
+        window.close();
+      }, 1000);
     })
-
-
   } catch (error) {
     console.error('Password reset failed:', error);
     document.querySelector('.infoMessage').textContent = 'Error processing your request. Please try again later.';

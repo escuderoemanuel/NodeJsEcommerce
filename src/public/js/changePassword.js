@@ -1,4 +1,20 @@
 
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+  if (token) {
+    document.getElementById('token').value = token;
+
+    // Decode the token to extract the email directly in the frontend
+    try {
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      document.getElementById('email').value = decoded.email;
+    } catch (error) {
+      console.error('Invalid token:', error);
+    }
+  }
+});
+
 const passwordChangeForm = document.getElementById('passwordChangeForm');
 
 passwordChangeForm.addEventListener('submit', async (e) => {
@@ -11,45 +27,44 @@ passwordChangeForm.addEventListener('submit', async (e) => {
     payload[key] = value;
   });
 
-  // Limpiar cualquier error previo
   document.querySelector('.infoMessage').textContent = '';
 
+  if (payload.password.length < 4) {
+    document.querySelector('.infoMessage').textContent = 'Password must be at least 4 characters long';
+    return;
+  }
+  if (payload.password !== payload.confirmPassword) {
+    document.querySelector('.infoMessage').textContent = 'Passwords do not match';
+    return;
+  }
+
   try {
-    fetch('/api/sessions/changePassword', {
+    const response = await fetch('/api/sessions/changePassword', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
-    }).then((response) => {
+    });
 
-      if (response.status === 400) {
-        document.querySelector('.infoMessage').textContent = 'The new password cannot be the same as the previous one';
-        return;
-      }
+    const result = await response.json();
 
-      if (!response.ok) {
-        const errorMessage = response.json(); // Aquí esperamos la respuesta JSON
-        document.querySelector('.infoMessage').textContent = errorMessage.error;
-        return;
-      }
+    if (!response.ok) {
+      document.querySelector('.infoMessage').textContent = result.error || 'Unknown error';
+      return;
+    }
 
-      if (response.status === 200) {
-        document.querySelector('.infoMessage').textContent = 'Password changed succesfully';
+    document.querySelector('.infoMessage').textContent = 'Password changed successfully';
 
-        // Redirigir al usuario a la página de inicio de sesión después de un tiempo
-        setTimeout(() => {
-          window.location.href = '/login';
-        }, 1500);
-      }
-    })
-
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 1500);
 
   } catch (error) {
     console.error('Password reset failed:', error);
     document.querySelector('.infoMessage').textContent = 'Error processing your request. Please try again later.';
   } finally {
-    // Restablecer el formulario, independientemente del resultado
-    passwordResetForm.reset();
+    passwordChangeForm.reset();
   }
 });
+

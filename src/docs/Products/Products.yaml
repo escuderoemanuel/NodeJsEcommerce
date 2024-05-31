@@ -64,7 +64,7 @@ paths:
           description: Product ID to search for
           schema:
             type: string
-            example: "65e4d53c269a53c1a650329f"
+            example: "65ffd0289713b7d3858134f4"
       responses:
         '200':
           description: Product was correctly obtained from the database
@@ -91,9 +91,13 @@ paths:
           description: Product ID to update
           schema:
             type: string
-            example: "65e4d53c269a53c1a650329f"
+            example: "65ffd0289713b7d3858134f4"
       requestBody:
-        $ref: '#/components/requestBodies/UpdateProduct'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/UpdateProduct'
       responses:
         '200':
           description: Product was correctly updated in the database
@@ -120,7 +124,7 @@ paths:
           description: Product ID to delete
           schema:
             type: string
-            example: "65e4d53c269a53c1a65032aa"
+            example: "65ffd0289713b7d3858134f4"
       responses:
         '200':
           description: Product was correctly deleted from the database
@@ -177,6 +181,7 @@ components:
           type: string
           description: Product owner
       example:
+        _id: "65ffd0289713b7d3858134f4"
         title: "Product 1"
         description: "Product 1 description"
         price: 100
@@ -185,7 +190,7 @@ components:
         stock: 10
         category: "Category 1"
         status: true
-        owner: "662afebc1f56dbe952ddc07e"
+        owner: "628d0f7e8d9f8d8d8d8d8d8"
 
   #? Request bodies
   requestBodies:
@@ -235,4 +240,4 @@ components:
               stock: 10
               category: "Category 1"
               status: true
-              owner: "662afebc1f56dbe952ddc07e"
+              owner: "628d0f7e8d9f8d8d8d8d8d8"

@@ -27,4 +27,5 @@ module.exports = {
   GMAIL_PORT: process.env.GMAIL_PORT,
   GMAIL_AUTH_USER: process.env.GMAIL_AUTH_USER,
   GMAIL_AUTH_KEY: process.env.GMAIL_AUTH_KEY,
+  TESTING_URL: process.env.TESTING_URL
 }

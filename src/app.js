@@ -57,7 +57,6 @@ const swaggerOptions = {
   apis: [`${__dirname}/docs/**/*.yaml`],
 };
 const specs = swaggerJsDoc(swaggerOptions);
-app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 
 // Json & Body Params
@@ -72,6 +71,7 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
 // Routes
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use('/api/sessions', sessionRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)

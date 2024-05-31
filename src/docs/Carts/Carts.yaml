@@ -58,7 +58,7 @@ paths:
           description: The ID of the cart to retrieve
           schema:
             type: string
-            example: "65da5fda78236ace5660e1f4"
+            example: "66291acaff0b5f0c7a285dc6"
       responses:
         '200':
           description: Cart was correctly obtained from the database
@@ -85,7 +85,7 @@ paths:
           description: The ID of the cart to empty
           schema:
             type: string
-            example: "65da607ddbdfa6410480db58"
+            example: "664e8d1e4e828721745e8243"
       responses:
         '200':
           description: Cart was correctly emptied
@@ -111,7 +111,7 @@ paths:
           description: The ID of the cart to purchase
           schema:
             type: string
-            example: "662afebb1f56dbe952ddc07c"
+            example: "664e8d1e4e828721745e8243"
       responses:
         '200':
           description: Cart was correctly purchased
@@ -141,14 +141,14 @@ paths:
           description: The ID of the cart
           schema:
             type: string
-            example: "662aff491f56dbe952ddc08d"
+            example: "66291acaff0b5f0c7a285dc6"
         - name: pid
           in: path
           required: true
           description: The ID of the product
           schema:
             type: string
-            example: "65e4d53c269a53c1a65032a9"
+            example: "65ffd0289713b7d3858134f4"
       responses:
         '200':
           description: Product was correctly added to the cart
@@ -171,14 +171,14 @@ paths:
           description: The ID of the cart
           schema:
             type: string
-            example: "662aff491f56dbe952ddc08d"
+            example: "66291acaff0b5f0c7a285dc6"
         - name: pid
           in: path
           required: true
           description: The ID of the product
           schema:
             type: string
-            example: "65e4d53c269a53c1a65032a9"
+            example: "65ffd0289713b7d3858134fa"
       requestBody:
         required: true
         content:
@@ -214,14 +214,14 @@ paths:
           description: The ID of the cart
           schema:
             type: string
-            example: "65da5fda78236ace5660e1f4"
+            example: "66291acaff0b5f0c7a285dc6"
         - name: pid
           in: path
           required: true
           description: The ID of the product
           schema:
             type: string
-            example: "65e4eb66e7bb5b1ee582b3c0"
+            example: "65ffd0289713b7d3858134f4"
       responses:
         '200':
           description: Product was correctly removed from the cart
@@ -259,9 +259,9 @@ components:
                 type: number
                 description: The quantity of the product
       example:
-        _id: "662afebb1f56dbe952ddc07c"
+        _id: "66291acaff0b5f0c7a285dc6"
         products:
-          - product: "662b0590187d9ed63736375a"
+          - product: "65ffd0289713b7d3858134f4"
             quantity: 1
           - product: "65ffd0289713b7d3858134f7"
             quantity: 2
