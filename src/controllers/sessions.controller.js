@@ -25,7 +25,7 @@ class SessionsController {
       }
 
       await mailingsService.sendRegisterEmail(req.user.email);
-      res.send({ status: 'success', message: 'Successfully registered user.' });
+      res.send({ status: 'success', message: 'Successfully registered user.', payload: req.user });
     } catch (error) {
 
     }
@@ -54,6 +54,7 @@ class SessionsController {
 
       const accessToken = jwt.sign(serializableUser, JWT_PRIVATE_KEY, { expiresIn: '1d' });
       res.cookie('accessToken', accessToken, serializableUser);
+      await usersService.setLastConnection(_id)
       res.send({ status: 'success', message: 'User logged successfuly' })
     } catch (error) {
       res.status(500).send({ error: 'Internal server error' });
@@ -66,8 +67,35 @@ class SessionsController {
   //? LOGOUT
   static async logout(req, res) {
     try {
+      const token = req.cookies.accessToken;
+      if (!token) {
+        return res.status(401).send({ status: 'error', message: 'No token provided' });
+      }
+
+      let decoded;
+      try {
+        decoded = jwt.verify(token, JWT_PRIVATE_KEY);
+      } catch (err) {
+        return res.status(401).send({ status: 'error', message: 'Failed to authenticate token' });
+      }
+
+      const uid = decoded.id;
+
+      if (!uid) {
+        return res.status(400).send({ status: 'error', message: 'User ID not found in token' });
+      }
+
       res.clearCookie('accessToken');
-      res.status(200).send({ status: 'success', message: 'Logout successful' });
+      await usersService.setLastConnection(uid);
+
+      // Verificar el encabezado 'Accept' para que si la consulta es desde el FRONT, haga un res.render pero sino, haga un res.json
+      const acceptHeader = req.headers['accept'] || '';
+      if (acceptHeader.includes('text/html')) {
+        res.render('login');
+      } else {
+        // Si la solicitud es para JSON (por ejemplo, desde Postman)
+        res.status(200).send({ status: 'success', message: 'Logout successful' });
+      }
     } catch (error) {
       res.status(500).send({ error: 'Internal server error' });
     }
