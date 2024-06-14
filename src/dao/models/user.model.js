@@ -12,34 +12,30 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
   },
   password: {
     type: String,
   },
-  cart: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'carts' //Id con referencia a Carts
-  },
   role: {
     type: String,
+    enum: ['user', 'admin'],
     default: 'user'
-  },
-  documents: {
-    type: [{
-      name: String,
-      reference: String
-    }],
-    default: []
   },
   lastConnection: {
     type: Date,
-    default: null
   },
-  profilePicture: {
-    type: String,
-    default: null
-  }
-})
+  cart: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Cart'
+  },
+  documents: [
+    {
+      name: String,
+      reference: String
+    }
+  ]
+});
 
 const UserModel = mongoose.model('users', userSchema);
 module.exports = UserModel;
