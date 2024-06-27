@@ -1,7 +1,7 @@
 {
-  "name": "nodejsecommercev1.1.4-uploaddocumentswithmulter",
-  "version": "1.1.4",
-  "description": "",
+  "name": "nodejsecommercev1.1.5-finalproject",
+  "version": "1.1.5",
+  "description": "Fullstack ecommerce project, built on NodeJs",
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js -p MONGO",
