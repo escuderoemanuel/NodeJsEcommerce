@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/app.js -p MONGO",
     "dev": "set NODE_ENV=development& nodemon src/app.js -p MONGO",
     "prod": "set NODE_ENV=production& nodemon src/app.js -p MONGO",
     "products-test": "mocha src/test/products.router.test.js",
