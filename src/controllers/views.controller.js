@@ -1,5 +1,6 @@
 const UserDTO = require('../dao/DTOs/UserDTO');
 const { productsService, usersService } = require('../repositories');
+const ProductsController = require('./products.controller');
 
 class ViewsController {
 
@@ -33,7 +34,7 @@ class ViewsController {
     try {
       const user = await usersService.getById(req.user.id);
       const userDTO = new UserDTO(user);
-      const products = await productsService.getAll();
+      const products = await ProductsController.getAll();
       res.render('realTimeProducts', { user: userDTO, products });
     } catch (error) {
       res.status(error.status || 500).send({ status: 'error', message: error.message });
