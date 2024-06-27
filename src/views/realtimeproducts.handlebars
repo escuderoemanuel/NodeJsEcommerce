@@ -1,49 +1,6 @@
 <section class='realTimeProducts'>
-  <ul id='realtimeproducts' class='productsContainer'>
-    {{#each products}}
-    <li class='product'>
-      <h4 class='productTitle'>{{this.title}}</h4>
-      <div class='productDataContainer'>
-        <p> <span>id:</span> {{this._id}}</p>
-        <p> <span>title:</span> {{this.title}}</p>
-        <p> <span>description:</span> {{this.description}}</p>
-        <p> <span>price:</span> {{this.price}}</p>
-        <p> <span>thumbnails:</span><br>
-          {{#each this.thumbnails}}
-          <a class='linkThumbnail' href='{{this}}' target='_blank'>{{this}}</a>
-          <br>
-          {{/each}}
-        </p>
-        <p> <span>code:</span> {{this.code}}</p>
-        <p> <span>stock:</span> {{this.stock}}</p>
-        <p> <span>category:</span> {{this.category}}</p>
-        <p> <span>status:</span> {{this.status}}</p>
-      </div>
-      <button class='btnDelete' id="btnDelete{{this._id}}" data-id='btnDelete'>Delete Product
-      </button>
-    </li>
-    {{/each}}
-  </ul>
-
-  <div class='btnPagesContainer'>
-    {{#if paginateData.hasPrevPage}}
-    <button class='btnPage' onclick="window.location.href='{{paginateData.prevLink}}'">Prev</button>
-    {{else}}
-    <button class='btnPageDisabled' disabled>Prev</button>
-    {{/if}}
-
-    {{#if paginateData.hasNextPage}}
-    <button class='btnPage' onclick="window.location.href='{{paginateData.nextLink}}'">Next
-    </button>
-    {{else}}
-    <button class='btnPageDisabled' disabled>Next</button>
-    {{/if}}
-  </div>
-
-
   {{!-- FORM --}}
-
-  <form action="/api/products" method='POST' id='formAddProduct' class='form'>
+  <form action="/products" method='POST' id='formAddProduct' class='form'>
     <h2>Create a New Product 👇</h2>
     <div>
       <label for="title">Title: </label>
@@ -73,22 +30,67 @@
       <label for="category">Category: </label>
       <input type="text" name='category' id='category'>
     </div>
-    <div>
-      <label for="status">Status: </label>
-      <input type="text" name='status' id='status'>
-    </div>
     <button type='submit' id='btnCreateProduct'>
       Create Product
     </button>
     <div class='errorsContainer'>
-      <p class='errorMessage'>{{error}}</p>
+      <p class='errorMessage' id='errorMessage'>{{error}}</p>
     </div>
 
   </form>
 
+
+  <ul id='realtimeproducts' class='productsContainer'>
+    {{#each products}}
+    <li class='product'>
+      <h4 class='productTitle'>{{this.title}}</h4>
+      <div class='productDataContainer'>
+        <p> <span>id:</span> {{this._id}}</p>
+        <p> <span>title:</span> {{this.title}}</p>
+        <p> <span>description:</span> {{this.description}}</p>
+        <p> <span>price:</span> {{this.price}}</p>
+        <p> <span>thumbnails:</span><br>
+          {{#each this.thumbnails}}
+          <a class='linkThumbnail' href='{{this}}' target='_blank'>{{this}}</a>
+          <br>
+          {{/each}}
+        </p>
+        <p> <span>code:</span> {{this.code}}</p>
+        <p> <span>stock:</span> {{this.stock}}</p>
+        <p> <span>category:</span> {{this.category}}</p>
+        <p> <span>owner:</span> {{this.owner}}</p>
+      </div>
+      <button class='btnDelete' id="btnDelete{{this._id}}" data-id='btnDelete'>Delete Product
+      </button>
+    </li>
+    {{/each}}
+  </ul>
+
+  <div class='btnPagesContainer'>
+    {{#if paginateData.hasPrevPage}}
+    <button class='btnPage' onclick="window.location.href='{{paginateData.prevLink}}'">Prev</button>
+    {{else}}
+    <button class='btnPageDisabled' disabled>Prev</button>
+    {{/if}}
+
+    {{#if paginateData.hasNextPage}}
+    <button class='btnPage' onclick="window.location.href='{{paginateData.nextLink}}'">Next
+    </button>
+    {{else}}
+    <button class='btnPageDisabled' disabled>Next</button>
+    {{/if}}
+  </div>
+
 </section>
 
-{{!-- Para tener acceso a socket.io --}}
+{{!-- Dependencies --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Include the Dark theme -->
+<link rel="stylesheet" href="@sweetalert2/theme-dark/dark.css">
+<script src="sweetalert2/dist/sweetalert2.min.js"></script>
+
+
+{{!-- To access socket.io --}}
 <script src='/socket.io/socket.io.js'></script>
 <script src='/js/realtimeproducts.js'></script>
 <script src='/js/products.js'></script>

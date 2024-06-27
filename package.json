@@ -1,14 +1,12 @@
 {
-  "name": "nodejsecommercev1.1.4-uploaddocumentswithmulter",
-  "version": "1.1.4",
-  "description": "",
+  "name": "nodejsecommercev1.1.5-finalproject",
+  "version": "1.1.5",
+  "description": "Fullstack ecommerce project, built on NodeJs",
   "main": "index.js",
   "scripts": {
+    "start": "node src/app.js -p MONGO",
     "dev": "set NODE_ENV=development& nodemon src/app.js -p MONGO",
     "prod": "set NODE_ENV=production& nodemon src/app.js -p MONGO",
-    "products-test": "mocha src/test/products.router.test.js",
-    "carts-test": "mocha src/test/carts.router.test.js",
-    "sessions-test": "mocha src/test/sessions.router.test.js",
     "test": "mocha src/test"
   },
   "keywords": [],

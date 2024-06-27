@@ -43,10 +43,11 @@
 }
 
 .inputAndMessages {
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  padding: 0% 5%;
 }
 
 .messageInput {
@@ -57,7 +58,7 @@
 
 .messagesLog {
   width: 100%;
-  padding: 0% 2%;
+  padding: 0% 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,11 +87,10 @@
   font-size: 1em;
   font-style: italic;
   color: #222222;
-
 }
 
 .messagesLog {
-  margin: 2rem 0;
+  margin: 1rem 0;
   line-height: 1.5;
 
 }

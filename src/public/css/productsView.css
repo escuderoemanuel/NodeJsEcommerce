@@ -10,7 +10,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* Container General */
@@ -70,4 +70,22 @@
 
 .btnAddToCart {
   margin-top: auto;
+}
+
+.btnAddToCart.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.carousel-inner {
+  gap: 0.2rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.eachThumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }

@@ -1,7 +1,4 @@
-const ProductsDbManager = require('../dao/dbManager/ProductsDbManager');
 const { productsService } = require('../repositories');
-const manager = new ProductsDbManager();
-
 
 class HomeViewController {
   static async getHome(req, res, next) {
@@ -19,9 +16,9 @@ class HomeViewController {
         })
       }
 
-      // Esto es para darle mejor formato al json en el navegador (personalmente prefiero la extensión de navegador 'JSON Viewer Pro')
+      // This is to better format the json in the browser (I personally prefer the 'JSON Viewer Pro' browser extension)
       res.setHeader('Content-Type', 'application/json');
-      // Devuelve el objeto paginateData
+      // Return the paginateData object
       res.send(JSON.stringify(paginateData, null, 2));
 
     } catch (error) {

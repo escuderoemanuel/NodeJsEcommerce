@@ -1,0 +1,22 @@
+[
+  {
+    "email": "admin@admin.com",
+    "password": "1111"
+  },
+  {
+    "email": "user@user.com",
+    "password": "1111"
+  },
+  {
+    "email": "premium@premium.com",
+    "password": "1111"
+  },
+  {
+    "email": "emanuelescudero.dev@gmail.com",
+    "password": "****"
+  },
+  {
+    "email": "adminCoder@coder.com",
+    "password": "adminCod3r123"
+  }
+]

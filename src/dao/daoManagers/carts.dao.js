@@ -47,5 +47,4 @@ class CartDao {
   }
 }
 
-// Exportación para utilizar en el app.js
 module.exports = CartDao;

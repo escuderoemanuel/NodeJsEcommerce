@@ -5,7 +5,7 @@ const { JWT_PRIVATE_KEY } = require('../config/environment.config');
 const verifyToken = (req, res, next) => {
   let accessToken = req.cookies.accessToken;
 
-  // Si no se encuentra accessToken en las cookies, buscar en el encabezado de autorización
+  // If accessToken is not found in the cookies, look in the Authorization header
   if (!accessToken) {
     const authHeader = req.headers['authorization'];
     accessToken = authHeader && authHeader.split(' ')[1];

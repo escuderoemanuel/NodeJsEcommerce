@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer');
 const { GMAIL_SERVICE, GMAIL_PORT, GMAIL_AUTH_USER, GMAIL_AUTH_KEY, JWT_PRIVATE_KEY } = require('../config/environment.config');
-const { usersService } = require('../repositories');
 
 const transporter = nodemailer.createTransport({
   service: GMAIL_SERVICE,
@@ -58,6 +57,33 @@ class MailingsService {
         <a href="http://localhost:8080/api/sessions/changePassword/${token}">Reset Password</a>
       `
     })
+  }
+
+  async sendDeletedInactiveUserEmail(destinationEmail) {
+    const info = await transporter.sendMail({
+      from: GMAIL_AUTH_USER,
+      to: destinationEmail,
+      subject: 'Deleted Account',
+      html: `
+        <h1>Hi, we have bad news for you! 😢</h1>
+        <p> You account has been deleted due to inactivity.</p>
+        <p>Please, register again to reactivate your account.</p>
+      `
+    });
+    return info;
+  }
+
+  async sendDeletedProduct(destinationEmail) {
+    const info = await transporter.sendMail({
+      from: GMAIL_AUTH_USER,
+      to: destinationEmail,
+      subject: 'Deleted Product',
+      html: `
+        <h1>Info Message!</h1>
+        <p> A product you created was deleted by an '@admin' user.</p>
+      `
+    });
+    return info;
   }
 }
 

@@ -52,7 +52,7 @@ const initializePassport = () => {
           return done(null, {
             firstName: 'User',
             email: 'adminCoder@coder.com',
-            role: 'admin' // Asigna el rol de 'admin' si coincide
+            role: 'admin'
           })
         }
 

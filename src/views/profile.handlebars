@@ -1,9 +1,45 @@
 <section class="profile">
-  <h3>Welcome {{user.name}}</h3>
-  <ul class="userDataProfile">
-    <li class="userDataItem">Name:{{user.name}}</li>
-    <li class="userDataItem">Age: {{user.age}}</li>
-    <li class="userDataItem">Email: {{user.email}}</li>
-    <li class="userDataItem">Role: {{user.role}}</li>
-  </ul>
+  {{#if user}}
+  <div class='userData'>
+    <p><span>Name:</span> {{user.firstName}}</p>
+    <p><span>LastName:</span> {{user.lastName}}</p>
+    <p><span>Email:</span> {{user.email}}</p>
+    <p><span>UID:</span> {{user.id}}</p>
+    {{#if user.age}}
+    <p><span>Age:</span> {{user.age}}</p>
+    {{else}}
+    <p><span>Age:</span> N/A</p>
+    {{/if}}
+    <p><span>Role:</span> {{user.role}}</p>
+    {{#unlessEq user.role 'admin'}}
+    <p><span>Cart:</span> {{user.cart}}</p>
+    {{/unlessEq}}
+  </div>
+  {{/if}}
+
+  <form class='userDocs' id='userDocs-{{user.id}}' method="post" action="/users/{{user.id}}/documents"
+    enctype="multipart/form-data">
+    <div>
+      <label for="profilePicture">Profile Picture:</label>
+      <input class='fileInput' type="file" name='profilePicture' id='profilePicture'>
+    </div>
+    <h4>Documentation required to be a premium user or admin user:</h4> <br>
+    <div>
+      <label for="identification">Identification:</label>
+      <input class='fileInput' type="file" name='identification' id='identification'>
+    </div>
+    <div>
+      <label for="proofOfAddress">Proof of Address:</label>
+      <input class='fileInput' type="file" name='proofOfAddress' id='proofOfAddress'>
+    </div>
+    <div>
+      <label for="proofOfAccountStatus">Proof of Account Status:</label>
+      <input class='fileInput' type="file" name='proofOfAccountStatus' id='proofOfAccountStatus'>
+    </div>
+    <button type="submit" id='sendDocumentation-{{user.id}}'>Send Documentation</button>
+  </form>
 </section>
+
+{{!-- To access socket.io --}}
+<script src='/socket.io/socket.io.js'></script>
+<script src='/js/profile.js'></script>

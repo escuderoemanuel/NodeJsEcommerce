@@ -12,35 +12,31 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
   },
   password: {
     type: String,
   },
-  cart: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'carts' //Id con referencia a Carts
-  },
   role: {
     type: String,
-    default: 'user'
-  },
-  documents: {
-    type: [{
-      name: String,
-      reference: String
-    }],
-    default: []
+    enum: ['user', 'premium', 'admin'],
+    default: 'user',
   },
   lastConnection: {
     type: Date,
-    default: null
+    default: null,
   },
-  profilePicture: {
-    type: String,
-    default: null
-  }
-})
+  cart: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Cart',
+  },
+  documents: {
+    profilePicture: { type: Object, default: null },
+    identification: { type: Object, default: null },
+    proofOfAddress: { type: Object, default: null },
+    proofOfAccountStatus: { type: Object, default: null },
+  },
+});
 
-const UserModel = mongoose.model('users', userSchema);
+const UserModel = mongoose.model('User', userSchema);
 module.exports = UserModel;
-

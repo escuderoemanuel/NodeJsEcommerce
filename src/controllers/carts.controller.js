@@ -1,4 +1,4 @@
-const { cartsService, productsService } = require('../repositories');
+const { cartsService, productsService, usersService } = require('../repositories');
 const { getAddProductToCartErrorInfo } = require('../utils/errors/ErrorInfo');
 const TypesOfErrors = require('../utils/errors/TypesOfErrors');
 const CustomErrors = require('../utils/errors/CustomErrors');
@@ -25,13 +25,13 @@ class CartsController {
 
   static async getById(req, res) {
     try {
-      const user = req.user;
+      const user = await usersService.getById(req.user.id);
       const cid = req.params.cid;
       const cart = await cartsService.getById(cid);
       if (!cart) {
         res.status(400).send('Cart does not exist')
       } else {
-        // Verificar el encabezado 'Accept'para que si la consulta es desde el FRONT, haga un res.render pero sino, haga un res.json
+        // Verify headers 'Accept'. If the query is from the FRONT, make a res.render but if not, make a res.json
         const acceptHeader = req.headers['accept'] || '';
         if (acceptHeader.includes('text/html')) {
           res.render('userCart', { ...cart, user });
@@ -58,6 +58,16 @@ class CartsController {
       }
 
       const product = await productsService.getById(pid);
+
+      if (product.stock < 1) {
+        throw new CustomErrors({
+          name: 'Product added error',
+          cause: 'Product adding error',
+          message: 'Product out of stock',
+          code: TypesOfErrors.INVALID_PARAM_ERROR
+        })
+      }
+
       if (req.user.role === 'premium' && product.owner === req.user.email) {
         throw new CustomErrors({
           name: 'Product added error',
@@ -128,6 +138,10 @@ class CartsController {
 
   static async purchase(req, res) {
     const { cid } = req.params;
+    const cart = await cartsService.getById(cid);
+    if (cart.products.length === 0) {
+      return res.status(400).send({ status: 'error', error: 'Cart is empty' })
+    }
     try {
       const remainderItems = await cartsService.purchase(cid, req.user.email)
 

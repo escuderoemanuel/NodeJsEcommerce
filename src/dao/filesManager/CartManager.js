@@ -9,7 +9,7 @@ class CartManager {
     this.carts = [];
   }
 
-  // Deberá agregar un nuevo carrito al archivo JSON
+  // Add a new cart to the JSON file
   async addCart() {
     try {
       if (!fs.existsSync(this.path)) {
@@ -35,7 +35,6 @@ class CartManager {
     }
   }
 
-  //Este no lo pide el desafío 
   async getCarts() {
     try {
       if (!fs.existsSync(this.path)) {
@@ -50,7 +49,7 @@ class CartManager {
     }
   }
 
-  // Deberá listar los productos que pertenezcan al carrito con el parámetro *'cid'* proporcionados.
+  // List the products belonging to the cart with the 'cid' parameter provided.
   async getCartById(id) {
     try {
       const data = await fs.promises.readFile(this.path, encoding);
@@ -69,7 +68,7 @@ class CartManager {
     }
   }
 
-  // Deberá agregar el producto al arreglo “products” del carrito seleccionado '/:cid/product/:pid'
+  // Add the product to the “products” array of the selected cart '/:cid/product/:pid'
   async addProductToCart(cid, pid) {
     try {
 
@@ -80,9 +79,7 @@ class CartManager {
       // Find the cart with the specified id.
       const cart = cartsParsedData.find(cart => cart.id === cid);
 
-      //
       if (cart) {
-
         // Read products.json file.
         const productsData = await fs.promises.readFile(`${__dirname}/files/products.json`, encoding);
         const productsParsedData = JSON.parse(productsData);
@@ -118,5 +115,4 @@ class CartManager {
   }
 }
 
-// Exportación para utilizar en el app.js
 module.exports = CartManager;

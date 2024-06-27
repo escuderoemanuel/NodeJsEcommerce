@@ -1,0 +1,60 @@
+<section class='users'>
+  <button class='btnDeleteInactiveUsers' id='btnDeleteInactiveUsers' onclick='deleteInactiveUsers()'>
+    Delete Inactive Users
+  </button>
+
+
+  <ul id='users' class='usersContainer'>
+    {{#each users}}
+    <li class='user'>
+      <div class='userDataContainer'>
+        <h4 class='userName'>{{firstName}} {{lastName}}</h4>
+        <p><span>UID:</span> {{id}}</p>
+        <p> <span>age:</span> {{age}}</p>
+        <p> <span>email:</span> {{email}}</p>
+        <p> <span>cart:</span> {{cart}}</p>
+        <p> <span>role:</span>
+          <select name="role" id="select-{{id}}">
+
+            {{#if isUser}}
+            <option value='user' selected> user </option>{{else}}
+            <option value='user'> user </option>
+            {{/if}}
+
+            {{#if isPremium}}
+            <option value='premium' selected> premium </option>{{else}}
+            <option value='premium'> premium </option>
+            {{/if}}
+
+            {{#if isAdmin}}
+            <option value='admin' selected> admin </option>{{else}}
+            <option value='admin'> admin </option>
+            {{/if}}
+
+          </select>
+        </p>
+        <p> <span>last Connection:</span> {{lastConnection}}</p>
+
+        <div class='btnContainer'>
+          <button class='btnChangeRole' id='changeRole-{{id}}' onclick="updateUserRole('{{id}}')">
+            Change Role
+          </button>
+          <button class='btnDeleteUser' id='deleteUser-{{id}}' onclick="deleteUser('{{id}}')">
+            Delete User
+          </button>
+        </div>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+</section>
+
+{{!-- Dependencies --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Include the Dark theme -->
+<link rel="stylesheet" href="@sweetalert2/theme-dark/dark.css">
+<script src="sweetalert2/dist/sweetalert2.min.js"></script>
+
+{{!-- To access socket.io --}}
+<script src='/socket.io/socket.io.js'></script>
+<script src='/js/users.js'></script>

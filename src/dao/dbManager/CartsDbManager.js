@@ -35,10 +35,9 @@ class CartManager {
   //? ADD ITEM TO CART
   async addProductToCart(cid, pid) {
     try {
-      // Busca el cart que necesito
       const cart = await this.getCartById(cid);
 
-      // Busca el producto dentro del cart y lo incrementa en 1 si ya existe, sino lo agrega al cart
+      // Search for the product in the cart and increment it by 1 if it already exists, otherwise it adds it to the cart
       const productIndex = cart.products.findIndex(i => i.product === pid);
       if (productIndex >= 0) {
         cart.products[productIndex].quantity++;
@@ -88,10 +87,10 @@ class CartManager {
       const productIndex = cart.products.findIndex(i => i.product === pid);
 
       if (productIndex >= 0) {
-        // Si el producto ya está en el carrito, actualizo la cantidad
+        // If the product is already in the cart, update the quantity
         cart.products[productIndex].quantity = quantity;
       } else {
-        // Si el producto no está en el carrito, lo agrego con la cantidad especificada
+        // If the product is not in the cart, it adds it with the specified quantity
         cart.products.push({ product: pid, quantity: quantity });
       }
       await CartsModel.updateOne({ _id: cid }, cart);
@@ -101,7 +100,7 @@ class CartManager {
     return;
   }
 
-  //? DELETE: api/carts/:cid deberá eliminar todos los productos del carrito
+  //? DELETE: api/carts/:cid remove all products from the cart
   async deleteAllProductsFromCart(cid) {
     try {
       const cart = await this.getCartById(cid);
@@ -114,5 +113,4 @@ class CartManager {
   }
 }
 
-// Exportación para utilizar en el app.js
 module.exports = CartManager;
