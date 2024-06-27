@@ -108,14 +108,24 @@ io.on('connection', async (socket) => {
 
   // Products Events
   socket.on('delete-product', async (data) => {
-    await productsService.delete(data.productId);
-    const products = await productsService.getAll();
-    io.emit('update-products', products);
+    try {
+      await productsService.delete(data.productId);
+      const products = await productsService.getAll();
+      io.emit('update-products', products);
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      socket.emit('error', { message: 'Error deleting product' });
+    }
   });
 
   socket.on('add-product', async (data) => {
-    const products = await productsService.getAll();
-    io.emit('update-products', products);
+    try {
+      const products = await productsService.getAll();
+      io.emit('update-products', products);
+    } catch (error) {
+      console.error('Error adding product:', error);
+      socket.emit('error', { message: 'Error adding product' });
+    }
   });
 
   // Messages Events

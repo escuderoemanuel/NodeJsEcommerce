@@ -11,48 +11,40 @@ class ProductsController {
 
   static async getAll(req, res, next) {
     try {
-      // Gets the query parameters
+      // Get queries params
       let { limit, page, filter, sort } = req.query;
 
-      // Search filters
-      limit = parseInt(req.query.limit);
-      page = parseInt(req.query.page);
-      sort = req.query.sort === 'asc' ? 1 : req.query.sort === 'desc' ? -1 : null;
-      filter = {};
-      if (req.query.filter) {
-        filter = {
-          $or: [
-            { title: { $regex: req.query.filter, $options: 'i' } },
-            { category: { $regex: req.query.filter, $options: 'i' } }
-          ]
-        };
-      }
+      // Filtros de búsqueda
+      limit = parseInt(limit) || 10;
+      page = parseInt(page) || 1;
+      sort = sort === 'asc' ? 1 : sort === 'desc' ? -1 : null;
+      const filterCriteria = filter ? {
+        $or: [
+          { title: { $regex: filter, $options: 'i' } },
+          { category: { $regex: filter, $options: 'i' } }
+        ]
+      } : {};
 
-      // Pagination
+      // Pagination options
       let options = {
-        limit: limit || 10,
-        page: page || 1,
+        limit,
+        page,
         lean: true,
+        sort: sort !== null ? { price: sort, title: 1 } : {}
       };
-      if (sort !== null) {
-        options.sort = { price: sort, title: 1 };
-      }
 
-      // Execute the query
-      let products = await ProductsModel.paginate(filter, options);
+      // Consult
+      const products = await ProductsModel.paginate(filterCriteria, options);
 
-      // URL query parameters
-      let urlQueryParams = {};
-      if (req.query.filter) urlQueryParams.filter = req.query.filter;
-      if (req.query.sort) urlQueryParams.sort = req.query.sort;
-      if (req.query.limit) urlQueryParams.limit = req.query.limit;
+      // URL params to pagonation
+      let urlQueryParams = { filter, sort, limit };
 
-      // Base URL
+      // BaseURL
       const baseUrl = req.baseUrl;
 
       // Pagination Links
-      const urlPrevLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.prevPage}`;
-      const urlNextLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.nextPage}`;
+      const urlPrevLink = `${baseUrl}?${new URLSearchParams({ ...urlQueryParams, page: products.prevPage }).toString()}`;
+      const urlNextLink = `${baseUrl}?${new URLSearchParams({ ...urlQueryParams, page: products.nextPage }).toString()}`;
 
       // Pagination Data
       let paginateData = {
@@ -68,31 +60,33 @@ class ProductsController {
         nextLink: products.hasNextPage ? urlNextLink : null,
       };
 
+      // Get user data
       const user = await usersService.getById(req.user.id);
-      const renderData = { paginateData, user: user, products: paginateData.payload };
-
-      if (!user || !renderData) {
+      if (!user) {
         throw new CustomErrors({
           name: 'Error getting product list',
-          cause: 'Error getting product list',
-          message: 'Error getting product list',
+          cause: 'User not found',
+          message: 'User not found',
           code: TypesOfErrors.INVALID_PARAM_ERROR
         });
       }
 
-      // Verify headers 'Accept'. If the query is from the FRONT, make a res.render but if not, make a res.json
+      // Data to rendering
+      const renderData = { paginateData, user, products: paginateData.payload };
+
+      // Verify header 'Accept'
       const acceptHeader = req.headers['accept'] || '';
       if (acceptHeader.includes('text/html')) {
         res.render('products', renderData);
       } else {
-        let products = await ProductsModel.find();
-        res.send({ status: 'success', payload: products });
+        res.send(paginateData);
       }
 
     } catch (error) {
       next(error);
     }
   }
+
 
   static async getById(req, res) {
     try {
