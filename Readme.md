@@ -1,4 +1,4 @@
-# NodeJs Ecommerce <img width='30' align='center' src='https://i.ibb.co/jZt5prG/node-js-icon-454x512-nztofx17.png'>
+# NodeJs Ecommerce <img width='20' align='center' src='https://i.ibb.co/jZt5prG/node-js-icon-454x512-nztofx17.png'>
 
 Fullstack ecommerce project, built on NodeJs
 
