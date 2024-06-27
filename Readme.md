@@ -114,4 +114,4 @@ Fullstack ecommerce project, built on NodeJs
 
 ### 🌍 Deployment With
 
-- Render https://dashboard.render.com
+- Render https://render.com
