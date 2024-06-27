@@ -84,6 +84,8 @@ app.use((req, res, next) => {
 
 
 // Routes
+app.use('/', viewsRouter);
+
 app.use('/users', usersRouter);
 app.use('/carts', cartsRouter);
 app.use('/products', productsRouter);
@@ -94,7 +96,6 @@ app.use('/api/sessions', sessionRouter);
 app.get('/api/testToken', getTestToken);
 app.use('/api/loggerTest', loggerTestRouter);
 
-app.use('/', viewsRouter);
 // Socket Setting
 const server = app.listen(PORT, () => {
   console.log(serverMessage);
