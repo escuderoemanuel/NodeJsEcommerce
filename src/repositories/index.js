@@ -1,5 +1,3 @@
-const daoFactory = require('../dao/factory');
-
 const { CartsDao, ProductsDao, UsersDao, TicketsDao } = require('../dao/factory');
 
 const CartsService = require('../services/carts.service');

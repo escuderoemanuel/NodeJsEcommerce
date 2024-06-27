@@ -14,24 +14,24 @@ class ProductsDbManager {
   //? GET
   async getProducts(req, res) {
     try {
-      // Obtengo los parámetros de consulta
+      // Obtain query parameters
       let { limit, page, filter, sort } = req.query
 
       //? Filtros de búsqueda
-      // Filtro 'limit' string parseado a number
+      // Filter 'limit' string parsed to number
       limit = parseInt(req.query.limit);
-      // Filtro 'page' parseado a number
+      // Filter 'page' parsed to number
       page = parseInt(req.query.page);
-      // Filtro 'sort' string (asc o desc)
+      // Filter 'sort' string (asc or desc)
       if (req.query.sort === 'asc') {
         sort = 1;
       } else if (req.query.sort === 'desc') {
         sort = -1;
       }
-      // Filtro 'filter' string (title o category)
+      // Filter 'filter' string (title or category)
       filter = {};
       if (req.query.filter) {
-        // $option: 'i' para que no distinga mayúsculas de minúsculas
+        // $option: 'i' so that it is not case sensitive
         filter = {
           $or: [{ title: { $regex: req.query.filter, $options: 'i' } }, { category: { $regex: req.query.filter, $options: 'i' } }]
         }
@@ -44,33 +44,33 @@ class ProductsDbManager {
         lean: true,
       };
 
-      // Si hay un sort, lo agrego a 'options', sino no
-      // Utilizo un segundo parámetro de ordenamiento para el caso en el que haya más productos con el mismo precio!
+      // If there is a sort, add it to 'options', otherwise I don't.
+      // Use a second sorting parameter for the case where there are more products with the same price!
       if (req.query.sort) {
         options.sort = { price: sort, title: 1 }
       }
 
-      // Ejecuto la consulta pasando filter (si hay), más options
+      // Execute the query passing filter (if any), more options
       let products = await ProductsModel.paginate(filter, options);
 
-      // Creo un objeto para almacenar los parámetros de consulta de la url, para armar los links 'prev' y 'next'
+      // Creates an object to store the URL query parameters, to build the 'prev' and 'next' links
       let urlQueryParams = {};
       if (req.query.filter) urlQueryParams.filter = req.query.filter;
       if (req.query.sort) urlQueryParams.sort = req.query.sort;
       if (req.query.limit) urlQueryParams.limit = req.query.limit;
 
 
-      // Obtiene la URL base dinámicamente desde el front
+      // Get the base URL dynamically from the front end
       const baseUrl = req.baseUrl;
 
-      // Creo los links para la paginación
-      // GPT Tip => URLSearchParams: permite crear un string con los parámetros de consulta de la url.
+      // Create links for pagination
+      // GPT Tip => URLSearchParams: allows you to create a string with the URL query parameters.
       const urlPrevLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.prevPage}`;
 
       const urlNextLink = `${baseUrl}?${new URLSearchParams(urlQueryParams).toString()}&page=${products.nextPage}`;
 
 
-      // Creo un objeto para almacenar los datos de paginación y los productos para enviarlos al front.
+      // Creates an object to store pagination data and products to send to the front end.
       let paginateData = {
         status: 'success',
         payload: products.docs,

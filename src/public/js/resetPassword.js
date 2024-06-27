@@ -11,7 +11,7 @@ passwordResetForm.addEventListener('submit', async (e) => {
     payload[key] = value;
   });
 
-  // Limpiar cualquier error previo
+  // Clean up any previous errors
   document.querySelector('.infoMessage').textContent = '';
 
   try {
@@ -37,7 +37,7 @@ passwordResetForm.addEventListener('submit', async (e) => {
     console.error('Password reset failed:', error);
     document.querySelector('.infoMessage').textContent = 'Error processing your request. Please try again later.';
   } finally {
-    // Restablecer el formulario, independientemente del resultado
+    // Reset the form, regardless of the result
     passwordResetForm.reset();
   }
 });

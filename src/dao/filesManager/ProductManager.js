@@ -1,4 +1,3 @@
-// fs will allow us to access operations for files
 const fs = require('fs');
 
 const encoding = 'utf-8';

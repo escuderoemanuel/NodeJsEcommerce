@@ -31,11 +31,13 @@ loginForm.addEventListener('submit', async (e) => {
       },
     }).then(res => {
       if (res.status === 200) {
-        window.location.replace('/api/products');
+        window.location.replace('/products');
       } else {
         document.querySelector('.infoMessage').textContent = 'Error occurred while processing your request.';
       }
     })
+
+    document.querySelector('.infoMessage').textContent = 'Logging in...';
   } catch (error) {
     document.querySelector('.infoMessage').textContent = 'Login error occurred while processing your request.';
   }

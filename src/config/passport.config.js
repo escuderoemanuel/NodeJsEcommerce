@@ -47,14 +47,6 @@ const initializePassport = () => {
   },
     async (email, password, done) => {
       try {
-        // ADMIN LOGIC
-        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-          return done(null, {
-            firstName: 'User',
-            email: 'adminCoder@coder.com',
-            role: 'admin' // Asigna el rol de 'admin' si coincide
-          })
-        }
 
         const user = await usersService.getByEmail(email);
         if (!user) {

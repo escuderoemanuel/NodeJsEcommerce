@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="/css/btnPaginate.css">
   <link rel="stylesheet" href="/css/realTimeProductsView.css">
   <link rel="stylesheet" href="/css/register-login.css">
+  <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="/css/users.css">
 
   {{!-- FAVICON --}}
-  <link rel="shortcut icon" href="https://i.ibb.co/ZT13Snc/Logo2023.png" type="image/x-icon">
+  <link rel="shortcut icon" href="https://i.ibb.co/27ybJtZ/Logo2024.png" type="image/x-icon">
 
   {{!-- FONTS --}}
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,53 +28,119 @@
   {{!-- SWEET ALERT --}}
   <link rel="stylesheet" href="@sweetalert2/theme-dark/dark.css">
 
-  <title>Backend Ecommerce</title>
+  <title>NodeJs Ecommerce</title>
 
 </head>
 
 <body>
   <header class='header'>
-    <h1>My Backend App 🥴</h1>
-    {{#if user.email}}
+    <h1>NodeJs Ecommerce</h1>
 
+    {{#if user}}
     <nav class='navBar'>
-      <a href="/api/products">Products</a>
-      <a href="/api/chat">Chat</a>
-      <a href="/realtimeproducts">Real Time Products</a>
-      <a href="/api/carts/{{user.cart}}">Cart</a>
-      <a href="/current">Current</a>
-    </nav>
-    <br>
-    <section class="profile">
-      <section class='userData'>
-        <p><span>Name:</span> {{user.firstName}} {{user.lastName}}</p>
-        <p><span>Email:</span> {{user.email}}</p>
-        <p><span>UID:</span> {{user.id}}</p>
-        {{#if user.age}}
-        <p><span>Age:</span> {{ user.age }}</p>
-        {{else}}
-        <p><span>Age:</span> N/A</p>
-        {{/if}}
-        <p><span>Role:</span> {{user.role}}</p>
-        <p><span>Cart:</span> {{user.cart}}</p>
-      </section>
-      <a href="/api/sessions/logout">
-        <button class='btnLogout'>Logout</button>
+      {{#ifEq user.role 'admin'}}
+      <a href="/products" class="{{#ifEq currentPath '/products'}}active{{/ifEq}}">
+        <img class='iconNavBar' src='https://i.ibb.co/BGWQKzd/product.png' alt="product bux icon">
+        Products
       </a>
-    </section>
+      <a href="/realtimeproducts" class="{{#ifEq currentPath '/realtimeproducts'}}active{{/ifEq}}">
+        <img class='iconNavBar' src='https://i.ibb.co/s5Y1QBy/add.png' alt="plus sign to add a product">
+        Products Manager
+      </a>
+      <a href="/users" class="{{#ifEq currentPath '/users'}}active{{/ifEq}}">
+        <img class='iconNavBar' src='https://i.ibb.co/tLYgHcr/users.png' alt="users list icon">
+        Users Manager
+      </a>
+      <a href="/profile" class="{{#ifEq currentPath '/profile'}}active{{/ifEq}}">
+        {{#if user.documents.profilePicture}}
+        <img class='iconNavBar profilePicture' src="{{user.documents.profilePicture.reference}}"
+          alt="profile picture to link to user profile">
+        {{else}}
+        <img class='iconNavBar' src='https://i.ibb.co/r4FwnKw/user.png' alt="user profile icon">
+        {{/if}}
+        Profile
+      </a>
+      <a href="/api/sessions/logout">
+        <img class='iconNavBar' src='https://i.ibb.co/y6J6114/logout.png' alt="user logout icon">Exit
+      </a>
+      {{/ifEq}}
+
+      {{#ifEq user.role 'user'}}
+      <a href="/products" class="{{#ifEq currentPath '/products'}}active{{/ifEq}}">
+        <img class='iconNavBar' src='https://i.ibb.co/BGWQKzd/product.png' alt="product bux icon">
+        Products
+      </a>
+      <a href="/chat" class="{{#ifEq currentPath '/chat'}}active{{/ifEq}}">
+        <img class='iconNavBar' src='https://i.ibb.co/q0p7N6H/chatIcon.png' alt="chat buble icon">
+        Chat
+      </a>
+      <a href="/carts/{{user.cart}}" class="{{#ifContains currentPath '/carts'}}active{{/ifContains}}">
+        <img class='iconNavBar' src='https://i.ibb.co/Cbjwjkq/cart.png' alt="shopping cart icon">
+        Cart
+      </a>
+      <a href="/profile" class="{{#ifEq currentPath '/profile'}}active{{/ifEq}}">
+        {{#if user.documents.profilePicture}}
+        <img class='iconNavBar profilePicture' src="{{user.documents.profilePicture.reference}}"
+          alt="profile picture to link to user profile">
+        {{else}}
+        <img class='iconNavBar' src='https://i.ibb.co/r4FwnKw/user.png' alt="user profile icon">
+        {{/if}}
+        Profile
+      </a>
+      <a href="/api/sessions/logout">
+        <img class='iconNavBar' src='https://i.ibb.co/y6J6114/logout.png' alt="user logout icon">Exit
+      </a>
+      {{/ifEq}}
+
+      {{#ifEq user.role 'premium'}}
+      <a href="/products" class="{{#ifEq currentPath '/products'}}active{{/ifEq}}">
+        <img class='iconNavBar' src='https://i.ibb.co/BGWQKzd/product.png' alt="product bux icon">
+        Products
+      </a>
+      <a href="/realtimeproducts" class="{{#ifEq currentPath '/realtimeproducts'}}active{{/ifEq}}">
+        <img class='iconNavBar' src='https://i.ibb.co/s5Y1QBy/add.png' alt="plus sign to add a product">
+        Products Manager
+      </a>
+      <a href="/chat" class="{{#ifEq currentPath '/chat'}}active{{/ifEq}}">
+        <img class='iconNavBar' src='https://i.ibb.co/q0p7N6H/chatIcon.png' alt="chat buble icon">
+        Chat
+      </a>
+      <a href="/carts/{{user.cart}}" class="{{#ifContains currentPath '/carts'}}active{{/ifContains}}">
+        <img class='iconNavBar' src='https://i.ibb.co/Cbjwjkq/cart.png' alt="shopping cart icon">
+        Cart
+      </a>
+      <a href="/profile" class="{{#ifEq currentPath '/profile'}}active{{/ifEq}}">
+        {{#if user.documents.profilePicture}}
+        <img class='iconNavBar profilePicture' src="{{user.documents.profilePicture.reference}}"
+          alt="profile picture to link to user profile">
+        {{else}}
+        <img class='iconNavBar' src='https://i.ibb.co/r4FwnKw/user.png' alt="user profile icon">
+        {{/if}}
+        Profile
+      </a>
+      </a>
+      <a href="/api/sessions/logout">
+        <img class='iconNavBar' src='https://i.ibb.co/y6J6114/logout.png' alt="user logout icon">Exit
+      </a>
+      {{/ifEq}}
+    </nav>
     {{/if}}
+
   </header>
   <main class='main'>
     {{{body}}}
   </main>
   <footer class='footer'>
     <div class='footerContainer'>
-      <p>[ Developed by Emanuel Escudero ]</p>
+      <p>
+        < Developed by Emanuel Escudero />
+      </p>
       <a href='https://emanuelescudero.ar' rel='noopener noreferrer' target='_blank'>
-        <img class='logoDev' src='https://i.ibb.co/hc02MDb/Logo.png' alt='Developer Logo' />
+        <img class='logoDev' src='https://i.ibb.co/27ybJtZ/Logo2024.png' alt='Developer Logo' />
       </a>
     </div>
   </footer>
+
 </body>
 
 </html>

@@ -1,0 +1,422 @@
+[
+  {
+    "title": "Bespoke Plastic Table",
+    "description": "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+    "price": "272.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/kjtEhxHn0/640/480",
+      "https://loremflickr.com/640/480?lock=511625945677824"
+    ],
+    "code": "Dt4wxbBw",
+    "stock": 9,
+    "category": "Toys",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Modern Bronze Chicken",
+    "description": "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
+    "price": "785.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/jlWckOqX/640/480",
+      "https://loremflickr.com/640/480?lock=1302817901903872"
+    ],
+    "code": "1EmnQwCr",
+    "stock": 2,
+    "category": "Jewelery",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Handmade Plastic Cheese",
+    "description": "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+    "price": "443.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/ezLiisx/640/480",
+      "https://picsum.photos/seed/uICviJb/640/480"
+    ],
+    "code": "RBSn28JB",
+    "stock": 8,
+    "category": "Jewelery",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Unbranded Cotton Table",
+    "description": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
+    "price": "797.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=1071083329421312",
+      "https://picsum.photos/seed/iqHDHFQ/640/480"
+    ],
+    "code": "JuARKgS4",
+    "stock": 10,
+    "category": "Health",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Modern Soft Pants",
+    "description": "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
+    "price": "581.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=8652437502033920",
+      "https://loremflickr.com/640/480?lock=766097867407360"
+    ],
+    "code": "FeALTKED",
+    "stock": 1,
+    "category": "Clothing",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Small Fresh Pants",
+    "description": "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+    "price": "610.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/vxVKYf/640/480",
+      "https://picsum.photos/seed/AzxqSO/640/480"
+    ],
+    "code": "tCI2m03d",
+    "stock": 7,
+    "category": "Toys",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Handmade Concrete Salad",
+    "description": "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+    "price": "973.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=7293227914756096",
+      "https://picsum.photos/seed/2TJjqTzOhi/640/480"
+    ],
+    "code": "pwvhbcnI",
+    "stock": 4,
+    "category": "Grocery",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Luxurious Fresh Salad",
+    "description": "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
+    "price": "724.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=3531834407256064",
+      "https://loremflickr.com/640/480?lock=7453726019158016"
+    ],
+    "code": "ZVaEudNv",
+    "stock": 10,
+    "category": "Clothing",
+    "owner": "emanuelescudero.dev@gmail.com",
+    "status": true
+  },
+  {
+    "title": "Oriental Wooden Tuna",
+    "description": "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+    "price": "488.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/NgK9xfWFF/640/480",
+      "https://loremflickr.com/640/480?lock=1960167121879040"
+    ],
+    "code": "3eT8OGmi",
+    "stock": 7,
+    "category": "Baby",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Small Soft Soap",
+    "description": "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design",
+    "price": "843.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/DFlVfXd/640/480",
+      "https://picsum.photos/seed/N1NGn/640/480"
+    ],
+    "code": "PEkckFOa",
+    "stock": 5,
+    "category": "Beauty",
+    "owner": "emanuelescudero.dev@gmail.com",
+    "status": true
+  },
+  {
+    "title": "Small Metal Hat",
+    "description": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+    "price": "198.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=7599749194579968",
+      "https://loremflickr.com/640/480?lock=7871929249693696"
+    ],
+    "code": "WXbTGu0H",
+    "stock": 8,
+    "category": "Electronics",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Modern Cotton Chips",
+    "description": "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
+    "price": "570.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=7707719748288512",
+      "https://loremflickr.com/640/480?lock=4255405268008960"
+    ],
+    "code": "Yr4OZvQS",
+    "stock": 8,
+    "category": "Grocery",
+    "owner": "emanuelescudero.dev@gmail.com",
+    "status": true
+  },
+  {
+    "title": "Handmade Frozen Shirt",
+    "description": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
+    "price": "826.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=65193780445184",
+      "https://picsum.photos/seed/HSRkC59u5/640/480"
+    ],
+    "code": "xmecvGMW",
+    "stock": 10,
+    "category": "Industrial",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Ergonomic Bronze Table",
+    "description": "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+    "price": "10.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/uBMWy9/640/480",
+      "https://picsum.photos/seed/4LMC1VMZ/640/480"
+    ],
+    "code": "LG5zevY7",
+    "stock": 9,
+    "category": "Grocery",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Recycled Rubber Soap",
+    "description": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+    "price": "670.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/35Bc95qyl/640/480",
+      "https://picsum.photos/seed/Ur8n4N/640/480"
+    ],
+    "code": "f6PjNpy6",
+    "stock": 5,
+    "category": "Grocery",
+    "owner": "emanuelescudero.dev@gmail.com",
+    "status": true
+  },
+  {
+    "title": "Unbranded Metal Tuna",
+    "description": "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+    "price": "843.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/NA5xSlhA/640/480",
+      "https://loremflickr.com/640/480?lock=5210432415465472"
+    ],
+    "code": "l89kFATZ",
+    "stock": 1,
+    "category": "Music",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Rustic Wooden Hat",
+    "description": "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+    "price": "612.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/nQmM3m/640/480",
+      "https://loremflickr.com/640/480?lock=6848310522413056"
+    ],
+    "code": "eLubD62x",
+    "stock": 6,
+    "category": "Industrial",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Gorgeous Frozen Keyboard",
+    "description": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+    "price": "107.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/rIc7FVF5/640/480",
+      "https://loremflickr.com/640/480?lock=6786208029999104"
+    ],
+    "code": "wzQUceeK",
+    "stock": 9,
+    "category": "Books",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Unbranded Plastic Keyboard",
+    "description": "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+    "price": "508.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=8225793215823872",
+      "https://loremflickr.com/640/480?lock=4912389103288320"
+    ],
+    "code": "x1iYrVmh",
+    "stock": 4,
+    "category": "Clothing",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Incredible Cotton Bacon",
+    "description": "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
+    "price": "490.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/JO1fh/640/480",
+      "https://loremflickr.com/640/480?lock=2696240156377088"
+    ],
+    "code": "1NblE2pW",
+    "stock": 7,
+    "category": "Toys",
+    "owner": "emanuelescudero.dev@gmail.com",
+    "status": true
+  },
+  {
+    "title": "Gorgeous Soft Tuna",
+    "description": "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
+    "price": "317.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=8908683568218112",
+      "https://picsum.photos/seed/DQyHHGzp3/640/480"
+    ],
+    "code": "fWeEtm5n",
+    "stock": 3,
+    "category": "Toys",
+    "owner": "emanuelescudero.dev@gmail.com",
+    "status": true
+  },
+  {
+    "title": "Luxurious Concrete Ball",
+    "description": "The Football Is Good For Training And Recreational Purposes",
+    "price": "649.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=4263912658698240",
+      "https://loremflickr.com/640/480?lock=5944049141809152"
+    ],
+    "code": "GJDj7EPA",
+    "stock": 4,
+    "category": "Computers",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Recycled Fresh Pizza",
+    "description": "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+    "price": "266.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/p6g9w/640/480",
+      "https://picsum.photos/seed/JCDdE/640/480"
+    ],
+    "code": "A9TYcBcH",
+    "stock": 10,
+    "category": "Baby",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Intelligent Plastic Chips",
+    "description": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+    "price": "375.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/Lt9V0/640/480",
+      "https://loremflickr.com/640/480?lock=7154638826504192"
+    ],
+    "code": "GFlTsVdp",
+    "stock": 4,
+    "category": "Industrial",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Recycled Wooden Salad",
+    "description": "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+    "price": "88.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/kaX7K/640/480",
+      "https://loremflickr.com/640/480?lock=3572573983997952"
+    ],
+    "code": "I934dLEi",
+    "stock": 1,
+    "category": "Music",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Modern Plastic Tuna",
+    "description": "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+    "price": "246.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/R7AWN/640/480",
+      "https://picsum.photos/seed/3g1cb/640/480"
+    ],
+    "code": "GDxD6J5f",
+    "stock": 7,
+    "category": "Tools",
+    "owner": "premium@premium.com",
+    "status": true
+  },
+  {
+    "title": "Fantastic Soft Cheese",
+    "description": "The Football Is Good For Training And Recreational Purposes",
+    "price": "358.00",
+    "thumbnails": [
+      "https://loremflickr.com/640/480?lock=5817730915631104",
+      "https://loremflickr.com/640/480?lock=2293278017847296"
+    ],
+    "code": "epGkjn3E",
+    "stock": 1,
+    "category": "Automotive",
+    "owner": "emanuelescudero.dev@gmail.com",
+    "status": true
+  },
+  {
+    "title": "Handmade Concrete Bacon",
+    "description": "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+    "price": "569.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/SpghP2/640/480",
+      "https://loremflickr.com/640/480?lock=6671270674432000"
+    ],
+    "code": "kVEpZbAI",
+    "stock": 2,
+    "category": "Automotive",
+    "owner": "admin@admin.com",
+    "status": true
+  },
+  {
+    "title": "Ergonomic Granite Cheese",
+    "description": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
+    "price": "847.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/1XsVkl/640/480",
+      "https://loremflickr.com/640/480?lock=6258894913404928"
+    ],
+    "code": "33MUq6uJ",
+    "stock": 2,
+    "category": "Shoes",
+    "owner": "emanuelescudero.dev@gmail.com",
+    "status": true
+  },
+  {
+    "title": "Intelligent Plastic Computer",
+    "description": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
+    "price": "313.00",
+    "thumbnails": [
+      "https://picsum.photos/seed/C7yQK6BX/640/480",
+      "https://picsum.photos/seed/6OgaNeP/640/480"
+    ],
+    "code": "qw0VDYEp",
+    "stock": 4,
+    "category": "Computers",
+    "owner": "premium@premium.com",
+    "status": true
+  }
+]

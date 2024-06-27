@@ -25,7 +25,6 @@ messageInput.addEventListener("keyup", (e) => {
 })
 
 // SOCKET ON => Recive Event: new messages
-
 socket.on("messages", ({ messages }) => {
   if (!userName) return;
   messagesLog.innerHTML = '';
@@ -58,21 +57,11 @@ socket.on("newUserConnected", ({ userName }) => {
 })
 
 
-// Login
-Swal.fire({
-  color: "#fff",
-  background: "#43c09e",
-  radius: 2,
-  title: "👋 Hey, welcome to our chat! 😉",
-  timer: 2000,
-  showConfirmButton: false,
+user = result.value;
+userName = `${userName}`;
+socket.emit("newUser", userName);
+// Send Event Auth
+socket.emit("authenticated", { userName });
 
-}).then((result) => {
-  user = result.value;
-  userName = `${userName}`;
-  socket.emit("newUser", userName);
-  // Send Event Auth
-  socket.emit("authenticated", { userName });
-});
 
 

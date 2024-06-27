@@ -1,7 +1,7 @@
 paths:
 
   #? Endpoint (all products)
-  /api/products/:
+  /products/:
 
     # Get method
     get:
@@ -48,7 +48,7 @@ paths:
           description: Internal server error
 
   #? Endpoint (product by id)
-  /api/products/{pid}:
+  /products/{pid}:
 
     # Get method
     get:

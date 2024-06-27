@@ -30,10 +30,14 @@
   border: 3px solid rgb(0, 106, 255);
   margin: .5rem;
   width: 350px;
-  min-height: 460px;
+  min-height: 400px;
   font-size: .8rem;
   background-color: rgba(245, 245, 245);
   overflow: hidden;
+}
+
+.product {
+  min-height: 400px;
 }
 
 /* Product Title */
@@ -72,7 +76,7 @@
 /*? FORM */
 
 form {
-  margin-top: 2rem;
+  margin: 1.5rem 0;
   width: 500px;
   display: flex;
   flex-direction: column;
@@ -133,9 +137,10 @@ button:active {
 }
 
 
-.errorMessage {
+#errorMessage {
   font-size: .9em;
   color: rgb(79, 152, 255);
   color: gainsboro;
+  color: red;
   text-align: center;
 }

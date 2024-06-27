@@ -10,7 +10,6 @@ class LoggerController {
 
     res.send({ status: 'success', message: 'Logger Test', environment: process.env.NODE_ENV })
   }
-
 }
 
 module.exports = LoggerController;

@@ -5,24 +5,25 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-
     try {
-      // Uso el fieldName para determinar la ruta donde debo guardar el archivo
       let destinationFolder;
-      if (file.fieldname === 'document') {
-        destinationFolder = 'documents';
-      } else if (file.fieldname === 'profile') {
-        destinationFolder = 'profiles';
+      if (file.fieldname === 'profilePicture') {
+        destinationFolder = 'profilePicture';
+      } else if (file.fieldname === 'identification') {
+        destinationFolder = 'documents/identification';
+      } else if (file.fieldname === 'proofOfAddress') {
+        destinationFolder = 'documents/proofOfAddress';
+      } else if (file.fieldname === 'proofOfAccountStatus') {
+        destinationFolder = 'documents/proofOfAccountStatus';
       } else if (file.fieldname === 'product') {
         destinationFolder = 'products';
       } else {
         return cb(new Error('Invalid fieldname'));
       }
 
-      // Construyo la ruta completa
+
       const fullPath = path.join(`${__dirname}/../public/filesUploadedByUser/${destinationFolder}`);
 
-      // Si la carpeta no existe, la creo
       if (!fs.existsSync(fullPath)) {
         fs.mkdirSync(fullPath, { recursive: true });
       }
@@ -37,16 +38,12 @@ const storage = multer.diskStorage({
 
   filename: function (req, file, cb) {
     try {
-      // Fecha actual de subida en milisegundos
       let timestampMs = Date.now();
-
-      // Formateo la fecha para que sea más legible
       let readableDate = DateTime.fromMillis(timestampMs).toFormat('dd-MM-yyyy');
       let readableTime = DateTime.fromMillis(timestampMs).toFormat('HH-mm-ss');
 
-      // Armo el nombre final del archivo que se sube
       cb(null, `${readableDate}_${readableTime} - ${file.originalname}`);
-      
+
     } catch (error) {
       console.error('Error in filename function:', error);
       cb(error);

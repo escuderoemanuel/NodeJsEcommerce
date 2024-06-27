@@ -9,7 +9,7 @@ const formAddProduct = document.getElementById('formAddProduct');
 //? Recibo la lista actualizada de productos y la renderizo en el cliente.
 socket.on('update-products', products => {
   const productList = document.getElementById('realtimeproducts');
-  productList.innerHTML = ''; // Limpiar la lista antes de agregar productos actualizados
+  productList.innerHTML = ''; // Clear the list before adding updated products
   products.forEach(product => {
     const productItem = document.createElement('li');
     productItem.classList.add('product');
@@ -26,7 +26,7 @@ socket.on('update-products', products => {
         <p> <span>code:</span> ${product.code}</p>
         <p> <span>stock:</span> ${product.stock}</p>
         <p> <span>category:</span> ${product.category}</p>
-        <p> <span>status:</span> ${product.status}</p>
+        <p> <span>owner:</span> ${product.owner}</p>
       </div>
       <button class='btnDelete' id="btnDelete${product._id}" data-id='btnDelete'>Delete Product</button>
     `;
@@ -41,21 +41,49 @@ productList.addEventListener('click', async (e) => {
   if (e.target.getAttribute('data-id') === 'btnDelete') {
     const productId = e.target.getAttribute('id').slice(9);
     try {
-      const response = await fetch(`/api/products/${productId}`, {
+      const response = await fetch(`/products/${productId}`, {
         method: 'DELETE',
-      })
-      if (response.status === 200) {
-        socket.emit('delete-product', response);
-      } else {
-        console.error('Failed to delete product');
+      });
+      if (!response.ok) {
+        // If the response is not successful, extract the error message
+        const errorData = await response.json();
+        const errorMessage = errorData.message || errorData.error || 'Unknown error';
+        throw new Error(errorMessage);
       }
+      // Product object to deleting
+      const { payload } = await response.json();
+      // Send the product to the server
+      socket.emit('delete-product', response);
+      Swal.fire({
+        color: "#eee",
+        position: 'center',
+        background: "#222",
+        icon: 'success',
+        title: 'Success',
+        text: 'Product has been deleted',
+        showConfirmButton: false,
+        timer: 2500,
+      });
+      // Reload the page to update the product list
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     } catch (error) {
-      console.error(error);
+      Swal.fire({
+        color: "#eee",
+        position: 'center',
+        background: "#222",
+        icon: 'warning',
+        title: 'Oops...',
+        text: error.message,
+        confirmButtonColor: "#43c09e",
+      });
+      console.error(`Error: ${error.message}`);
     }
   }
-});
+})
 
-//? Agrego un producto a la base de datos y lo envio a todos los clientes conectados.
+//? Adds a product to the database and sends it to all connected customers.
 formAddProduct.addEventListener('submit', async (e) => {
   e.preventDefault()
 
@@ -67,7 +95,7 @@ formAddProduct.addEventListener('submit', async (e) => {
   });
 
   try {
-    const response = await fetch('/api/products', {
+    const response = await fetch('/products', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -77,23 +105,29 @@ formAddProduct.addEventListener('submit', async (e) => {
 
     if (!response.ok) {
       const errorMessage = await response.json();
-      // Mostrar el mensaje de error en el formulario
+      // Display error message on form
       document.querySelector('.errorMessage').textContent = errorMessage.error;
       return;
     }
-
-    // Restablecer el formulario y eliminar el mensaje de error
+    // Reset the form and remove the error message
     formAddProduct.reset();
     document.querySelector('.errorMessage').textContent = '';
-
-    // Espera que el server responda con la lista actualizada.
+    // Wait for the server to respond with the updated list.
     const { products } = await response.json()
-
-    // Envía la lista actualizada al server.
+    // Send the updated list to the server.
+    Swal.fire({
+      color: "#eee",
+      position: 'center',
+      background: "#222",
+      icon: 'success',
+      title: 'Success',
+      text: 'Product has been created',
+      showConfirmButton: false,
+      timer: 2000,
+    });
     socket.emit('add-product', { newProduct, products });
   } catch (error) {
-    console.log(error)
-    // Mostrar el mensaje de error en el formulario
+    console.errors(error)
     document.querySelector('.errorMessage').textContent = errorMessage.error;
   }
 })

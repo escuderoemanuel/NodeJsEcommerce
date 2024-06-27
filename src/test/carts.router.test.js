@@ -48,13 +48,13 @@ describe('🔰 CARTS ROUTER TESTS', function () {
   });
 
 
-  it('01. [GET]: "/api/carts" should get all carts with any user role', async () => {
+  it('01. [GET]: "/carts" should get all carts with any user role', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.userMock);
     const token = this.cookie.value;
 
     //! Get all carts
-    const getCartsResponse = await requester.get('/api/carts').set('Authorization', `Bearer ${token}`);
+    const getCartsResponse = await requester.get('/carts').set('Authorization', `Bearer ${token}`);
 
     //! Tests
     expect(getCartsResponse.statusCode).to.equal(200);
@@ -63,13 +63,13 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(getCartsResponse._body.carts).to.be.an('array');
   })
 
-  it('02. [POST]: "/api/carts" should create a cart', async () => {
+  it('02. [POST]: "/carts" should create a cart', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.userMock);
     const token = this.cookie.value;
 
     //! Create a cart
-    const createCartResponse = await requester.post('/api/carts').set('Authorization', `Bearer ${token}`);
+    const createCartResponse = await requester.post('/carts').set('Authorization', `Bearer ${token}`);
 
     //! Tests
     expect(createCartResponse.statusCode).to.equal(200);
@@ -78,17 +78,17 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(createCartResponse._body.payload).to.have.property('_id');
   })
 
-  it('03. [GET]: "/api/carts/{cid}" should to get a cart by id', async () => {
+  it('03. [GET]: "/carts/{cid}" should to get a cart by id', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.userMock);
     const token = this.cookie.value;
 
     //! Get all carts
-    const getCartsResponse = await requester.get('/api/carts').set('Authorization', `Bearer ${token}`);
+    const getCartsResponse = await requester.get('/carts').set('Authorization', `Bearer ${token}`);
     const cid = getCartsResponse._body.carts[0]._id
 
     //! Get a cart by id
-    const getCartByIdResponse = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponse = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
 
     //! Tests
     expect(getCartByIdResponse.statusCode).to.equal(200);
@@ -98,20 +98,20 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(getCartByIdResponse._body.payload).to.have.property('products').to.be.an('array');
   })
 
-  it('04. [DELETE]: "/api/carts/{cid}" should empty a cart by id', async () => {
+  it('04. [DELETE]: "/carts/{cid}" should empty a cart by id', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.userMock);
     const token = this.cookie.value;
 
     //! Create a cart
-    const createCartResponse = await requester.post('/api/carts').set('Authorization', `Bearer ${token}`);
+    const createCartResponse = await requester.post('/carts').set('Authorization', `Bearer ${token}`);
     const cid = createCartResponse._body.payload._id;
 
     //! Empty a cart by id
-    const deleteCartByIdResponse = await requester.delete(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const deleteCartByIdResponse = await requester.delete(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
 
     //! Get a cart by id
-    const getCartByIdResponse = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponse = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
     const quantityOfProductsInTheCart = getCartByIdResponse._body.payload.products.length
 
     //! Tests
@@ -120,20 +120,20 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(quantityOfProductsInTheCart).to.equal(0);
   })
 
-  it('05. [GET]: "/api/carts/{cid}/purchase" should generate a ticket', async () => {
+  it('05. [GET]: "/carts/{cid}/purchase" should generate a ticket', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.userMock);
     const token = this.cookie.value;
 
     //! Create a cart
-    const createCartResponse = await requester.post('/api/carts').set('Authorization', `Bearer ${token}`);
+    const createCartResponse = await requester.post('/carts').set('Authorization', `Bearer ${token}`);
 
     //! Get all carts
-    const getCartsResponse = await requester.get('/api/carts').set('Authorization', `Bearer ${token}`);
+    const getCartsResponse = await requester.get('/carts').set('Authorization', `Bearer ${token}`);
     const cid = getCartsResponse._body.carts[getCartsResponse._body.carts.length - 1]._id
 
     //! Purchase a cart
-    const purchaseCartResponse = await requester.get(`/api/carts/${cid}/purchase`).set('Authorization', `Bearer ${token}`);
+    const purchaseCartResponse = await requester.get(`/carts/${cid}/purchase`).set('Authorization', `Bearer ${token}`);
 
     //! Tests
     expect(purchaseCartResponse.statusCode).to.equal(200);
@@ -141,27 +141,27 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(purchaseCartResponse._body).to.have.property('payload').to.be.an('array');
   })
 
-  it('06. [POST]: "/api/carts/{cid}/product/{pid}" should add a product by id to cart by id for an account with role "user"', async () => {
+  it('06. [POST]: "/carts/{cid}/product/{pid}" should add a product by id to cart by id for an account with role "user"', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.userMock);
     const token = this.cookie.value;
 
     //! Create a cart
-    const createCartResponse = await requester.post('/api/carts').set('Authorization', `Bearer ${token}`);
+    const createCartResponse = await requester.post('/carts').set('Authorization', `Bearer ${token}`);
 
     //! Get all carts to extract the id to the created cart
-    const getCartsResponse = await requester.get('/api/carts').set('Authorization', `Bearer ${token}`);
+    const getCartsResponse = await requester.get('/carts').set('Authorization', `Bearer ${token}`);
     const cid = getCartsResponse._body.carts[getCartsResponse._body.carts.length - 1]._id
 
     //! Consult all products to extract any pid
-    const productsResponse = await requester.get('/api/products').set('Authorization', `Bearer ${token}`);
+    const productsResponse = await requester.get('/products').set('Authorization', `Bearer ${token}`);
     const pid = productsResponse._body.payload[0]._id;
 
     //! Add a product to cart
-    const addProductToCartResponse = await requester.post(`/api/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
+    const addProductToCartResponse = await requester.post(`/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
 
     //! Get cart by id to verify if the product was added successfully
-    const getCartByIdResponse = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponse = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
     const quantityOfProductsInTheCart = getCartByIdResponse._body.payload.products.length
 
     //! Tests
@@ -170,27 +170,27 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(quantityOfProductsInTheCart).to.equal(1)
   })
 
-  it('07. [POST]: "/api/carts/{cid}/product/{pid}" should add a product by id to cart by id for an account with role "premium"', async () => {
+  it('07. [POST]: "/carts/{cid}/product/{pid}" should add a product by id to cart by id for an account with role "premium"', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.premiumMock);
     const token = this.cookie.value;
 
     //! Create a cart
-    const createCartResponse = await requester.post('/api/carts').set('Authorization', `Bearer ${token}`);
+    const createCartResponse = await requester.post('/carts').set('Authorization', `Bearer ${token}`);
 
     //! Get all carts to extract the id to the created cart
-    const getCartsResponse = await requester.get('/api/carts').set('Authorization', `Bearer ${token}`);
+    const getCartsResponse = await requester.get('/carts').set('Authorization', `Bearer ${token}`);
     const cid = getCartsResponse._body.carts[getCartsResponse._body.carts.length - 1]._id
 
     //! Consult all products to extract any pid
-    const productsResponse = await requester.get('/api/products').set('Authorization', `Bearer ${token}`);
+    const productsResponse = await requester.get('/products').set('Authorization', `Bearer ${token}`);
     const pid = productsResponse._body.payload[0]._id;
 
     //! Add a product to cart
-    const addProductToCartResponse = await requester.post(`/api/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
+    const addProductToCartResponse = await requester.post(`/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
 
     //! Get cart by id to verify if the product was added successfully
-    const getCartByIdResponse = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponse = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
     const quantityOfProductsInTheCart = getCartByIdResponse._body.payload.products.length
 
     //! Tests
@@ -199,27 +199,27 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(quantityOfProductsInTheCart).to.equal(1)
   })
 
-  it('08. [POST]: "/api/carts/{cid}/product/{pid}" should NOT add a product by id to cart by id for an account with role "admin"', async () => {
+  it('08. [POST]: "/carts/{cid}/product/{pid}" should NOT add a product by id to cart by id for an account with role "admin"', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.adminMock);
     const token = this.cookie.value;
 
     //! Create a cart
-    const createCartResponse = await requester.post('/api/carts').set('Authorization', `Bearer ${token}`);
+    const createCartResponse = await requester.post('/carts').set('Authorization', `Bearer ${token}`);
 
     //! Get all carts to extract the id to the created cart
-    const getCartsResponse = await requester.get('/api/carts').set('Authorization', `Bearer ${token}`);
+    const getCartsResponse = await requester.get('/carts').set('Authorization', `Bearer ${token}`);
     const cid = getCartsResponse._body.carts[getCartsResponse._body.carts.length - 1]._id
 
     //! Consult all products to extract any pid
-    const productsResponse = await requester.get('/api/products').set('Authorization', `Bearer ${token}`);
+    const productsResponse = await requester.get('/products').set('Authorization', `Bearer ${token}`);
     const pid = productsResponse._body.payload[0]._id;
 
     //! Add a product to cart
-    const addProductToCartResponse = await requester.post(`/api/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
+    const addProductToCartResponse = await requester.post(`/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
 
     //! Get cart by id to verify if the product was added successfully
-    const getCartByIdResponse = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponse = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
     const quantityOfProductsInTheCart = getCartByIdResponse._body.payload.products.length
 
     //! Tests
@@ -228,31 +228,31 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(quantityOfProductsInTheCart).to.equal(0)
   })
 
-  it('09. [DELETE]: "/api/carts/{cid}/product/{pid}" should delete from the cart a product by id', async () => {
+  it('09. [DELETE]: "/carts/{cid}/product/{pid}" should delete from the cart a product by id', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.premiumMock);
     const token = this.cookie.value;
 
     //! Get all carts to extract the id to the created cart
-    const getCartsResponse = await requester.get('/api/carts').set('Authorization', `Bearer ${token}`);
+    const getCartsResponse = await requester.get('/carts').set('Authorization', `Bearer ${token}`);
     const cid = getCartsResponse._body.carts[getCartsResponse._body.carts.length - 1]._id
 
     //! Consult all products to extract any pid
-    const productsResponse = await requester.get('/api/products').set('Authorization', `Bearer ${token}`);
+    const productsResponse = await requester.get('/products').set('Authorization', `Bearer ${token}`);
     const pid = productsResponse._body.payload[0]._id;
 
     //! Add a product to cart
-    const addProductToCartResponse = await requester.post(`/api/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
+    const addProductToCartResponse = await requester.post(`/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
 
     //! Get cart by id to verify if the product was added successfully
-    const getCartByIdResponseBeforeDelete = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponseBeforeDelete = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
     const quantityOfProductsInTheCartBeforeDelete = getCartByIdResponseBeforeDelete._body.payload.products.length
 
     //! Delete product from cart
-    const deleteProductFromCartResponse = await requester.delete(`/api/carts/${cid}/product/${pid}`)
+    const deleteProductFromCartResponse = await requester.delete(`/carts/${cid}/product/${pid}`)
 
     //! Get cart by id to verify if the product was deleted successfully
-    const getCartByIdResponseAfterDelete = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponseAfterDelete = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
     const quantityOfProductsInTheCartAfterDelete = getCartByIdResponseAfterDelete._body.payload.products.length
 
     //! Tests
@@ -261,24 +261,24 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     expect(quantityOfProductsInTheCartBeforeDelete).not.to.equal(quantityOfProductsInTheCartAfterDelete)
   })
 
-  it('10. [PUT]: "/api/carts/{cid}/product/{pid}" should update the quantity of a product', async () => {
+  it('10. [PUT]: "/carts/{cid}/product/{pid}" should update the quantity of a product', async () => {
     //! Get the cookie
     this.cookie = await this.getCookie(this.premiumMock);
     const token = this.cookie.value;
 
     //! Get all carts to extract the id to the created cart
-    const getCartsResponse = await requester.get('/api/carts').set('Authorization', `Bearer ${token}`);
+    const getCartsResponse = await requester.get('/carts').set('Authorization', `Bearer ${token}`);
     const cid = getCartsResponse._body.carts[getCartsResponse._body.carts.length - 1]._id;
 
     //! Consult all products to extract any pid
-    const productsResponse = await requester.get('/api/products').set('Authorization', `Bearer ${token}`);
+    const productsResponse = await requester.get('/products').set('Authorization', `Bearer ${token}`);
     const pid = productsResponse._body.payload[0]._id;
 
     //! Add a product to cart
-    const addProductToCartResponse = await requester.post(`/api/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
+    const addProductToCartResponse = await requester.post(`/carts/${cid}/product/${pid}`).set('Authorization', `Bearer ${token}`);
 
     //! Get cart by id to verify if the product was added successfully
-    const getCartByIdResponseBeforeUpdate = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponseBeforeUpdate = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
     const productInCartBeforeUpdate = getCartByIdResponseBeforeUpdate._body.payload.products.find(p => p.product._id === pid);
     const quantityOfProductInCartBeforeUpdate = productInCartBeforeUpdate.quantity;
 
@@ -289,10 +289,10 @@ describe('🔰 CARTS ROUTER TESTS', function () {
     } while (newQuantity === quantityOfProductInCartBeforeUpdate);
 
     //! Update the quantity of the added product
-    const updateProductFromCartResponse = await requester.put(`/api/carts/${cid}/product/${pid}`).send({ 'quantity': newQuantity }).set('Authorization', `Bearer ${token}`);
+    const updateProductFromCartResponse = await requester.put(`/carts/${cid}/product/${pid}`).send({ 'quantity': newQuantity }).set('Authorization', `Bearer ${token}`);
 
     //! Get cart by id to verify if the product quantity was updated successfully
-    const getCartByIdResponseAfterUpdate = await requester.get(`/api/carts/${cid}`).set('Authorization', `Bearer ${token}`);
+    const getCartByIdResponseAfterUpdate = await requester.get(`/carts/${cid}`).set('Authorization', `Bearer ${token}`);
     const productInCartAfterUpdate = getCartByIdResponseAfterUpdate._body.payload.products.find(p => p.product._id === pid);
     const quantityOfProductInCartAfterUpdate = productInCartAfterUpdate.quantity;
 
