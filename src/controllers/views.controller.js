@@ -34,8 +34,8 @@ class ViewsController {
     try {
       const user = await usersService.getById(req.user.id);
       const userDTO = new UserDTO(user);
-      const products = await ProductsController.getAll();
-      res.render('realTimeProducts', { user: userDTO, products });
+      const products = await productsService.getAll();
+      res.render('realtimeproducts', { user: userDTO, products });
     } catch (error) {
       res.status(error.status || 500).send({ status: 'error', message: error.message });
     }
