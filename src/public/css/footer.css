@@ -34,9 +34,10 @@
 }
 
 .logoDev {
-  width: 26px;
-  height: auto;
+  width: 24px;
+  height: 24px;
   transition: all ease 200ms;
+  display: flex;
 }
 
 .logoDev:hover {
